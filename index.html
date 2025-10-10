@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UC Merced Hub — Projects, Data & Campus Tools</title>
+    <meta
+      name="description"
+      content="UC Merced Hub, a centralized gateway to various projects, including an auto calendar generator for students, a public data portal, an interactive campus map, and more."
+    />
+    <link rel="canonical" href="https://ucmercedhub.com/" />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#003A70" />
+
+    <!-- Open Graph enhancements -->
+    <meta property="og:site_name" content="UC Merced Hub" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://ucmercedhub.com/og-image.jpg" />
+    <meta
+      property="og:image:secure_url"
+      content="https://ucmercedhub.com/og-image.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:site" content="@UCMcampusmap" />
+    <meta name="twitter:creator" content="@UCMcampusmap" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ucmercedhub.com/" />
+    <meta
+      property="og:title"
+      content="UC Merced Hub — Projects, Data & Campus Tools"
+    />
+    <meta
+      property="og:description"
+      content="A centralized gateway to projects: auto calendar generator, data portal, interactive campus map, and more."
+    />
+    <meta property="og:image" content="https://ucmercedhub.com/og-image.jpg" />
+    <meta property="og:image:alt" content="UC Merced Hub overview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="UC Merced Hub — Projects, Data & Campus Tools"
+    />
+    <meta
+      name="twitter:description"
+      content="Centralized hub for projects, datasets, and campus tools."
+    />
+    <meta name="twitter:image" content="https://ucmercedhub.com/og-image.jpg" />
+
+    <!-- Favicons (replace with your assets) -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <style>
+      :root {
+        /* UC-themed palette (tweak to official when ready) */
+        --uc-blue: #003a70; /* Deep blue */
+        --uc-gold: #ffc72c; /* Golden accent */
+        --ink: #0a0a0a;
+        --muted: #5b6670;
+        --bg: #f7f7f5;
+        --card: #ffffff;
+        --radius: 14px;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        --maxw: 1200px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--ink);
+        background: var(--bg);
+      }
+
+      a {
+        color: var(--uc-blue);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+        width: auto;
+        height: auto;
+        background: #fff;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        box-shadow: var(--shadow);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: #ffffffcc;
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid #e8e8ea;
+      }
+      .nav {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+        background: linear-gradient(135deg, var(--uc-blue), #012851);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 0.9rem;
+        box-shadow: var(--shadow);
+      }
+
+      .nav a.btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1.5px solid var(--uc-blue);
+        color: #fff;
+        background: var(--uc-blue);
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        font-weight: 600;
+        box-shadow: var(--shadow);
+      }
+      .nav a.btn.alt {
+        background: var(--uc-gold);
+        color: #1a1a1a;
+        border-color: var(--uc-gold);
+      }
+
+      main {
+        display: block;
+      }
+
+      .hero {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 2.2rem 1rem 1.5rem;
+        display: grid;
+        gap: 1.25rem;
+      }
+      .hero h1 {
+        font-size: clamp(1.8rem, 3.2vw, 3rem);
+        line-height: 1.1;
+        margin: 0;
+      }
+      .hero p.lede {
+        color: var(--muted);
+        margin: 0.25rem 0 0;
+        font-size: clamp(1rem, 1.4vw, 1.15rem);
+      }
+      .hero-cta {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+
+      /* Showcase carousel */
+      .showcase {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      .showcase .frame {
+        position: relative;
+        border-radius: var(--radius);
+        background: var(--card);
+        box-shadow: var(--shadow);
+        overflow: clip;
+      }
+      .slides {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+      }
+      .slide {
+        grid-area: 1/1;
+        display: none;
+      }
+      .slide[data-active="true"] {
+        display: block;
+      }
+      .slide figure {
+        margin: 0;
+      }
+      .slide img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+      }
+      .slide figcaption {
+        padding: 0.75rem 0.9rem;
+        font-weight: 600;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .controls {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        pointer-events: none;
+      }
+      .controls button {
+        pointer-events: auto;
+        appearance: none;
+        border: 0;
+        background: #ffffffd9;
+        padding: 0.55rem 0.7rem;
+        margin: 0.5rem;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .dots {
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 0.4rem;
+      }
+      .dots button {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 0;
+        background: #d0d6dc;
+        cursor: pointer;
+      }
+      .dots button[aria-current="true"] {
+        background: var(--uc-gold);
+      }
+
+      /* Project grid */
+      .projects {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 2rem 1rem 2.5rem;
+      }
+      .projects h2 {
+        font-size: clamp(1.35rem, 2.6vw, 2rem);
+        margin: 0 0 0.75rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1rem;
+      }
+      .card {
+        grid-column: span 12;
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: clip;
+        display: grid;
+      }
+      .card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+      }
+      .card .body {
+        padding: 1rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+      .chip {
+        display: inline-block;
+        font-size: 0.75rem;
+        background: #eef2f6;
+        color: #2c3e50;
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+      }
+      .card .title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin: 0;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.35rem;
+      }
+      .actions a.btn-sm {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border: 1.5px solid #e2e6ea;
+        padding: 0.4rem 0.6rem;
+        border-radius: 10px;
+        font-weight: 600;
+      }
+      .actions a.btn-sm.primary {
+        border-color: var(--uc-blue);
+        background: var(--uc-blue);
+        color: #fff;
+      }
+      .actions a.btn-sm.gold {
+        border-color: var(--uc-gold);
+        background: var(--uc-gold);
+        color: #1a1a1a;
+      }
+
+      @media (min-width: 640px) {
+        .card {
+          grid-column: span 6;
+        }
+      }
+      @media (min-width: 980px) {
+        .card {
+          grid-column: span 4;
+        }
+      }
+
+      footer {
+        border-top: 1px solid #e8e8ea;
+        background: #fff;
+      }
+      .footer-inner {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 1.1rem 1rem;
+        display: grid;
+        gap: 0.4rem;
+      }
+      .footer-links {
+        display: flex;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+      }
+      .copyright {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      /* Utility */
+      .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+
+    <header>
+      <nav class="nav" aria-label="Primary">
+        <div class="brand" aria-label="Site home">
+          <div class="brand-mark" aria-hidden="true">UCM</div>
+          <a
+            href="/"
+            style="font-size: 1.05rem; color: inherit; text-decoration: none"
+            >UC Merced Hub</a
+          >
+        </div>
+        <div class="nav-cta">
+          <a class="btn alt" href="https://map.ucmercedhub.com" rel="noopener"
+            >Interactive Map</a
+          >
+          <a class="btn" href="#projects">Explore Projects</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="tagline">
+        <h1 id="tagline">
+          Your gateway to UC Merced projects, datasets, and campus tools
+        </h1>
+        <p class="lede">
+          A centralized hub for students, researchers, and builders. Discover
+          the auto calendar generator, a ready-to-use public data portal, the
+          interactive campus map, and demo sites that showcase what’s possible.
+        </p>
+        <div class="hero-cta">
+          <a
+            class="btn alt"
+            href="https://calendar.ucmercedhub.com"
+            rel="noopener"
+            >Calendar Generator</a
+          >
+          <a class="btn" href="https://data.ucmercedhub.com" rel="noopener"
+            >Public Data Portal</a
+          >
+          <a class="btn" href="https://labs.ucmercedhub.com" rel="noopener"
+            >Labs & Demos</a
+          >
+        </div>
+      </section>
+
+      <!-- SHOWCASE CAROUSEL -->
+      <section class="showcase" role="region" aria-labelledby="showcase-title">
+        <h2 id="showcase-title" class="visually-hidden">Project screenshots</h2>
+        <div class="frame">
+          <ul class="slides" id="slides">
+            <!-- Replace src with your screenshots; keep width/height to minimize CLS -->
+            <li class="slide" data-active="true">
+              <figure>
+                <img
+                  src="/img/showcase-map-1200x675.jpg"
+                  width="1200"
+                  height="675"
+                  loading="eager"
+                  fetchpriority="high"
+                  alt="Interactive campus map with building overlays"
+                />
+                <figcaption>
+                  Interactive Campus Map
+                  <a
+                    class="btn-sm primary"
+                    href="https://map.ucmercedhub.com"
+                    rel="noopener"
+                    >Open</a
+                  >
+                </figcaption>
+              </figure>
+            </li>
+            <li class="slide">
+              <figure>
+                <img
+                  src="/img/showcase-data-1200x675.jpg"
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                  alt="Data portal with searchable UC Merced public datasets"
+                />
+                <figcaption>
+                  Public Data Portal
+                  <a
+                    class="btn-sm primary"
+                    href="https://data.ucmercedhub.com"
+                    rel="noopener"
+                    >Open</a
+                  >
+                </figcaption>
+              </figure>
+            </li>
+            <li class="slide">
+              <figure>
+                <img
+                  src="/img/showcase-calendar-1200x675.jpg"
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                  alt="Auto calendar generator interface for students"
+                />
+                <figcaption>
+                  Auto Calendar Generator
+                  <a
+                    class="btn-sm primary"
+                    href="https://calendar.ucmercedhub.com"
+                    rel="noopener"
+                    >Open</a
+                  >
+                </figcaption>
+              </figure>
+            </li>
+          </ul>
+
+          <div class="controls" aria-hidden="false">
+            <button id="prev" aria-label="Previous slide" title="Previous">
+              ‹
+            </button>
+            <button id="next" aria-label="Next slide" title="Next">›</button>
+            <div class="dots" id="dots" aria-hidden="false"></div>
+          </div>
+        </div>
+        <noscript>
+          <p>JavaScript is disabled — showing static screenshots below.</p>
+          <img
+            src="/img/showcase-map-1200x675.jpg"
+            width="1200"
+            height="675"
+            alt="Interactive campus map screenshot"
+          />
+          <img
+            src="/img/showcase-data-1200x675.jpg"
+            width="1200"
+            height="675"
+            alt="Data portal screenshot"
+          />
+          <img
+            src="/img/showcase-calendar-1200x675.jpg"
+            width="1200"
+            height="675"
+            alt="Calendar generator screenshot"
+          />
+        </noscript>
+      </section>
+
+      <!-- PROJECT CARDS -->
+      <section class="projects" id="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title">Featured Projects</h2>
+        <div class="grid">
+          <!-- Calendar Generator -->
+          <article
+            class="card"
+            itemscope
+            itemtype="https://schema.org/SoftwareApplication"
+          >
+            <img
+              src="/img/card-calendar-1200x675.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              alt="Calendar generator tool"
+            />
+            <div class="body">
+              <span class="chip" itemprop="applicationCategory"
+                >Student Tools</span
+              >
+              <h3 class="title" itemprop="name">Auto Calendar Generator</h3>
+              <p itemprop="description">
+                Generate semester-ready calendars from course and campus
+                schedules. Export to Google Calendar or ICS.
+              </p>
+              <div class="actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://calendar.ucmercedhub.com"
+                  rel="noopener"
+                  itemprop="url"
+                  >Open tool</a
+                >
+                <a
+                  class="btn-sm"
+                  href="https://labs.ucmercedhub.com"
+                  rel="noopener"
+                  >View demo</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Public Data Portal -->
+          <article class="card" itemscope itemtype="https://schema.org/WebSite">
+            <img
+              src="/img/card-data-1200x675.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              alt="Public data portal dashboard"
+            />
+            <div class="body">
+              <span class="chip">Research</span>
+              <h3 class="title" itemprop="name">
+                UC Merced Public Data Portal
+              </h3>
+              <p itemprop="about">
+                Curated datasets and scraped public information for researchers,
+                organized, documented, and ready to query.
+              </p>
+              <div class="actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://data.ucmercedhub.com"
+                  rel="noopener"
+                  itemprop="url"
+                  >Browse datasets</a
+                >
+                <a
+                  class="btn-sm"
+                  href="https://labs.ucmercedhub.com"
+                  rel="noopener"
+                  >API examples</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Interactive Campus Map -->
+          <article
+            class="card"
+            itemscope
+            itemtype="https://schema.org/WebApplication"
+          >
+            <img
+              src="/img/card-map-1200x675.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              alt="Interactive campus map with overlays"
+            />
+            <div class="body">
+              <span class="chip">Maps & GIS</span>
+              <h3 class="title" itemprop="name">Interactive Campus Map</h3>
+              <p itemprop="description">
+                High-performance ArcGIS JS map with overlays, events, building
+                layers, and live demos.
+              </p>
+              <div class="actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://map.ucmercedhub.com"
+                  rel="noopener"
+                  itemprop="url"
+                  >Open map</a
+                >
+                <a
+                  class="btn-sm"
+                  href="https://labs.ucmercedhub.com"
+                  rel="noopener"
+                  >Sample sites</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Labs & Sample Sites -->
+          <article
+            class="card"
+            itemscope
+            itemtype="https://schema.org/CollectionPage"
+          >
+            <img
+              src="/img/card-labs-1200x675.jpg"
+              width="1200"
+              height="675"
+              loading="lazy"
+              alt="Assorted demo sites and labs"
+            />
+            <div class="body">
+              <span class="chip">Experiments</span>
+              <h3 class="title" itemprop="name">Labs & Sample Sites</h3>
+              <p itemprop="description">
+                Small apps that showcase integrations with the map and datasets,
+                built for rapid iteration.
+              </p>
+              <div class="actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://labs.ucmercedhub.com"
+                  rel="noopener"
+                  itemprop="url"
+                  >Explore labs</a
+                >
+                <a class="btn-sm gold" href="#showcase">See screenshots</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer role="contentinfo">
+      <div class="footer-inner">
+        <nav aria-label="Footer">
+          <div class="footer-links">
+            <a href="/about">About</a>
+            <a href="/sitemap.xml" rel="nofollow">Sitemap</a>
+            <a href="mailto:hello@ucmercedhub.com">Contact</a>
+            <a href="https://x.com/UCMcampusmap" rel="me noopener">Twitter/X</a>
+          </div>
+        </nav>
+        <div class="copyright">
+          © <span id="year"></span> UC Merced Hub. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "UC Merced Hub",
+        "url": "https://ucmercedhub.com/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://ucmercedhub.com/search?q={query}",
+          "query-input": "required name=query"
+        },
+        "hasPart": [
+          {
+            "@type": "WebApplication",
+            "name": "Interactive Campus Map",
+            "url": "https://map.ucmercedhub.com"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Auto Calendar Generator",
+            "url": "https://calendar.ucmercedhub.com"
+          },
+          {
+            "@type": "WebSite",
+            "name": "UC Merced Public Data Portal",
+            "url": "https://data.ucmercedhub.com"
+          },
+          {
+            "@type": "CollectionPage",
+            "name": "Labs & Sample Sites",
+            "url": "https://labs.ucmercedhub.com"
+          }
+        ],
+        "publisher": { "@type": "Person", "name": "UCM Campus Map" }
+      }
+    </script>
+
+    <!-- Carousel & minor enhancements; no external deps -->
+    <script>
+      (function () {
+        const slides = Array.from(document.querySelectorAll(".slide"));
+        const dotsEl = document.getElementById("dots");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+        const prefersReduced = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        let i = slides.findIndex((s) => s.dataset.active === "true");
+        if (i === -1) (i = 0), (slides[0].dataset.active = "true");
+
+        function renderDots() {
+          dotsEl.innerHTML = "";
+          slides.forEach((_, idx) => {
+            const b = document.createElement("button");
+            b.setAttribute("aria-label", "Go to slide " + (idx + 1));
+            b.setAttribute("aria-current", idx === i ? "true" : "false");
+            b.addEventListener("click", () => {
+              go(idx);
+            });
+            dotsEl.appendChild(b);
+          });
+        }
+
+        function go(nextIndex) {
+          slides[i].dataset.active = "false";
+          i = (nextIndex + slides.length) % slides.length;
+          slides[i].dataset.active = "true";
+          Array.from(dotsEl.children).forEach((dot, idx) =>
+            dot.setAttribute("aria-current", idx === i ? "true" : "false")
+          );
+        }
+
+        prev.addEventListener("click", () => go(i - 1));
+        next.addEventListener("click", () => go(i + 1));
+        renderDots();
+
+        // Auto-advance when visible & motion-allowed
+        let timer = null;
+        const frame = document.querySelector(".showcase .frame");
+        const on = () => {
+          if (!prefersReduced && !timer)
+            timer = setInterval(() => go(i + 1), 5000);
+        };
+        const off = () => {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        };
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => (e.isIntersecting ? on() : off()));
+          },
+          { threshold: 0.6 }
+        );
+        io.observe(frame);
+
+        frame.addEventListener("mouseenter", off);
+        frame.addEventListener("mouseleave", on);
+
+        // Footer year
+        document.getElementById("year").textContent = new Date().getFullYear();
+      })();
+    </script>
+  </body>
+</html>

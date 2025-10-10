@@ -1,0 +1,6 @@
+# robots.txt for https://ucmercedhub.com/
+User-agent: *
+Allow: /
+
+# Sitemap (index) — see sitemap.xml below
+Sitemap: https://ucmercedhub.com/sitemap.xml
