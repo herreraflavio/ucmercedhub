@@ -257,13 +257,16 @@
       .slide figure {
         margin: 0;
       }
-      .slide img {
-        display: block;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-      }
+     .slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+
+  object-fit: contain;          /* ✅ no crop */
+  object-position: center;      /* keep centered */
+  background: #fff;             /* ✅ white bars */
+}
       .slide figcaption {
         padding: 0.75rem 0.9rem;
         font-weight: 600;
@@ -343,12 +346,15 @@
       .card:hover {
         transform: translateY(-2px);
       }
-      .card img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-      }
+.card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+
+  object-fit: contain;          /* ✅ no crop */
+  object-position: center;
+  background: #fff;             /* ✅ white bars */
+}
       .card .body {
         padding: 1.25rem;
         display: flex;
