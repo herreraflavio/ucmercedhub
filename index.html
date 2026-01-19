@@ -67,31 +67,6 @@
         background: var(--bg);
       }
 
-      /* TRAVEL ALERT STYLES */
-      .travel-alert {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: var(--uc-gold);
-        color: var(--ink);
-        padding: 0.8rem 1rem;
-        text-align: center;
-        font-weight: 700;
-        font-size: 0.95rem;
-        z-index: 10000; /* Above everything */
-        transform: translateY(-100%); /* Start hidden above screen */
-        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .travel-alert.visible {
-        transform: translateY(0);
-      }
-
       a {
         color: var(--uc-blue);
         text-decoration: none;
@@ -491,11 +466,6 @@
     </style>
   </head>
   <body>
-    
-    <div class="travel-alert" id="travelAlert">
-      🚧 This site runs on a traveling Raspberry Pi. Offline daily 3 AM – 10 AM. 🚧
-    </div>
-
     <a class="skip-link" href="#projects">Skip to projects</a>
 
     <header>
@@ -811,20 +781,6 @@
 
     <script>
       (function () {
-        // --- ALERT ANIMATION LOGIC ---
-        setTimeout(() => {
-          const alert = document.getElementById("travelAlert");
-          if(alert) {
-            // Slide down
-            alert.classList.add("visible");
-            // Wait 7 seconds, then slide up
-            setTimeout(() => {
-              alert.classList.remove("visible");
-            }, 7000); 
-          }
-        }, 1000); // Wait 1s after load to show
-
-        // --- EXISTING SLIDER LOGIC ---
         const slides = Array.from(document.querySelectorAll(".slide"));
         const dotsEl = document.getElementById("dots");
         const prev = document.getElementById("prev");
