@@ -40,8 +40,8 @@
 
     <style>
       :root {
-        /* UC-themed palette */
         --uc-blue: #003a70;
+        --uc-blue-2: #0b4f91;
         --uc-gold: #ffc72c;
         --ink: #0a0a0a;
         --muted: #5b6670;
@@ -55,10 +55,12 @@
       * {
         box-sizing: border-box;
       }
+
       html,
       body {
         height: 100%;
       }
+
       body {
         margin: 0;
         font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
@@ -71,6 +73,7 @@
         color: var(--uc-blue);
         text-decoration: none;
       }
+
       a:hover {
         text-decoration: underline;
       }
@@ -83,6 +86,7 @@
         height: 1px;
         overflow: hidden;
       }
+
       .skip-link:focus {
         left: 1rem;
         top: 1rem;
@@ -94,7 +98,6 @@
         box-shadow: var(--shadow);
       }
 
-      /* HEADER & NAV */
       header {
         position: sticky;
         top: 0;
@@ -103,6 +106,7 @@
         backdrop-filter: blur(12px);
         border-bottom: 1px solid #e8e8ea;
       }
+
       .nav {
         max-width: var(--maxw);
         margin: 0 auto;
@@ -110,11 +114,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        flex-wrap: wrap; /* Allows wrapping on mobile */
+        flex-wrap: wrap;
         gap: 1rem;
       }
-      
-      /* Brand Logo Area */
+
       .brand {
         display: flex;
         align-items: center;
@@ -123,6 +126,7 @@
         letter-spacing: 0.2px;
         margin-right: auto;
       }
+
       .brand-mark {
         width: 36px;
         height: 36px;
@@ -135,12 +139,12 @@
         box-shadow: var(--shadow);
       }
 
-      /* Navigation Links */
       .nav-links {
         display: flex;
         gap: 1.5rem;
         align-items: center;
       }
+
       .nav-links a {
         font-weight: 600;
         font-size: 0.95rem;
@@ -148,13 +152,14 @@
         position: relative;
         transition: color 0.2s;
       }
+
       .nav-links a:hover {
         color: var(--uc-blue);
         text-decoration: none;
       }
-      /* Optional underline effect on hover */
+
       .nav-links a::after {
-        content: '';
+        content: "";
         position: absolute;
         width: 0;
         height: 2px;
@@ -163,11 +168,11 @@
         background-color: var(--uc-gold);
         transition: width 0.2s;
       }
+
       .nav-links a:hover::after {
         width: 100%;
       }
 
-      /* Mobile Nav Adjustments */
       @media (max-width: 600px) {
         .nav-links {
           width: 100%;
@@ -178,7 +183,6 @@
         }
       }
 
-      /* CTA Button Styles (reused elsewhere) */
       .btn {
         display: inline-flex;
         align-items: center;
@@ -186,17 +190,35 @@
         border: 1.5px solid var(--uc-blue);
         color: #fff;
         background: var(--uc-blue);
-        padding: 0.55rem 0.9rem;
+        padding: 0.65rem 1rem;
         border-radius: 999px;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.92rem;
         box-shadow: var(--shadow);
         white-space: nowrap;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
       }
+
+      .btn:hover {
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
+
       .btn.alt {
         background: var(--uc-gold);
         color: #1a1a1a;
         border-color: var(--uc-gold);
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--uc-blue);
+        border-color: rgba(0, 58, 112, 0.18);
+        box-shadow: none;
+      }
+
+      .btn.ghost:hover {
+        background: rgba(0, 58, 112, 0.04);
       }
 
       main {
@@ -206,26 +228,231 @@
       .hero {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 2.5rem 1rem 1.5rem;
+        padding: 2.5rem 1rem 1rem;
         display: grid;
         gap: 1.25rem;
       }
+
       .hero h1 {
         font-size: clamp(1.8rem, 3.2vw, 3rem);
         line-height: 1.1;
         margin: 0;
       }
+
       .hero p.lede {
         color: var(--muted);
         margin: 0.25rem 0 0;
         font-size: clamp(1rem, 1.4vw, 1.15rem);
         max-width: 65ch;
       }
-      .hero-cta {
+
+      /* Promo banner */
+      .promo {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1rem 1.25rem;
+      }
+
+      .promo-frame {
+        position: relative;
+        background:
+          radial-gradient(circle at top right, rgba(255, 199, 44, 0.18), transparent 30%),
+          linear-gradient(135deg, #ffffff, #f3f7fb 60%, #f8fafc);
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: calc(var(--radius) + 4px);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .slides {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+      }
+
+      .slide {
+        grid-area: 1 / 1;
+        display: none;
+      }
+
+      .slide[data-active="true"] {
+        display: block;
+      }
+
+      .promo-slide-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+        gap: 1.75rem;
+        align-items: center;
+        padding: clamp(1.2rem, 2vw, 2rem);
+      }
+
+      .promo-copy {
+        padding: 0.2rem 0;
+      }
+
+      .promo-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.08);
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: 999px;
+        padding: 0.35rem 0.7rem;
+      }
+
+      .promo-title {
+        font-size: clamp(1.55rem, 2.8vw, 2.55rem);
+        line-height: 1.08;
+        margin: 0.9rem 0 0.75rem;
+      }
+
+      .promo-text {
+        color: var(--muted);
+        margin: 0;
+        font-size: 1rem;
+        max-width: 62ch;
+      }
+
+      .promo-highlights {
+        list-style: none;
+        margin: 1rem 0 1.15rem;
+        padding: 0;
+        display: grid;
+        gap: 0.58rem;
+      }
+
+      .promo-highlights li {
         display: flex;
-        gap: 0.6rem;
+        align-items: flex-start;
+        gap: 0.65rem;
+        color: #29445d;
+        font-size: 0.96rem;
+        font-weight: 500;
+      }
+
+      .promo-highlights li::before {
+        content: "✓";
+        flex: 0 0 auto;
+        color: var(--uc-blue);
+        font-weight: 800;
+        line-height: 1.2;
+        margin-top: 0.05rem;
+      }
+
+      .promo-actions {
+        display: flex;
         flex-wrap: wrap;
-        margin-top: 0.5rem;
+        gap: 0.7rem;
+        margin-top: 0.35rem;
+      }
+
+      .promo-contact {
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 0.93rem;
+      }
+
+      .promo-contact a {
+        font-weight: 600;
+      }
+
+      .promo-media {
+        display: grid;
+        place-items: center;
+        min-height: 320px;
+      }
+
+      .promo-art {
+        width: min(100%, 430px);
+        height: auto;
+        display: block;
+        border-radius: 22px;
+        box-shadow:
+          0 18px 40px rgba(0, 58, 112, 0.12),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+        object-fit: contain;
+        background: transparent;
+      }
+
+      .slider-controls {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .slider-btn {
+        pointer-events: auto;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        appearance: none;
+        border: 0;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--uc-blue);
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .slider-btn.prev {
+        left: 0.75rem;
+      }
+
+      .slider-btn.next {
+        right: 0.75rem;
+      }
+
+      .slider-dots {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0.85rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+      }
+
+      .slider-dots button {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: 0;
+        background: #c8d4df;
+        cursor: pointer;
+      }
+
+      .slider-dots button[aria-current="true"] {
+        background: var(--uc-gold);
+      }
+
+      @media (max-width: 860px) {
+        .promo-slide-inner {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .promo-media {
+          min-height: auto;
+        }
+
+        .slider-btn.prev {
+          left: 0.5rem;
+        }
+
+        .slider-btn.next {
+          right: 0.5rem;
+        }
       }
 
       /* Showcase carousel */
@@ -234,6 +461,7 @@
         margin: 0 auto;
         padding: 1rem;
       }
+
       .showcase .frame {
         position: relative;
         border-radius: var(--radius);
@@ -241,30 +469,20 @@
         box-shadow: var(--shadow);
         overflow: clip;
       }
-      .slides {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-      }
-      .slide {
-        grid-area: 1/1;
-        display: none;
-      }
-      .slide[data-active="true"] {
-        display: block;
-      }
-      .slide figure {
+
+      .showcase .slide figure {
         margin: 0;
       }
-      .slide img {
+
+      .showcase .slide img {
         display: block;
         width: 100%;
         height: auto;
         aspect-ratio: 16/9;
         object-fit: cover;
       }
-      .slide figcaption {
+
+      .showcase .slide figcaption {
         padding: 0.75rem 0.9rem;
         font-weight: 600;
         border-top: 1px solid #eee;
@@ -274,62 +492,24 @@
         gap: 0.75rem;
       }
 
-      .controls {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        pointer-events: none;
-      }
-      .controls button {
-        pointer-events: auto;
-        appearance: none;
-        border: 0;
-        background: #ffffffd9;
-        padding: 0.55rem 0.7rem;
-        margin: 0.5rem;
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-        cursor: pointer;
-        font-weight: 700;
-      }
-      .dots {
-        position: absolute;
-        bottom: 0.5rem;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        gap: 0.4rem;
-      }
-      .dots button {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        border: 0;
-        background: #d0d6dc;
-        cursor: pointer;
-      }
-      .dots button[aria-current="true"] {
-        background: var(--uc-gold);
-      }
-
       /* Project grid */
       .projects {
         max-width: var(--maxw);
         margin: 0 auto;
         padding: 2rem 1rem 3.5rem;
       }
+
       .projects h2 {
         font-size: clamp(1.35rem, 2.6vw, 2rem);
         margin: 0 0 1rem;
       }
+
       .grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         gap: 1.5rem;
       }
+
       .card {
         grid-column: span 12;
         background: var(--card);
@@ -340,15 +520,18 @@
         flex-direction: column;
         transition: transform 0.2s ease;
       }
+
       .card:hover {
         transform: translateY(-2px);
       }
+
       .card img {
         width: 100%;
         height: auto;
         aspect-ratio: 16/9;
         object-fit: cover;
       }
+
       .card .body {
         padding: 1.25rem;
         display: flex;
@@ -356,6 +539,7 @@
         gap: 0.6rem;
         flex-grow: 1;
       }
+
       .chip {
         align-self: flex-start;
         font-size: 0.75rem;
@@ -367,21 +551,25 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
+
       .chip.live {
         background: #e6fcf5;
         color: #0ca678;
       }
+
       .card .title {
         font-weight: 700;
         font-size: 1.15rem;
         margin: 0;
         line-height: 1.3;
       }
+
       .card p {
         margin: 0;
         color: var(--muted);
         font-size: 0.95rem;
       }
+
       .card .details-list {
         margin: 0.5rem 0 0;
         padding: 0;
@@ -389,17 +577,20 @@
         font-size: 0.9rem;
         color: var(--muted);
       }
+
       .card .details-list li {
         display: flex;
         align-items: flex-start;
         gap: 0.4rem;
         margin-bottom: 0.25rem;
       }
+
       .card .details-list li::before {
         content: "•";
         color: var(--uc-gold);
         font-weight: bold;
       }
+
       .actions {
         display: flex;
         gap: 0.5rem;
@@ -407,7 +598,9 @@
         margin-top: auto;
         padding-top: 1rem;
       }
-      .actions a.btn-sm {
+
+      .actions a.btn-sm,
+      .showcase .btn-sm {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
@@ -417,11 +610,14 @@
         font-weight: 600;
         font-size: 0.9rem;
       }
-      .actions a.btn-sm.primary {
+
+      .actions a.btn-sm.primary,
+      .showcase .btn-sm.primary {
         border-color: var(--uc-blue);
         background: var(--uc-blue);
         color: #fff;
       }
+
       .actions a.btn-sm.gold {
         border-color: var(--uc-gold);
         background: var(--uc-gold);
@@ -430,7 +626,7 @@
 
       @media (min-width: 640px) {
         .card {
-          grid-column: span 6; 
+          grid-column: span 6;
         }
       }
 
@@ -439,11 +635,13 @@
         background: #fff;
         margin-top: 2rem;
       }
+
       .footer-inner {
         max-width: var(--maxw);
         margin: 0 auto;
         padding: 1.5rem 1rem;
       }
+
       .footer-links {
         display: flex;
         gap: 1.5rem;
@@ -451,10 +649,12 @@
         font-size: 0.95rem;
         margin-bottom: 0.5rem;
       }
+
       .copyright {
         color: var(--muted);
         font-size: 0.9rem;
       }
+
       .visually-hidden {
         position: absolute !important;
         height: 1px;
@@ -465,6 +665,7 @@
       }
     </style>
   </head>
+
   <body>
     <a class="skip-link" href="#projects">Skip to projects</a>
 
@@ -498,13 +699,130 @@
           campus live, analyze historical grade data, generate schedules instantly,
           and track payroll trends.
         </p>
+      </section>
 
+      <section class="promo" aria-labelledby="promo-title">
+        <h2 id="promo-title" class="visually-hidden">UC Merced Hub announcements</h2>
+
+        <div class="promo-frame js-slider" data-interval="7000">
+          <ul class="slides">
+            <li class="slide" data-active="true">
+              <div class="promo-slide-inner">
+                <div class="promo-copy">
+                  <span class="promo-eyebrow">Now live on iPhone</span>
+                  <h3 class="promo-title">UCM Hub is now live on the App Store.</h3>
+                  <p class="promo-text">
+                    Visually explore and navigate UC Merced campus in real-time.
+                    The iOS app helps students, faculty, and visitors discover campus
+                    events faster with an interactive map built for quick exploration.
+                  </p>
+
+                  <ul class="promo-highlights" aria-label="iOS launch highlights">
+                    <li>Interactive event mapping across campus</li>
+                    <li>Tap markers for instant event details and room information</li>
+                    <li>Date filtering for today, this week, and upcoming events</li>
+                    <li>New Map Feed for switching between specialized campus maps</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn"
+                      href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
+                      rel="noopener"
+                      target="_blank"
+                      >Download on the App Store</a
+                    >
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/"
+                      rel="noopener"
+                      >Explore Web Version</a
+                    >
+                  </div>
+
+                  <p class="promo-contact">
+                    Questions, partnerships, or feedback:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="promo-media" aria-hidden="true">
+                  <img
+                    class="promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548808325-00e192c9-df7a-4ece-bcdf-8f98e4fd96ca-f1f2_iphone.png"
+                    alt="Preview of the UCM Hub iPhone app"
+                    loading="lazy"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
+            </li>
+
+            <li class="slide">
+              <div class="promo-slide-inner">
+                <div class="promo-copy">
+                  <span class="promo-eyebrow">Android internal testing</span>
+                  <h3 class="promo-title">Android internal testing is now underway.</h3>
+                  <p class="promo-text">
+                    Discover what is happening at UC Merced in real-time with the
+                    Android version of UCM Hub. Internal testing is now open for
+                    early feedback before the broader launch.
+                  </p>
+
+                  <ul class="promo-highlights" aria-label="Android testing highlights">
+                    <li>Interactive event mapping with zoom and pan exploration</li>
+                    <li>Instant event details including times, rooms, and descriptions</li>
+                    <li>Real-time GPS directions to buildings and event locations</li>
+                    <li>Date filtering to explore today, this week, or upcoming events</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn alt"
+                      href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
+                      >Join Internal Testing</a
+                    >
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/support/"
+                      rel="noopener"
+                      >Support Page</a
+                    >
+                  </div>
+
+                  <p class="promo-contact">
+                    Interested in testing or collaborating:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="promo-media" aria-hidden="true">
+                  <img
+                    class="promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548813491-03c19d38-c72a-4fcb-9b69-2a727494fb38-f1f2.png"
+                    alt="Preview of the UCM Hub Android app"
+                    loading="lazy"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="slider-controls">
+            <button class="slider-btn prev" aria-label="Previous promotional slide">‹</button>
+            <button class="slider-btn next" aria-label="Next promotional slide">›</button>
+            <div class="slider-dots" aria-hidden="false"></div>
+          </div>
+        </div>
       </section>
 
       <section class="showcase" role="region" aria-labelledby="showcase-title">
         <h2 id="showcase-title" class="visually-hidden">Project screenshots</h2>
-        <div class="frame">
-          <ul class="slides" id="slides">
+        <div class="frame js-slider" data-interval="6000">
+          <ul class="slides">
             <li class="slide" data-active="true">
               <figure>
                 <img
@@ -525,6 +843,7 @@
                 </figcaption>
               </figure>
             </li>
+
             <li class="slide">
               <figure>
                 <img
@@ -545,6 +864,7 @@
                 </figcaption>
               </figure>
             </li>
+
             <li class="slide">
               <figure>
                 <img
@@ -565,7 +885,8 @@
                 </figcaption>
               </figure>
             </li>
-                <li class="slide">
+
+            <li class="slide">
               <figure>
                 <img
                   src="/img/payrolls1.png"
@@ -575,10 +896,10 @@
                   alt="UC Payrolls Visualizer"
                 />
                 <figcaption>
-                  UC Merced Payrolls   
+                  UC Merced Payrolls
                   <a
                     class="btn-sm primary"
-                    href="https://herreraflavio.github.io/calendar/"
+                    href="https://ucpayrolls.com/"
                     rel="noopener"
                     >Visualize Payrolls</a
                   >
@@ -587,10 +908,10 @@
             </li>
           </ul>
 
-          <div class="controls" aria-hidden="false">
-            <button id="prev" aria-label="Previous slide">‹</button>
-            <button id="next" aria-label="Next slide">›</button>
-            <div class="dots" id="dots" aria-hidden="false"></div>
+          <div class="slider-controls">
+            <button class="slider-btn prev" aria-label="Previous showcase slide">‹</button>
+            <button class="slider-btn next" aria-label="Next showcase slide">›</button>
+            <div class="slider-dots" aria-hidden="false"></div>
           </div>
         </div>
       </section>
@@ -598,7 +919,6 @@
       <section class="projects" id="projects" aria-labelledby="projects-title">
         <h2 id="projects-title">Featured Tools</h2>
         <div class="grid">
-          
           <article class="card">
             <img
               src="/img/map3.png"
@@ -722,7 +1042,6 @@
               </div>
             </div>
           </article>
-
         </div>
       </section>
     </main>
@@ -734,7 +1053,7 @@
             <a href="https://campusmap.ucmercedhub.com/">Map</a>
             <a href="https://herreraflavio.github.io/seemerced2/">Grades</a>
             <a href="https://herreraflavio.github.io/calendar/">Calendar</a>
-            <a href="mailto:hello@ucmercedhub.com">Contact</a>
+            <a href="mailto:contact@ucmercedhub.com">Contact</a>
           </div>
         </nav>
         <div class="copyright">
@@ -781,67 +1100,90 @@
 
     <script>
       (function () {
-        const slides = Array.from(document.querySelectorAll(".slide"));
-        const dotsEl = document.getElementById("dots");
-        const prev = document.getElementById("prev");
-        const next = document.getElementById("next");
         const prefersReduced = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
-        let i = slides.findIndex((s) => s.dataset.active === "true");
-        if (i === -1) (i = 0), (slides[0].dataset.active = "true");
 
-        function renderDots() {
-          dotsEl.innerHTML = "";
-          slides.forEach((_, idx) => {
-            const b = document.createElement("button");
-            b.setAttribute("aria-label", "Go to slide " + (idx + 1));
-            b.setAttribute("aria-current", idx === i ? "true" : "false");
-            b.addEventListener("click", () => {
-              go(idx);
-            });
-            dotsEl.appendChild(b);
-          });
-        }
+        function initSlider(frame) {
+          const slides = Array.from(frame.querySelectorAll(".slide"));
+          const prev = frame.querySelector(".slider-btn.prev");
+          const next = frame.querySelector(".slider-btn.next");
+          const dotsEl = frame.querySelector(".slider-dots");
+          const interval = Number(frame.dataset.interval || 6000);
 
-        function go(nextIndex) {
-          slides[i].dataset.active = "false";
-          i = (nextIndex + slides.length) % slides.length;
-          slides[i].dataset.active = "true";
-          Array.from(dotsEl.children).forEach((dot, idx) =>
-            dot.setAttribute("aria-current", idx === i ? "true" : "false")
-          );
-        }
+          if (!slides.length) return;
 
-        prev.addEventListener("click", () => go(i - 1));
-        next.addEventListener("click", () => go(i + 1));
-        renderDots();
-
-        // Auto-advance
-        let timer = null;
-        const frame = document.querySelector(".showcase .frame");
-        const on = () => {
-          if (!prefersReduced && !timer)
-            timer = setInterval(() => go(i + 1), 6000);
-        };
-        const off = () => {
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
+          let i = slides.findIndex((s) => s.dataset.active === "true");
+          if (i === -1) {
+            i = 0;
+            slides[0].dataset.active = "true";
           }
-        };
 
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => (e.isIntersecting ? on() : off()));
-          },
-          { threshold: 0.6 }
-        );
-        io.observe(frame);
+          function renderDots() {
+            if (!dotsEl) return;
+            dotsEl.innerHTML = "";
+            slides.forEach((_, idx) => {
+              const b = document.createElement("button");
+              b.setAttribute("aria-label", "Go to slide " + (idx + 1));
+              b.setAttribute("aria-current", idx === i ? "true" : "false");
+              b.addEventListener("click", () => go(idx));
+              dotsEl.appendChild(b);
+            });
+          }
 
-        frame.addEventListener("mouseenter", off);
-        frame.addEventListener("mouseleave", on);
+          function updateDots() {
+            if (!dotsEl) return;
+            Array.from(dotsEl.children).forEach((dot, idx) => {
+              dot.setAttribute("aria-current", idx === i ? "true" : "false");
+            });
+          }
 
+          function go(nextIndex) {
+            slides[i].dataset.active = "false";
+            i = (nextIndex + slides.length) % slides.length;
+            slides[i].dataset.active = "true";
+            updateDots();
+          }
+
+          if (prev) prev.addEventListener("click", () => go(i - 1));
+          if (next) next.addEventListener("click", () => go(i + 1));
+
+          renderDots();
+
+          let timer = null;
+
+          const on = () => {
+            if (!prefersReduced && !timer) {
+              timer = setInterval(() => go(i + 1), interval);
+            }
+          };
+
+          const off = () => {
+            if (timer) {
+              clearInterval(timer);
+              timer = null;
+            }
+          };
+
+          const io = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) on();
+                else off();
+              });
+            },
+            { threshold: 0.45 }
+          );
+
+          io.observe(frame);
+
+          frame.addEventListener("mouseenter", off);
+          frame.addEventListener("mouseleave", on);
+          frame.addEventListener("focusin", off);
+          frame.addEventListener("focusout", on);
+        }
+
+        document.querySelectorAll(".js-slider").forEach(initSlider);
         document.getElementById("year").textContent = new Date().getFullYear();
       })();
     </script>
