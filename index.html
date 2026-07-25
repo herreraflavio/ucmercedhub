@@ -15,7 +15,7 @@
 
     <meta property="og:site_name" content="UC Merced Hub" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content="https://ucmercedhub.com/og-image.png" />
+    <meta property="og:image" content="https://ucmercedhub.com/og-image.jpg" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ucmercedhub.com/" />
     <meta
@@ -38,7 +38,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://ucmercedhub.com/og-image.png"
+      content="https://ucmercedhub.com/og-image.jpg"
     />
 
     <link rel="icon" href="/favicon.ico" />
@@ -191,6 +191,65 @@
         align-items: center;
         justify-content: flex-end;
         gap: 0.45rem;
+      }
+
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid rgba(0, 58, 112, 0.15);
+        border-radius: 10px;
+        color: var(--uc-blue);
+        background: #fff;
+        cursor: pointer;
+      }
+
+      .nav-toggle-lines,
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        width: 20px;
+        height: 2px;
+        display: block;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform 0.18s ease, opacity 0.18s ease;
+      }
+
+      .nav-toggle-lines {
+        position: relative;
+      }
+
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        content: "";
+        position: absolute;
+        left: 0;
+      }
+
+      .nav-toggle-lines::before {
+        top: -6px;
+      }
+
+      .nav-toggle-lines::after {
+        top: 6px;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines {
+        background: transparent;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::after {
+        top: 0;
+        transform: rotate(-45deg);
       }
 
       .nav-menu {
@@ -986,6 +1045,15 @@
         color: var(--muted);
       }
 
+
+      .submit-project-actions {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.65rem;
+      }
+
       /* Footer */
       footer {
         margin-top: 2rem;
@@ -1049,17 +1117,34 @@
       @media (max-width: 900px) {
         .nav {
           flex-wrap: wrap;
+          gap: 0.65rem;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+          margin-left: auto;
         }
 
         .nav-links {
           width: 100%;
-          justify-content: flex-start;
-          flex-wrap: wrap;
-          padding-top: 0.15rem;
+          display: none;
+          grid-template-columns: 1fr;
+          gap: 0.25rem;
+          padding: 0.35rem 0 0.25rem;
+          border-top: 1px solid var(--line);
+        }
+
+        .nav[data-menu-open="true"] .nav-links {
+          display: grid;
         }
 
         .nav-menu {
           position: static;
+        }
+
+        .nav-menu > summary,
+        .nav-simple-link {
+          width: 100%;
         }
 
         .nav-dropdown {
@@ -1108,6 +1193,11 @@
           flex-direction: column;
         }
 
+        .submit-project-actions {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
         .footer-links {
           justify-content: flex-start;
         }
@@ -1127,16 +1217,6 @@
           flex-direction: column;
         }
 
-        .nav-links {
-          display: grid;
-          grid-template-columns: 1fr;
-        }
-
-        .nav-menu > summary,
-        .nav-simple-link {
-          width: 100%;
-        }
-
         .app-promo-slide-inner {
           padding: 1.1rem 1.1rem 4rem;
         }
@@ -1146,25 +1226,57 @@
         }
 
         .whats-new-slide {
-          aspect-ratio: 4 / 5;
-          min-height: 660px;
+          min-height: 0;
+          aspect-ratio: auto;
+          overflow: visible;
+          background: #fff;
+        }
+
+        .whats-new-image {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+          object-position: center top;
         }
 
         .whats-new-overlay {
-          padding: 1rem 1rem 4rem;
+          position: relative;
+          inset: auto;
+          min-width: 0;
+          padding: 1.1rem 1rem 4.6rem;
           background: linear-gradient(
-            to top,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0.99) 34%,
-            rgba(255, 255, 255, 0.88) 55%,
-            rgba(255, 255, 255, 0.32) 76%,
-            rgba(255, 255, 255, 0) 100%
+            to bottom,
+            rgba(255, 255, 255, 0.92) 0%,
+            rgba(255, 255, 255, 1) 2.5rem,
+            rgba(255, 255, 255, 1) 100%
           );
+        }
+
+        .whats-new-content,
+        .whats-new-primary,
+        .whats-new-meta,
+        .whats-new-actions {
+          min-width: 0;
+          width: 100%;
         }
 
         .whats-new-content {
           grid-template-columns: 1fr;
-          gap: 1rem;
+          align-items: start;
+          gap: 0.9rem;
+        }
+
+        .whats-new-project-title,
+        .whats-new-text,
+        .whats-new-meta-value {
+          overflow-wrap: anywhere;
+        }
+
+        .whats-new-text {
+          max-width: none;
         }
 
         .whats-new-meta {
@@ -1176,19 +1288,23 @@
           justify-content: stretch;
         }
 
+        .whats-new-frame .slider-btn,
         .app-promo-frame .slider-btn {
           top: auto;
           bottom: 0.55rem;
           transform: none;
         }
 
+        .whats-new-frame .slider-btn.prev,
         .app-promo-frame .slider-btn.prev {
           left: 0.75rem;
         }
 
+        .whats-new-frame .slider-btn.next,
         .app-promo-frame .slider-btn.next {
           right: 0.75rem;
         }
+
 
         .slider-dots {
           bottom: 1.05rem;
@@ -1211,10 +1327,6 @@
 
 
       @media (max-width: 430px) {
-        .whats-new-slide {
-          min-height: 700px;
-        }
-
         .whats-new-meta {
           grid-template-columns: 1fr;
           gap: 0.45rem;
@@ -1266,7 +1378,7 @@
         <a class="brand" href="/" aria-label="UC Merced Hub home">
           <img
             class="brand-logo"
-            src="/og-image.png"
+            src="/og-image.jpg"
             alt=""
             width="38"
             height="38"
@@ -1274,7 +1386,17 @@
           <span>UC Merced Hub</span>
         </a>
 
-        <div class="nav-links">
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-navigation-links"
+          aria-label="Open navigation menu"
+        >
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+
+        <div class="nav-links" id="primary-navigation-links">
           <details class="nav-menu">
             <summary>Student Projects</summary>
             <div class="nav-dropdown">
@@ -1316,8 +1438,8 @@
           maps, data tools, and applications designed and maintained by UC Merced Hub.
         </p>
         <div class="hero-actions">
-          <a class="btn" href="#student-projects">Explore Student Projects</a>
-          <a class="btn ghost" href="#whats-new">What’s New</a>
+          <a class="btn" href="#whats-new">What’s New</a>
+          <a class="btn ghost" href="#student-projects">Explore Student Projects</a>
           <a class="btn ghost" href="#hub-projects">Explore Hub Projects</a>
         </div>
       </section>
@@ -1760,19 +1882,7 @@
                 >
                   Open Project ↗
                 </a>
-                <a
-                  class="btn-sm"
-                  href="mailto:contact@ucmercedhub.com?subject=Feedback%20about%20Bobcat%20Bulletin"
-                >
-                  Send Feedback
-                </a>
               </div>
-
-              <p class="project-disclaimer">
-                Independently developed and maintained by its creator. Featured by
-                UC Merced Hub. UC Merced Hub does not control the project’s content,
-                availability, or maintenance.
-              </p>
             </div>
           </article>
         </div>
@@ -1781,18 +1891,27 @@
       <section class="submit-project" aria-labelledby="submit-project-title">
         <div class="submit-project-inner">
           <div>
-            <h2 id="submit-project-title">Built something useful for UC Merced?</h2>
+            <h2 id="submit-project-title">Built something useful—or have project feedback?</h2>
             <p>
-              Submit a website, map, application, data visualization, or other
-              student-built digital project for possible inclusion on UC Merced Hub.
+              Submit a student-built website, map, application, or data visualization
+              for possible inclusion on UC Merced Hub, or share feedback about a
+              project already featured here.
             </p>
           </div>
-          <a
-            class="btn alt"
-            href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
-          >
-            Submit a Project
-          </a>
+          <div class="submit-project-actions">
+            <a
+              class="btn alt"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
+            >
+              Submit a Project
+            </a>
+            <a
+              class="btn ghost"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
+            >
+              Send Project Feedback
+            </a>
+          </div>
         </div>
       </section>
 
@@ -1975,7 +2094,7 @@
       <div class="footer-inner">
         <div class="footer-top">
           <a class="footer-brand" href="/">
-            <img src="/og-image.png" alt="" width="32" height="32" />
+            <img src="/og-image.jpg" alt="" width="32" height="32" />
             <span>UC Merced Hub</span>
           </a>
 
@@ -2208,8 +2327,55 @@
           });
         }
 
+        function initMobileNavigation() {
+          const navigation = document.querySelector(".nav");
+          const toggle = document.querySelector(".nav-toggle");
+          const links = document.getElementById("primary-navigation-links");
+
+          if (!navigation || !toggle || !links) return;
+
+          function setMenuOpen(isOpen) {
+            navigation.dataset.menuOpen = isOpen ? "true" : "false";
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            toggle.setAttribute(
+              "aria-label",
+              isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
+
+            if (!isOpen) {
+              links.querySelectorAll(".nav-menu").forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
+          }
+
+          toggle.addEventListener("click", function () {
+            setMenuOpen(navigation.dataset.menuOpen !== "true");
+          });
+
+          links.addEventListener("click", function (event) {
+            if (
+              event.target.closest("a") &&
+              window.matchMedia("(max-width: 900px)").matches
+            ) {
+              setMenuOpen(false);
+            }
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setMenuOpen(false);
+          });
+
+          window.addEventListener("resize", function () {
+            if (window.innerWidth > 900) setMenuOpen(false);
+          });
+
+          setMenuOpen(false);
+        }
+
         document.querySelectorAll(".js-slider").forEach(initSlider);
         initNavigationMenus();
+        initMobileNavigation();
 
         const yearElement = document.getElementById("year");
         if (yearElement) yearElement.textContent = new Date().getFullYear();
