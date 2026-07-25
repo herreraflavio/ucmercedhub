@@ -15,7 +15,7 @@
 
     <meta property="og:site_name" content="UC Merced Hub" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content="https://ucmercedhub.com/og-image.jpg" />
+    <meta property="og:image" content="https://ucmercedhub.com/og-image.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ucmercedhub.com/" />
     <meta
@@ -38,7 +38,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://ucmercedhub.com/og-image.jpg"
+      content="https://ucmercedhub.com/og-image.png"
     />
 
     <link rel="icon" href="/favicon.ico" />
@@ -441,28 +441,7 @@
         color: var(--muted);
       }
 
-      /* What's New carousel */
-      .whats-new {
-        max-width: var(--maxw);
-        margin: 0 auto;
-        padding: 1rem 1rem 2.6rem;
-      }
-
-      .promo-frame {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(0, 58, 112, 0.1);
-        border-radius: calc(var(--radius) + 5px);
-        background:
-          radial-gradient(
-            circle at top right,
-            rgba(255, 199, 44, 0.19),
-            transparent 31%
-          ),
-          linear-gradient(135deg, #ffffff, #f2f7fb 62%, #f8fafc);
-        box-shadow: var(--shadow);
-      }
-
+      /* Shared slider foundation */
       .slides {
         display: grid;
         margin: 0;
@@ -479,19 +458,6 @@
         display: block;
       }
 
-      .promo-slide-inner {
-        display: grid;
-        grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
-        align-items: center;
-        gap: clamp(1.4rem, 4vw, 3rem);
-        min-height: 480px;
-        padding: clamp(1.3rem, 3vw, 2.4rem);
-      }
-
-      .promo-copy {
-        padding: 0.2rem 0;
-      }
-
       .promo-eyebrow {
         gap: 0.4rem;
         padding: 0.36rem 0.7rem;
@@ -502,35 +468,86 @@
 
       .promo-eyebrow.student {
         color: #594300;
-        background: rgba(255, 199, 44, 0.22);
-        border-color: rgba(255, 199, 44, 0.3);
+        background: rgba(255, 199, 44, 0.24);
+        border-color: rgba(255, 199, 44, 0.32);
       }
 
-      .promo-title {
+      /* Mobile app promotion banner */
+      .app-promo {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1rem 2.35rem;
+        scroll-margin-top: 88px;
+      }
+
+      .promotion-disclosure {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin: 0 0 0.65rem;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+
+      .promotion-disclosure strong {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.22rem 0.5rem;
+        border: 1px solid rgba(0, 58, 112, 0.12);
+        border-radius: 999px;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.06);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .app-promo-frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: calc(var(--radius) + 5px);
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(255, 199, 44, 0.2),
+            transparent 31%
+          ),
+          linear-gradient(135deg, #ffffff, #f2f7fb 62%, #f8fafc);
+        box-shadow: var(--shadow);
+      }
+
+      .app-promo-slide-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
+        align-items: center;
+        gap: clamp(1.4rem, 4vw, 3rem);
+        min-height: 430px;
+        padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1.4rem, 4vw, 3rem) 3.8rem;
+      }
+
+      .app-promo-copy {
+        padding: 0.2rem 0;
+      }
+
+      .app-promo-title {
         margin: 0.9rem 0 0.7rem;
-        font-size: clamp(1.75rem, 4vw, 3rem);
+        font-size: clamp(1.75rem, 3.8vw, 3rem);
         line-height: 1.06;
         letter-spacing: -0.025em;
       }
 
-      .promo-text {
+      .app-promo-text {
         max-width: 62ch;
         margin: 0;
         color: var(--muted);
         font-size: 1rem;
       }
 
-      .promo-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem 1rem;
-        margin-top: 0.95rem;
-        color: #29445d;
-        font-size: 0.9rem;
-        font-weight: 650;
-      }
-
-      .promo-highlights {
+      .app-promo-highlights {
         display: grid;
         gap: 0.52rem;
         margin: 1rem 0 1.2rem;
@@ -538,7 +555,7 @@
         list-style: none;
       }
 
-      .promo-highlights li {
+      .app-promo-highlights li {
         display: flex;
         align-items: flex-start;
         gap: 0.6rem;
@@ -547,7 +564,7 @@
         font-weight: 520;
       }
 
-      .promo-highlights li::before {
+      .app-promo-highlights li::before {
         content: "✓";
         flex: 0 0 auto;
         margin-top: 0.02rem;
@@ -561,65 +578,192 @@
         gap: 0.7rem;
       }
 
-      .promo-media {
+      .app-promo-contact {
+        margin: 1rem 0 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .app-promo-contact a {
+        font-weight: 700;
+      }
+
+      .app-promo-media {
         display: grid;
         place-items: center;
       }
 
-      .promo-art-wrap {
-        width: min(100%, 500px);
-        overflow: hidden;
-        border: 1px solid rgba(0, 58, 112, 0.1);
-        border-radius: 20px;
-        background: #eef2f6;
-        box-shadow: 0 18px 40px rgba(0, 58, 112, 0.13);
+      .app-promo-art {
+        display: block;
+        width: min(100%, 430px);
+        height: auto;
+        object-fit: contain;
+        border-radius: 22px;
+        background: transparent;
+        box-shadow:
+          0 18px 40px rgba(0, 58, 112, 0.12),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.35);
       }
 
-      .promo-art {
+      /* What's New full-image carousel */
+      .whats-new {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 1rem 1rem 2.9rem;
+        scroll-margin-top: 88px;
+      }
+
+      .whats-new-frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.11);
+        border-radius: calc(var(--radius) + 5px);
+        background: #e9eef2;
+        box-shadow: var(--shadow);
+      }
+
+      .whats-new-slide {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: 520px;
+        overflow: hidden;
+        background: #e9eef2;
+      }
+
+      .whats-new-image {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
-        aspect-ratio: 16 / 10;
+        height: 100%;
         object-fit: cover;
+        object-position: center top;
       }
 
+      .whats-new-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        padding: clamp(1.35rem, 3.2vw, 2.5rem)
+          clamp(1.35rem, 3.4vw, 2.75rem) 4.15rem;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0.99) 22%,
+          rgba(255, 255, 255, 0.9) 39%,
+          rgba(255, 255, 255, 0.56) 58%,
+          rgba(255, 255, 255, 0.16) 76%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+
+      .whats-new-content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(190px, 0.62fr) auto;
+        align-items: end;
+        gap: clamp(1.25rem, 3vw, 2.6rem);
+      }
+
+      .whats-new-primary {
+        min-width: 0;
+      }
+
+      .whats-new-project-title {
+        margin: 0.65rem 0 0.45rem;
+        font-size: clamp(1.75rem, 4vw, 3.25rem);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+
+      .whats-new-text {
+        max-width: 66ch;
+        margin: 0;
+        color: #34495b;
+        font-size: clamp(0.94rem, 1.2vw, 1.03rem);
+      }
+
+      .whats-new-meta {
+        display: grid;
+        gap: 0.75rem;
+        padding-bottom: 0.1rem;
+      }
+
+      .whats-new-meta-item {
+        display: grid;
+        gap: 0.05rem;
+      }
+
+      .whats-new-meta-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .whats-new-meta-value {
+        color: #18354f;
+        font-size: 0.92rem;
+        font-weight: 750;
+      }
+
+      .whats-new-actions {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+
+      /* Shared carousel controls */
       .slider-controls {
         position: absolute;
         inset: 0;
+        z-index: 5;
         pointer-events: none;
       }
 
       .slider-btn {
         position: absolute;
         top: 50%;
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
         display: grid;
         place-items: center;
         transform: translateY(-50%);
         appearance: none;
-        border: 1px solid rgba(0, 58, 112, 0.08);
+        border: 1px solid rgba(0, 58, 112, 0.09);
         border-radius: 12px;
         color: var(--uc-blue);
-        background: rgba(255, 255, 255, 0.96);
+        background: rgba(255, 255, 255, 0.95);
         box-shadow: var(--shadow);
         cursor: pointer;
-        font-size: 1.15rem;
+        font-size: 1.2rem;
         font-weight: 800;
         pointer-events: auto;
+        backdrop-filter: blur(8px);
+      }
+
+      .slider-btn:hover {
+        background: #fff;
       }
 
       .slider-btn.prev {
-        left: 0.75rem;
+        left: 0.8rem;
       }
 
       .slider-btn.next {
-        right: 0.75rem;
+        right: 0.8rem;
       }
 
       .slider-dots {
         position: absolute;
         right: 0;
-        bottom: 0.85rem;
+        bottom: 1rem;
         left: 0;
         display: flex;
         justify-content: center;
@@ -631,14 +775,16 @@
         width: 10px;
         height: 10px;
         padding: 0;
-        border: 0;
+        border: 1px solid rgba(0, 58, 112, 0.12);
         border-radius: 999px;
-        background: #c6d2dc;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         cursor: pointer;
+        transition: width 0.18s ease, background 0.18s ease;
       }
 
       .slider-dots button[aria-current="true"] {
-        width: 24px;
+        width: 25px;
         background: var(--uc-gold);
       }
 
@@ -923,18 +1069,32 @@
           box-shadow: none;
         }
 
-        .promo-slide-inner,
+        .app-promo-slide-inner,
         .project-card.featured-student {
           grid-template-columns: 1fr;
         }
 
-        .promo-slide-inner {
+        .app-promo-slide-inner {
           min-height: auto;
           padding-bottom: 4rem;
         }
 
-        .promo-media {
+        .app-promo-media {
           order: -1;
+        }
+
+        .whats-new-slide {
+          aspect-ratio: 4 / 3;
+          min-height: 650px;
+        }
+
+        .whats-new-content {
+          grid-template-columns: minmax(0, 1fr) minmax(190px, 0.42fr);
+        }
+
+        .whats-new-actions {
+          grid-column: 1 / -1;
+          justify-content: flex-start;
         }
 
         .featured-student .project-card-media img {
@@ -977,21 +1137,56 @@
           width: 100%;
         }
 
-        .promo-slide-inner {
+        .app-promo-slide-inner {
           padding: 1.1rem 1.1rem 4rem;
         }
 
-        .slider-btn {
+        .app-promo-art {
+          max-height: 300px;
+        }
+
+        .whats-new-slide {
+          aspect-ratio: 4 / 5;
+          min-height: 660px;
+        }
+
+        .whats-new-overlay {
+          padding: 1rem 1rem 4rem;
+          background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.99) 34%,
+            rgba(255, 255, 255, 0.88) 55%,
+            rgba(255, 255, 255, 0.32) 76%,
+            rgba(255, 255, 255, 0) 100%
+          );
+        }
+
+        .whats-new-content {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .whats-new-meta {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .whats-new-actions {
+          grid-column: auto;
+          justify-content: stretch;
+        }
+
+        .app-promo-frame .slider-btn {
           top: auto;
           bottom: 0.55rem;
           transform: none;
         }
 
-        .slider-btn.prev {
+        .app-promo-frame .slider-btn.prev {
           left: 0.75rem;
         }
 
-        .slider-btn.next {
+        .app-promo-frame .slider-btn.next {
           right: 0.75rem;
         }
 
@@ -1001,6 +1196,7 @@
 
         .hero-actions,
         .promo-actions,
+        .whats-new-actions,
         .project-actions {
           align-items: stretch;
           flex-direction: column;
@@ -1009,6 +1205,23 @@
         .btn,
         .btn-sm {
           width: 100%;
+        }
+      }
+
+
+
+      @media (max-width: 430px) {
+        .whats-new-slide {
+          min-height: 700px;
+        }
+
+        .whats-new-meta {
+          grid-template-columns: 1fr;
+          gap: 0.45rem;
+        }
+
+        .whats-new-project-title {
+          font-size: clamp(1.65rem, 10vw, 2.3rem);
         }
       }
 
@@ -1053,7 +1266,7 @@
         <a class="brand" href="/" aria-label="UC Merced Hub home">
           <img
             class="brand-logo"
-            src="/og-image.jpg"
+            src="/og-image.png"
             alt=""
             width="38"
             height="38"
@@ -1104,11 +1317,157 @@
         </p>
         <div class="hero-actions">
           <a class="btn" href="#student-projects">Explore Student Projects</a>
+          <a class="btn ghost" href="#whats-new">What’s New</a>
           <a class="btn ghost" href="#hub-projects">Explore Hub Projects</a>
         </div>
       </section>
 
-      <section class="whats-new" aria-labelledby="whats-new-title">
+      <section class="app-promo" id="app-promotion" aria-labelledby="app-promo-heading">
+        <h2 id="app-promo-heading" class="visually-hidden">
+          UC Merced Hub mobile application announcements
+        </h2>
+
+        <p class="promotion-disclosure" role="note">
+          <strong>Promotional content</strong>
+          <span>UC Merced Hub mobile app announcements and opportunities.</span>
+        </p>
+
+        <div class="app-promo-frame js-slider" data-interval="7000">
+          <ul class="slides">
+            <li class="slide" data-active="true">
+              <div class="app-promo-slide-inner">
+                <div class="app-promo-copy">
+                  <span class="promo-eyebrow">Now live on iPhone</span>
+                  <h3 class="promo-title app-promo-title">
+                    UCM Hub is now live on the App Store.
+                  </h3>
+                  <p class="app-promo-text">
+                    Visually explore and navigate UC Merced campus in real time. The
+                    iOS app helps students, faculty, and visitors discover campus events
+                    faster with an interactive map built for quick exploration.
+                  </p>
+
+                  <ul class="app-promo-highlights" aria-label="iOS launch highlights">
+                    <li>Interactive event mapping across campus</li>
+                    <li>Instant event details and room information</li>
+                    <li>Date filters for today, this week, and upcoming events</li>
+                    <li>Map Feed for switching between specialized campus maps</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn"
+                      href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download on the App Store
+                    </a>
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/"
+                      rel="noopener"
+                    >
+                      Explore Web Version
+                    </a>
+                  </div>
+
+                  <p class="app-promo-contact">
+                    Questions, partnerships, or feedback:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="app-promo-media">
+                  <img
+                    class="app-promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548808325-00e192c9-df7a-4ece-bcdf-8f98e4fd96ca-f1f2_iphone.png"
+                    alt="Preview of the UCM Hub iPhone app"
+                    loading="eager"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
+            </li>
+
+            <li class="slide">
+              <div class="app-promo-slide-inner">
+                <div class="app-promo-copy">
+                  <span class="promo-eyebrow">Android internal testing</span>
+                  <h3 class="promo-title app-promo-title">
+                    Android internal testing is now underway.
+                  </h3>
+                  <p class="app-promo-text">
+                    Discover what is happening at UC Merced in real time with the
+                    Android version of UCM Hub. Internal testing is open for early
+                    feedback before the broader launch.
+                  </p>
+
+                  <ul class="app-promo-highlights" aria-label="Android testing highlights">
+                    <li>Interactive event mapping with zoom and pan exploration</li>
+                    <li>Event times, rooms, descriptions, and location details</li>
+                    <li>Real-time GPS directions to buildings and events</li>
+                    <li>Date filtering for current and upcoming events</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn alt"
+                      href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
+                    >
+                      Join Internal Testing
+                    </a>
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/support/"
+                      rel="noopener"
+                    >
+                      Support Page
+                    </a>
+                  </div>
+
+                  <p class="app-promo-contact">
+                    Interested in testing or collaborating:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="app-promo-media">
+                  <img
+                    class="app-promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548813491-03c19d38-c72a-4fcb-9b69-2a727494fb38-f1f2.png"
+                    alt="Preview of the UCM Hub Android app"
+                    loading="lazy"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="slider-controls">
+            <button
+              class="slider-btn prev"
+              type="button"
+              aria-label="Previous mobile app promotion"
+            >
+              ‹
+            </button>
+            <button
+              class="slider-btn next"
+              type="button"
+              aria-label="Next mobile app promotion"
+            >
+              ›
+            </button>
+            <div class="slider-dots" aria-label="Choose a mobile app promotion"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="whats-new" id="whats-new" aria-labelledby="whats-new-title">
         <div class="section-heading">
           <div class="section-heading-copy">
             <span class="section-eyebrow">Latest activity</span>
@@ -1120,191 +1479,223 @@
           </div>
         </div>
 
-        <div class="promo-frame js-slider" data-interval="7500">
+        <div class="whats-new-frame js-slider" data-interval="7500">
           <ul class="slides">
             <!-- Slide 1: Bobcat Bulletin -->
             <li class="slide" data-active="true">
-              <div class="promo-slide-inner">
-                <div class="promo-copy">
-                  <span class="promo-eyebrow student">New Student Project</span>
-                  <h3 class="promo-title">Bobcat Bulletin</h3>
-                  <p class="promo-text">
-                    A student-built website that takes basic data from UC Merced
-                    Police Department daily reports and aggregates it into one
-                    simple, navigable place.
-                  </p>
-                  <div class="promo-meta">
-                    <span>Created by xopnek</span>
-                    <span>Published July 23, 2026</span>
-                  </div>
-                  <ul class="promo-highlights">
-                    <li>Aggregates information from UCMPD daily reports</li>
-                    <li>Organizes report data into one website</li>
-                    <li>Designed for simpler navigation and browsing</li>
-                  </ul>
-                  <div class="promo-actions">
-                    <a
-                      class="btn alt"
-                      href="https://bobcat-bulletin.vercel.app/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Open Bobcat Bulletin ↗
-                    </a>
-                    <a class="btn ghost" href="#student-projects">Project Details</a>
-                  </div>
-                </div>
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/bobcat-bulletin-preview.png"
+                  alt="Placeholder preview of the Bobcat Bulletin website"
+                  loading="eager"
+                  width="1600"
+                  height="900"
+                />
 
-                <div class="promo-media">
-                  <div class="promo-art-wrap">
-                    <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
-                    <img
-                      class="promo-art"
-                      src="/img/bobcat-bulletin-preview.png"
-                      alt="Placeholder preview of the Bobcat Bulletin website"
-                      loading="eager"
-                      width="1200"
-                      height="750"
-                    />
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow student">New Student Project</span>
+                      <h3 class="promo-title whats-new-project-title">Bobcat Bulletin</h3>
+                      <p class="whats-new-text">
+                        Aggregates basic data from UC Merced Police Department daily
+                        reports into one simple, navigable website.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Created by</span>
+                        <span class="whats-new-meta-value">xopnek</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Published</span>
+                        <span class="whats-new-meta-value">July 23, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn alt"
+                        href="https://bobcat-bulletin.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open Project ↗
+                      </a>
+                      <a class="btn ghost" href="#bobcat-bulletin-card">Details</a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </li>
 
             <!-- Slide 2: UC Payrolls -->
             <li class="slide">
-              <div class="promo-slide-inner">
-                <div class="promo-copy">
-                  <span class="promo-eyebrow">Updated by UC Merced Hub</span>
-                  <h3 class="promo-title">UC Payrolls Visualizer</h3>
-                  <p class="promo-text">
-                    Search and compare UC Merced employee payroll history through
-                    interactive visualizations built from public compensation data.
-                  </p>
-                  <div class="promo-meta">
-                    <span>Built by UC Merced Hub</span>
-                    <span>Updated July 20, 2026</span>
-                  </div>
-                  <ul class="promo-highlights">
-                    <li>Employee search and payroll history</li>
-                    <li>Interactive year-over-year visualizations</li>
-                    <li>Comparison support for related employee records</li>
-                  </ul>
-                  <div class="promo-actions">
-                    <a class="btn" href="https://ucpayrolls.com/" rel="noopener">
-                      Explore UC Payrolls
-                    </a>
-                    <a class="btn ghost" href="#uc-payrolls-card">View Project Details</a>
-                  </div>
-                </div>
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/payrolls1.png"
+                  alt="UC Payrolls Visualizer interface"
+                  loading="lazy"
+                  width="1600"
+                  height="900"
+                />
 
-                <div class="promo-media">
-                  <div class="promo-art-wrap">
-                    <img
-                      class="promo-art"
-                      src="/img/payrolls1.png"
-                      alt="UC Payrolls Visualizer interface"
-                      loading="lazy"
-                      width="1200"
-                      height="750"
-                    />
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Recently Updated</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        UC Payrolls Visualizer
+                      </h3>
+                      <p class="whats-new-text">
+                        Search, compare, and visualize UC Merced employee payroll
+                        histories using public compensation data.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Maintained by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Updated</span>
+                        <span class="whats-new-meta-value">July 20, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a class="btn" href="https://ucpayrolls.com/" rel="noopener">
+                        Explore Payrolls
+                      </a>
+                      <a class="btn ghost" href="#uc-payrolls-card">Details</a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </li>
 
             <!-- Slide 3: Campus Map -->
             <li class="slide">
-              <div class="promo-slide-inner">
-                <div class="promo-copy">
-                  <span class="promo-eyebrow">Updated by UC Merced Hub</span>
-                  <h3 class="promo-title">Campus Map + Events Hub</h3>
-                  <p class="promo-text">
-                    Visually explore UC Merced, navigate campus, discover events,
-                    and access specialized campus information from one interactive map.
-                  </p>
-                  <div class="promo-meta">
-                    <span>Built by UC Merced Hub</span>
-                    <span>Updated approximately May 24, 2026</span>
-                  </div>
-                  <ul class="promo-highlights">
-                    <li>Interactive campus navigation</li>
-                    <li>Event discovery and location details</li>
-                    <li>Specialized campus maps and project information</li>
-                  </ul>
-                  <div class="promo-actions">
-                    <a class="btn" href="https://campusmap.ucmercedhub.com/" rel="noopener">
-                      Open Campus Map
-                    </a>
-                    <a class="btn ghost" href="#campus-map-card">View Project Details</a>
-                  </div>
-                </div>
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/map4.png"
+                  alt="Interactive UC Merced campus map"
+                  loading="lazy"
+                  width="1600"
+                  height="900"
+                />
 
-                <div class="promo-media">
-                  <div class="promo-art-wrap">
-                    <img
-                      class="promo-art"
-                      src="/img/map4.png"
-                      alt="Interactive UC Merced campus map"
-                      loading="lazy"
-                      width="1200"
-                      height="750"
-                    />
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Major Map Update</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        Campus Map + Events Hub
+                      </h3>
+                      <p class="whats-new-text">
+                        Explore UC Merced, navigate campus, discover events, and open
+                        specialized campus maps from one interactive experience.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Maintained by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Updated</span>
+                        <span class="whats-new-meta-value">May 24, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn"
+                        href="https://campusmap.ucmercedhub.com/"
+                        rel="noopener"
+                      >
+                        Open Campus Map
+                      </a>
+                      <a class="btn ghost" href="#campus-map-card">Details</a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </li>
 
             <!-- Slide 4: SeeMerced -->
             <li class="slide">
-              <div class="promo-slide-inner">
-                <div class="promo-copy">
-                  <span class="promo-eyebrow">From UC Merced Hub</span>
-                  <h3 class="promo-title">SeeMerced Grade Analysis</h3>
-                  <p class="promo-text">
-                    Explore historical UC Merced grade distributions, compare course
-                    outcomes, and visualize academic trends across multiple years.
-                  </p>
-                  <div class="promo-meta">
-                    <span>Built by UC Merced Hub</span>
-                    <span>Published approximately July 24, 2025</span>
-                  </div>
-                  <ul class="promo-highlights">
-                    <li>Historical grade-distribution data</li>
-                    <li>Course and period comparisons</li>
-                    <li>Long-term trend visualizations</li>
-                  </ul>
-                  <div class="promo-actions">
-                    <a
-                      class="btn"
-                      href="https://herreraflavio.github.io/seemerced2/"
-                      rel="noopener"
-                    >
-                      Explore SeeMerced
-                    </a>
-                    <a class="btn ghost" href="#seemerced-card">View Project Details</a>
-                  </div>
-                </div>
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/grade1.png"
+                  alt="SeeMerced grade-analysis interface"
+                  loading="lazy"
+                  width="1600"
+                  height="900"
+                />
 
-                <div class="promo-media">
-                  <div class="promo-art-wrap">
-                    <img
-                      class="promo-art"
-                      src="/img/grade1.png"
-                      alt="SeeMerced grade-analysis interface"
-                      loading="lazy"
-                      width="1200"
-                      height="750"
-                    />
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Project Highlight</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        SeeMerced Grade Analysis
+                      </h3>
+                      <p class="whats-new-text">
+                        Explore historical UC Merced grade distributions, compare course
+                        outcomes, and visualize long-term academic trends.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Built by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Published</span>
+                        <span class="whats-new-meta-value">July 24, 2025</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn"
+                        href="https://herreraflavio.github.io/seemerced2/"
+                        rel="noopener"
+                      >
+                        Explore SeeMerced
+                      </a>
+                      <a class="btn ghost" href="#seemerced-card">Details</a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </article>
             </li>
           </ul>
 
           <div class="slider-controls">
-            <button class="slider-btn prev" type="button" aria-label="Previous What’s New slide">‹</button>
-            <button class="slider-btn next" type="button" aria-label="Next What’s New slide">›</button>
+            <button
+              class="slider-btn prev"
+              type="button"
+              aria-label="Previous What’s New slide"
+            >
+              ‹
+            </button>
+            <button
+              class="slider-btn next"
+              type="button"
+              aria-label="Next What’s New slide"
+            >
+              ›
+            </button>
             <div class="slider-dots" aria-label="Choose a What’s New slide"></div>
           </div>
         </div>
@@ -1584,7 +1975,7 @@
       <div class="footer-inner">
         <div class="footer-top">
           <a class="footer-brand" href="/">
-            <img src="/og-image.jpg" alt="" width="32" height="32" />
+            <img src="/og-image.png" alt="" width="32" height="32" />
             <span>UC Merced Hub</span>
           </a>
 
