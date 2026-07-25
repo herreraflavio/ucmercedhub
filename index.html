@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>UC Merced Hub — Interactive Map, Grade Data & Campus Tools</title>
+
+    <title>UC Merced Hub — Student Projects & Campus Tools</title>
     <meta
       name="description"
-      content="A centralized gateway to UC Merced projects: Interactive Campus Map with live events, SeeMerced grade distributions, Auto Calendar Generator, and Employee Payroll data."
+      content="Discover independent UC Merced student projects alongside maps, data tools, and applications built and maintained by UC Merced Hub."
     />
     <link rel="canonical" href="https://ucmercedhub.com/" />
     <meta name="robots" content="index,follow" />
@@ -14,25 +15,30 @@
 
     <meta property="og:site_name" content="UC Merced Hub" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content="https://ucmercedhub.com/og-image.jpg" />
+    <meta property="og:image" content="https://ucmercedhub.com/og-image.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ucmercedhub.com/" />
     <meta
       property="og:title"
-      content="UC Merced Hub — Projects & Campus Data"
+      content="UC Merced Hub — Student Projects & Campus Tools"
     />
     <meta
       property="og:description"
-      content="Interactive maps, grade distribution graphs, schedule generators, and payroll analysis."
+      content="Student-built projects and UC Merced Hub tools for the campus community."
     />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="UC Merced Hub — Projects & Campus Data"
+      content="UC Merced Hub — Student Projects & Campus Tools"
     />
     <meta
       name="twitter:description"
-      content="Interactive maps, grade distribution graphs, schedule generators, and payroll analysis."
+      content="Student-built projects and UC Merced Hub tools for the campus community."
+    />
+    <meta
+      name="twitter:image"
+      content="https://ucmercedhub.com/og-image.png"
     />
 
     <link rel="icon" href="/favicon.ico" />
@@ -47,6 +53,9 @@
         --muted: #5b6670;
         --bg: #f7f7f5;
         --card: #ffffff;
+        --line: #e4e8ec;
+        --success-bg: #e6fcf5;
+        --success-ink: #087f5b;
         --radius: 14px;
         --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         --maxw: 1200px;
@@ -56,17 +65,32 @@
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       html,
       body {
-        height: 100%;
+        min-height: 100%;
       }
 
       body {
         margin: 0;
-        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
-          Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji",
+          "Segoe UI Emoji";
         color: var(--ink);
         background: var(--bg);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      button,
+      summary,
+      a {
+        -webkit-tap-highlight-color: transparent;
       }
 
       a {
@@ -76,6 +100,23 @@
 
       a:hover {
         text-decoration: underline;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(255, 199, 44, 0.8);
+        outline-offset: 3px;
+      }
+
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       .skip-link {
@@ -90,137 +131,231 @@
       .skip-link:focus {
         left: 1rem;
         top: 1rem;
+        z-index: 1000;
         width: auto;
         height: auto;
-        background: #fff;
-        padding: 0.5rem 0.75rem;
+        padding: 0.55rem 0.8rem;
+        overflow: visible;
         border-radius: 0.5rem;
+        background: #fff;
         box-shadow: var(--shadow);
       }
 
+      /* Header and navigation */
       header {
         position: sticky;
         top: 0;
         z-index: 50;
-        background: #ffffffcc;
+        background: rgba(255, 255, 255, 0.94);
         backdrop-filter: blur(12px);
-        border-bottom: 1px solid #e8e8ea;
+        border-bottom: 1px solid var(--line);
       }
 
       .nav {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 0.75rem 1rem;
+        padding: 0.7rem 1rem;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
         gap: 1rem;
       }
 
       .brand {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.2px;
+        gap: 0.7rem;
         margin-right: auto;
+        color: var(--ink);
+        font-size: 1.08rem;
+        font-weight: 750;
+        letter-spacing: 0.1px;
+        white-space: nowrap;
       }
 
-      .brand-mark {
-        width: 36px;
-        height: 36px;
+      .brand:hover {
+        text-decoration: none;
+      }
+
+      .brand-logo {
+        width: 38px;
+        height: 38px;
+        display: block;
+        flex: 0 0 auto;
         border-radius: 9px;
-        background: linear-gradient(135deg, var(--uc-blue), #012851);
-        display: grid;
-        place-items: center;
-        color: #fff;
-        font-size: 0.9rem;
-        box-shadow: var(--shadow);
+        object-fit: cover;
+        box-shadow: 0 4px 14px rgba(0, 58, 112, 0.16);
       }
 
       .nav-links {
         display: flex;
-        gap: 1.5rem;
         align-items: center;
+        justify-content: flex-end;
+        gap: 0.45rem;
       }
 
-      .nav-links a {
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--ink);
+      .nav-menu {
         position: relative;
-        transition: color 0.2s;
       }
 
-      .nav-links a:hover {
+      .nav-menu > summary {
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 0.7rem;
+        border-radius: 9px;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .nav-menu > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .nav-menu > summary::after {
+        content: "▾";
         color: var(--uc-blue);
+        font-size: 0.76rem;
+        transition: transform 0.18s ease;
+      }
+
+      .nav-menu[open] > summary,
+      .nav-menu > summary:hover {
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
+      }
+
+      .nav-menu[open] > summary::after {
+        transform: rotate(180deg);
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        width: min(290px, calc(100vw - 2rem));
+        padding: 0.55rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-dropdown a {
+        display: block;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+
+      .nav-dropdown a:hover {
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
         text-decoration: none;
       }
 
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -4px;
-        left: 0;
-        background-color: var(--uc-gold);
-        transition: width 0.2s;
+      .nav-dropdown .dropdown-heading {
+        padding: 0.35rem 0.75rem 0.45rem;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
-      .nav-links a:hover::after {
-        width: 100%;
+      .nav-dropdown .dropdown-separator {
+        height: 1px;
+        margin: 0.35rem 0;
+        background: var(--line);
       }
 
-      @media (max-width: 600px) {
-        .nav-links {
-          width: 100%;
-          justify-content: space-between;
-          padding-top: 0.5rem;
-          gap: 0.8rem;
-          font-size: 0.9rem;
-        }
+      .nav-simple-link {
+        padding: 0.55rem 0.65rem;
+        border-radius: 9px;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
       }
 
+      .nav-simple-link:hover {
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
+        text-decoration: none;
+      }
+
+      /* Shared buttons */
       .btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1rem;
         border: 1.5px solid var(--uc-blue);
+        border-radius: 999px;
         color: #fff;
         background: var(--uc-blue);
-        padding: 0.65rem 1rem;
-        border-radius: 999px;
-        font-weight: 600;
-        font-size: 0.92rem;
         box-shadow: var(--shadow);
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.25;
         white-space: nowrap;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          background 0.18s ease;
       }
 
       .btn:hover {
-        text-decoration: none;
         transform: translateY(-1px);
+        text-decoration: none;
       }
 
       .btn.alt {
-        background: var(--uc-gold);
         color: #1a1a1a;
+        background: var(--uc-gold);
         border-color: var(--uc-gold);
       }
 
       .btn.ghost {
-        background: transparent;
         color: var(--uc-blue);
-        border-color: rgba(0, 58, 112, 0.18);
+        background: transparent;
+        border-color: rgba(0, 58, 112, 0.2);
         box-shadow: none;
       }
 
       .btn.ghost:hover {
-        background: rgba(0, 58, 112, 0.04);
+        background: rgba(0, 58, 112, 0.05);
       }
 
+      .btn-sm {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.48rem 0.78rem;
+        border: 1.5px solid #dfe4e9;
+        border-radius: 10px;
+        color: var(--uc-blue);
+        background: #fff;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .btn-sm:hover {
+        text-decoration: none;
+        background: #f6f8fa;
+      }
+
+      .btn-sm.primary {
+        color: #fff;
+        background: var(--uc-blue);
+        border-color: var(--uc-blue);
+      }
+
+      /* Hero */
       main {
         display: block;
       }
@@ -228,52 +363,116 @@
       .hero {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 2.5rem 1rem 1rem;
-        display: grid;
-        gap: 1.25rem;
+        padding: clamp(2.6rem, 6vw, 5.2rem) 1rem clamp(1.6rem, 4vw, 2.8rem);
+      }
+
+      .hero-eyebrow,
+      .section-eyebrow,
+      .promo-eyebrow,
+      .ownership-badge,
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.075em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .hero-eyebrow {
+        padding: 0.38rem 0.72rem;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.08);
+        border: 1px solid rgba(0, 58, 112, 0.08);
       }
 
       .hero h1 {
-        font-size: clamp(1.8rem, 3.2vw, 3rem);
-        line-height: 1.1;
-        margin: 0;
+        max-width: 860px;
+        margin: 0.85rem 0 0;
+        font-size: clamp(2.15rem, 5vw, 4.15rem);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
       }
 
-      .hero p.lede {
+      .hero .lede {
+        max-width: 760px;
+        margin: 1rem 0 0;
         color: var(--muted);
-        margin: 0.25rem 0 0;
-        font-size: clamp(1rem, 1.4vw, 1.15rem);
-        max-width: 65ch;
+        font-size: clamp(1rem, 1.6vw, 1.2rem);
       }
 
-      /* Promo banner */
-      .promo {
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.35rem;
+      }
+
+      /* Section headings */
+      .section-heading {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.25rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .section-heading-copy {
+        max-width: 760px;
+      }
+
+      .section-eyebrow {
+        padding: 0.32rem 0.65rem;
+        color: #594300;
+        background: rgba(255, 199, 44, 0.2);
+      }
+
+      .section-heading h2 {
+        margin: 0.45rem 0 0.25rem;
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        line-height: 1.15;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      /* What's New carousel */
+      .whats-new {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 0 1rem 1.25rem;
+        padding: 1rem 1rem 2.6rem;
       }
 
       .promo-frame {
         position: relative;
-        background:
-          radial-gradient(circle at top right, rgba(255, 199, 44, 0.18), transparent 30%),
-          linear-gradient(135deg, #ffffff, #f3f7fb 60%, #f8fafc);
-        border: 1px solid rgba(0, 58, 112, 0.08);
-        border-radius: calc(var(--radius) + 4px);
-        box-shadow: var(--shadow);
         overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: calc(var(--radius) + 5px);
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(255, 199, 44, 0.19),
+            transparent 31%
+          ),
+          linear-gradient(135deg, #ffffff, #f2f7fb 62%, #f8fafc);
+        box-shadow: var(--shadow);
       }
 
       .slides {
-        list-style: none;
+        display: grid;
         margin: 0;
         padding: 0;
-        display: grid;
+        list-style: none;
       }
 
       .slide {
-        grid-area: 1 / 1;
         display: none;
+        grid-area: 1 / 1;
       }
 
       .slide[data-active="true"] {
@@ -282,10 +481,11 @@
 
       .promo-slide-inner {
         display: grid;
-        grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
-        gap: 1.75rem;
+        grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
         align-items: center;
-        padding: clamp(1.2rem, 2vw, 2rem);
+        gap: clamp(1.4rem, 4vw, 3rem);
+        min-height: 480px;
+        padding: clamp(1.3rem, 3vw, 2.4rem);
       }
 
       .promo-copy {
@@ -293,92 +493,93 @@
       }
 
       .promo-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        gap: 0.4rem;
+        padding: 0.36rem 0.7rem;
         color: var(--uc-blue);
-        background: rgba(0, 58, 112, 0.08);
-        border: 1px solid rgba(0, 58, 112, 0.08);
-        border-radius: 999px;
-        padding: 0.35rem 0.7rem;
+        background: rgba(0, 58, 112, 0.085);
+        border: 1px solid rgba(0, 58, 112, 0.09);
+      }
+
+      .promo-eyebrow.student {
+        color: #594300;
+        background: rgba(255, 199, 44, 0.22);
+        border-color: rgba(255, 199, 44, 0.3);
       }
 
       .promo-title {
-        font-size: clamp(1.55rem, 2.8vw, 2.55rem);
-        line-height: 1.08;
-        margin: 0.9rem 0 0.75rem;
+        margin: 0.9rem 0 0.7rem;
+        font-size: clamp(1.75rem, 4vw, 3rem);
+        line-height: 1.06;
+        letter-spacing: -0.025em;
       }
 
       .promo-text {
-        color: var(--muted);
-        margin: 0;
-        font-size: 1rem;
         max-width: 62ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      .promo-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1rem;
+        margin-top: 0.95rem;
+        color: #29445d;
+        font-size: 0.9rem;
+        font-weight: 650;
       }
 
       .promo-highlights {
-        list-style: none;
-        margin: 1rem 0 1.15rem;
-        padding: 0;
         display: grid;
-        gap: 0.58rem;
+        gap: 0.52rem;
+        margin: 1rem 0 1.2rem;
+        padding: 0;
+        list-style: none;
       }
 
       .promo-highlights li {
         display: flex;
         align-items: flex-start;
-        gap: 0.65rem;
+        gap: 0.6rem;
         color: #29445d;
-        font-size: 0.96rem;
-        font-weight: 500;
+        font-size: 0.95rem;
+        font-weight: 520;
       }
 
       .promo-highlights li::before {
         content: "✓";
         flex: 0 0 auto;
+        margin-top: 0.02rem;
         color: var(--uc-blue);
-        font-weight: 800;
-        line-height: 1.2;
-        margin-top: 0.05rem;
+        font-weight: 900;
       }
 
       .promo-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 0.7rem;
-        margin-top: 0.35rem;
-      }
-
-      .promo-contact {
-        margin-top: 1rem;
-        color: var(--muted);
-        font-size: 0.93rem;
-      }
-
-      .promo-contact a {
-        font-weight: 600;
       }
 
       .promo-media {
         display: grid;
         place-items: center;
-        min-height: 320px;
+      }
+
+      .promo-art-wrap {
+        width: min(100%, 500px);
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: 20px;
+        background: #eef2f6;
+        box-shadow: 0 18px 40px rgba(0, 58, 112, 0.13);
       }
 
       .promo-art {
-        width: min(100%, 430px);
-        height: auto;
         display: block;
-        border-radius: 22px;
-        box-shadow:
-          0 18px 40px rgba(0, 58, 112, 0.12),
-          inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-        object-fit: contain;
-        background: transparent;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
       }
 
       .slider-controls {
@@ -388,21 +589,23 @@
       }
 
       .slider-btn {
-        pointer-events: auto;
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
-        appearance: none;
-        border: 0;
-        background: rgba(255, 255, 255, 0.95);
-        color: var(--uc-blue);
         width: 42px;
         height: 42px;
+        display: grid;
+        place-items: center;
+        transform: translateY(-50%);
+        appearance: none;
+        border: 1px solid rgba(0, 58, 112, 0.08);
         border-radius: 12px;
+        color: var(--uc-blue);
+        background: rgba(255, 255, 255, 0.96);
         box-shadow: var(--shadow);
         cursor: pointer;
         font-size: 1.15rem;
-        font-weight: 700;
+        font-weight: 800;
+        pointer-events: auto;
       }
 
       .slider-btn.prev {
@@ -415,636 +618,961 @@
 
       .slider-dots {
         position: absolute;
-        left: 0;
         right: 0;
         bottom: 0.85rem;
+        left: 0;
         display: flex;
         justify-content: center;
         gap: 0.45rem;
+        pointer-events: auto;
       }
 
       .slider-dots button {
         width: 10px;
         height: 10px;
-        border-radius: 999px;
+        padding: 0;
         border: 0;
-        background: #c8d4df;
+        border-radius: 999px;
+        background: #c6d2dc;
         cursor: pointer;
       }
 
       .slider-dots button[aria-current="true"] {
+        width: 24px;
         background: var(--uc-gold);
       }
 
-      @media (max-width: 860px) {
-        .promo-slide-inner {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-
-        .promo-media {
-          min-height: auto;
-        }
-
-        .slider-btn.prev {
-          left: 0.5rem;
-        }
-
-        .slider-btn.next {
-          right: 0.5rem;
-        }
-      }
-
-      /* Showcase carousel */
-      .showcase {
+      /* Project sections and cards */
+      .project-section {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 1rem;
+        padding: 2.4rem 1rem 3rem;
+        scroll-margin-top: 88px;
       }
 
-      .showcase .frame {
-        position: relative;
-        border-radius: var(--radius);
-        background: var(--card);
-        box-shadow: var(--shadow);
-        overflow: clip;
+      .project-section.student-projects {
+        padding-top: 2.8rem;
       }
 
-      .showcase .slide figure {
-        margin: 0;
-      }
-
-      .showcase .slide img {
-        display: block;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-      }
-
-      .showcase .slide figcaption {
-        padding: 0.75rem 0.9rem;
-        font-weight: 600;
-        border-top: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.75rem;
-      }
-
-      /* Project grid */
-      .projects {
-        max-width: var(--maxw);
-        margin: 0 auto;
-        padding: 2rem 1rem 3.5rem;
-      }
-
-      .projects h2 {
-        font-size: clamp(1.35rem, 2.6vw, 2rem);
-        margin: 0 0 1rem;
-      }
-
-      .grid {
+      .project-grid {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 1.5rem;
       }
 
-      .card {
+      .project-card {
         grid-column: span 12;
-        background: var(--card);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        overflow: clip;
         display: flex;
         flex-direction: column;
-        transition: transform 0.2s ease;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: var(--radius);
+        background: var(--card);
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
       }
 
-      .card:hover {
+      .project-card:hover {
         transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
       }
 
-      .card img {
+      .project-card.featured-student {
+        grid-column: span 12;
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      }
+
+      .project-card-media {
+        min-height: 100%;
+        background: #edf1f5;
+      }
+
+      .project-card-media img {
+        display: block;
         width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
+        height: 100%;
+        min-height: 250px;
         object-fit: cover;
       }
 
-      .card .body {
-        padding: 1.25rem;
+      .project-card:not(.featured-student) .project-card-media img {
+        aspect-ratio: 16 / 9;
+        height: auto;
+      }
+
+      .project-card-body {
         display: flex;
+        flex: 1;
         flex-direction: column;
-        gap: 0.6rem;
-        flex-grow: 1;
+        gap: 0.62rem;
+        padding: 1.25rem;
       }
 
-      .chip {
-        align-self: flex-start;
-        font-size: 0.75rem;
-        background: #eef2f6;
-        color: #2c3e50;
-        border-radius: 999px;
-        padding: 0.25rem 0.6rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+      .featured-student .project-card-body {
+        justify-content: center;
+        padding: clamp(1.4rem, 3vw, 2.25rem);
       }
 
-      .chip.live {
-        background: #e6fcf5;
-        color: #0ca678;
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
       }
 
-      .card .title {
-        font-weight: 700;
-        font-size: 1.15rem;
+      .ownership-badge,
+      .status-badge {
+        padding: 0.3rem 0.62rem;
+      }
+
+      .ownership-badge.student {
+        color: #594300;
+        background: rgba(255, 199, 44, 0.22);
+      }
+
+      .ownership-badge.hub {
+        color: #fff;
+        background: var(--uc-blue);
+      }
+
+      .status-badge {
+        color: var(--success-ink);
+        background: var(--success-bg);
+      }
+
+      .project-card h3 {
+        margin: 0.15rem 0 0;
+        font-size: 1.22rem;
+        line-height: 1.25;
+      }
+
+      .featured-student h3 {
+        font-size: clamp(1.55rem, 3vw, 2.25rem);
+      }
+
+      .creator-line,
+      .project-date {
         margin: 0;
-        line-height: 1.3;
-      }
-
-      .card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-
-      .card .details-list {
-        margin: 0.5rem 0 0;
-        padding: 0;
-        list-style: none;
         font-size: 0.9rem;
+      }
+
+      .creator-line {
+        color: var(--uc-blue);
+        font-weight: 700;
+      }
+
+      .project-date {
         color: var(--muted);
       }
 
-      .card .details-list li {
+      .project-description {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .details-list {
+        display: grid;
+        gap: 0.35rem;
+        margin: 0.35rem 0 0;
+        padding: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        list-style: none;
+      }
+
+      .details-list li {
         display: flex;
         align-items: flex-start;
-        gap: 0.4rem;
-        margin-bottom: 0.25rem;
+        gap: 0.45rem;
       }
 
-      .card .details-list li::before {
+      .details-list li::before {
         content: "•";
         color: var(--uc-gold);
-        font-weight: bold;
+        font-weight: 900;
       }
 
-      .actions {
+      .project-actions {
         display: flex;
-        gap: 0.5rem;
         flex-wrap: wrap;
+        gap: 0.5rem;
         margin-top: auto;
-        padding-top: 1rem;
+        padding-top: 0.85rem;
       }
 
-      .actions a.btn-sm,
-      .showcase .btn-sm {
-        display: inline-flex;
+      .project-disclaimer {
+        margin: 0.9rem 0 0;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+
+      /* Submit project CTA */
+      .submit-project {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1rem 2.2rem;
+      }
+
+      .submit-project-inner {
+        display: flex;
         align-items: center;
-        gap: 0.4rem;
-        border: 1.5px solid #e2e6ea;
-        padding: 0.45rem 0.75rem;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.9rem;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: clamp(1.25rem, 3vw, 2rem);
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, #fff, #f1f6fa);
       }
 
-      .actions a.btn-sm.primary,
-      .showcase .btn-sm.primary {
-        border-color: var(--uc-blue);
-        background: var(--uc-blue);
-        color: #fff;
+      .submit-project h2 {
+        margin: 0 0 0.3rem;
+        font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+        line-height: 1.2;
       }
 
-      .actions a.btn-sm.gold {
-        border-color: var(--uc-gold);
-        background: var(--uc-gold);
-        color: #1a1a1a;
+      .submit-project p {
+        max-width: 720px;
+        margin: 0;
+        color: var(--muted);
       }
 
-      @media (min-width: 640px) {
-        .card {
-          grid-column: span 6;
-        }
-      }
-
+      /* Footer */
       footer {
-        border-top: 1px solid #e8e8ea;
-        background: #fff;
         margin-top: 2rem;
+        border-top: 1px solid var(--line);
+        background: #fff;
       }
 
       .footer-inner {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 1.5rem 1rem;
+        padding: 1.65rem 1rem;
+      }
+
+      .footer-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: var(--ink);
+        font-weight: 750;
+      }
+
+      .footer-brand img {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: cover;
       }
 
       .footer-links {
         display: flex;
-        gap: 1.5rem;
         flex-wrap: wrap;
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
+        justify-content: flex-end;
+        gap: 0.65rem 1.3rem;
+        font-size: 0.92rem;
+      }
+
+      .footer-links a {
+        font-weight: 600;
       }
 
       .copyright {
         color: var(--muted);
-        font-size: 0.9rem;
+        font-size: 0.88rem;
       }
 
-      .visually-hidden {
-        position: absolute !important;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        white-space: nowrap;
+      /* Responsive */
+      @media (min-width: 650px) {
+        .project-card:not(.featured-student) {
+          grid-column: span 6;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          flex-wrap: wrap;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          padding-top: 0.15rem;
+        }
+
+        .nav-menu {
+          position: static;
+        }
+
+        .nav-dropdown {
+          position: static;
+          width: 100%;
+          margin-top: 0.35rem;
+          box-shadow: none;
+        }
+
+        .promo-slide-inner,
+        .project-card.featured-student {
+          grid-template-columns: 1fr;
+        }
+
+        .promo-slide-inner {
+          min-height: auto;
+          padding-bottom: 4rem;
+        }
+
+        .promo-media {
+          order: -1;
+        }
+
+        .featured-student .project-card-media img {
+          min-height: auto;
+          aspect-ratio: 16 / 9;
+        }
+
+        .submit-project-inner,
+        .footer-top {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .footer-links {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .hero {
+          padding-top: 2.3rem;
+        }
+
+        .hero h1 {
+          font-size: clamp(2rem, 12vw, 3.05rem);
+        }
+
+        .section-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-links {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .nav-menu > summary,
+        .nav-simple-link {
+          width: 100%;
+        }
+
+        .promo-slide-inner {
+          padding: 1.1rem 1.1rem 4rem;
+        }
+
+        .slider-btn {
+          top: auto;
+          bottom: 0.55rem;
+          transform: none;
+        }
+
+        .slider-btn.prev {
+          left: 0.75rem;
+        }
+
+        .slider-btn.next {
+          right: 0.75rem;
+        }
+
+        .slider-dots {
+          bottom: 1.05rem;
+        }
+
+        .hero-actions,
+        .promo-actions,
+        .project-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .btn,
+        .btn-sm {
+          width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
       }
     </style>
-      <!-- Privacy-friendly analytics by Plausible -->
-  <script async src="https://plausible.io/js/pa-4O1jnkC4vGQpMFu1jeqIx.js"></script>
-  <script>
-    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-    plausible.init()
-  </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-4O1jnkC4vGQpMFu1jeqIx.js"></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        };
+      plausible.init =
+        plausible.init ||
+        function (options) {
+          plausible.o = options || {};
+        };
+      plausible.init();
+    </script>
   </head>
 
   <body>
-    <a class="skip-link" href="#projects">Skip to projects</a>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
     <header>
-      <nav class="nav" aria-label="Primary">
-        <div class="brand" aria-label="Site home">
-          <div class="brand-mark" aria-hidden="true">Hub</div>
-          <a
-            href="/"
-            style="font-size: 1.1rem; color: inherit; text-decoration: none"
-            >UC Merced Hub</a
-          >
-        </div>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="UC Merced Hub home">
+          <img
+            class="brand-logo"
+            src="/og-image.png"
+            alt=""
+            width="38"
+            height="38"
+          />
+          <span>UC Merced Hub</span>
+        </a>
 
         <div class="nav-links">
-          <a href="https://campusmap.ucmercedhub.com/" rel="noopener">campusmap</a>
-          <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">seemerced2.0</a>
-          <a href="https://herreraflavio.github.io/calendar/" rel="noopener">calendarBuilder</a>
-          <a href="https://ucpayrolls.com/" rel="noopener">ucpayrolls</a>
+          <details class="nav-menu">
+            <summary>Student Projects</summary>
+            <div class="nav-dropdown">
+              <div class="dropdown-heading">Student Projects</div>
+              <a href="#student-projects">View All Student Projects</a>
+              <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
+                Bobcat Bulletin
+              </a>
+              <div class="dropdown-separator"></div>
+              <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+                Submit a Project
+              </a>
+            </div>
+          </details>
+
+          <details class="nav-menu">
+            <summary>UC Merced Hub Projects</summary>
+            <div class="nav-dropdown">
+              <div class="dropdown-heading">Built by UC Merced Hub</div>
+              <a href="#hub-projects">View All Hub Projects</a>
+              <a href="https://campusmap.ucmercedhub.com/" rel="noopener">Campus Map</a>
+              <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">SeeMerced</a>
+              <a href="https://herreraflavio.github.io/calendar/" rel="noopener">Calendar Builder</a>
+              <a href="https://ucpayrolls.com/" rel="noopener">UC Payrolls</a>
+            </div>
+          </details>
+
+          <a class="nav-simple-link" href="mailto:contact@ucmercedhub.com">Contact</a>
         </div>
       </nav>
     </header>
 
     <main id="main" tabindex="-1">
-      <section class="hero" aria-labelledby="tagline">
-        <h1 id="tagline">
-          Everything UCM.<br />Mapped, Graphed, and Organized.
-        </h1>
+      <section class="hero" aria-labelledby="hero-title">
+        <span class="hero-eyebrow">Built by and for the UC Merced community</span>
+        <h1 id="hero-title">Discover student projects and campus tools.</h1>
         <p class="lede">
-          A centralized suite of tools for students and researchers. Explore the
-          campus live, analyze historical grade data, generate schedules instantly,
-          and track payroll trends.
+          Explore independent projects created by UC Merced students alongside
+          maps, data tools, and applications designed and maintained by UC Merced Hub.
         </p>
+        <div class="hero-actions">
+          <a class="btn" href="#student-projects">Explore Student Projects</a>
+          <a class="btn ghost" href="#hub-projects">Explore Hub Projects</a>
+        </div>
       </section>
 
-      <section class="promo" aria-labelledby="promo-title">
-        <h2 id="promo-title" class="visually-hidden">UC Merced Hub announcements</h2>
+      <section class="whats-new" aria-labelledby="whats-new-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Latest activity</span>
+            <h2 id="whats-new-title">What’s New</h2>
+            <p>
+              Recently published projects, meaningful product updates, and other
+              highlights from across the UC Merced Hub community.
+            </p>
+          </div>
+        </div>
 
-        <div class="promo-frame js-slider" data-interval="7000">
+        <div class="promo-frame js-slider" data-interval="7500">
           <ul class="slides">
+            <!-- Slide 1: Bobcat Bulletin -->
             <li class="slide" data-active="true">
               <div class="promo-slide-inner">
                 <div class="promo-copy">
-                  <span class="promo-eyebrow">Now live on iPhone</span>
-                  <h3 class="promo-title">UCM Hub is now live on the App Store.</h3>
+                  <span class="promo-eyebrow student">New Student Project</span>
+                  <h3 class="promo-title">Bobcat Bulletin</h3>
                   <p class="promo-text">
-                    Visually explore and navigate UC Merced campus in real-time.
-                    The iOS app helps students, faculty, and visitors discover campus
-                    events faster with an interactive map built for quick exploration.
+                    A student-built website that takes basic data from UC Merced
+                    Police Department daily reports and aggregates it into one
+                    simple, navigable place.
                   </p>
-
-                  <ul class="promo-highlights" aria-label="iOS launch highlights">
-                    <li>Interactive event mapping across campus</li>
-                    <li>Tap markers for instant event details and room information</li>
-                    <li>Date filtering for today, this week, and upcoming events</li>
-                    <li>New Map Feed for switching between specialized campus maps</li>
-                  </ul>
-
-                  <div class="promo-actions">
-                    <a
-                      class="btn"
-                      href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
-                      rel="noopener"
-                      target="_blank"
-                      >Download on the App Store</a
-                    >
-                    <a
-                      class="btn ghost"
-                      href="https://campusmap.ucmercedhub.com/"
-                      rel="noopener"
-                      >Explore Web Version</a
-                    >
+                  <div class="promo-meta">
+                    <span>Created by xopnek</span>
+                    <span>Published July 23, 2026</span>
                   </div>
-
-                  <p class="promo-contact">
-                    Questions, partnerships, or feedback:
-                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
-                  </p>
-                </div>
-
-                <div class="promo-media" aria-hidden="true">
-                  <img
-                    class="promo-art"
-                    src="https://tiles.flavioherrera.com/images/1775548808325-00e192c9-df7a-4ece-bcdf-8f98e4fd96ca-f1f2_iphone.png"
-                    alt="Preview of the UCM Hub iPhone app"
-                    loading="lazy"
-                    width="430"
-                    height="430"
-                  />
-                </div>
-              </div>
-            </li>
-
-            <li class="slide">
-              <div class="promo-slide-inner">
-                <div class="promo-copy">
-                  <span class="promo-eyebrow">Android internal testing</span>
-                  <h3 class="promo-title">Android internal testing is now underway.</h3>
-                  <p class="promo-text">
-                    Discover what is happening at UC Merced in real-time with the
-                    Android version of UCM Hub. Internal testing is now open for
-                    early feedback before the broader launch.
-                  </p>
-
-                  <ul class="promo-highlights" aria-label="Android testing highlights">
-                    <li>Interactive event mapping with zoom and pan exploration</li>
-                    <li>Instant event details including times, rooms, and descriptions</li>
-                    <li>Real-time GPS directions to buildings and event locations</li>
-                    <li>Date filtering to explore today, this week, or upcoming events</li>
+                  <ul class="promo-highlights">
+                    <li>Aggregates information from UCMPD daily reports</li>
+                    <li>Organizes report data into one website</li>
+                    <li>Designed for simpler navigation and browsing</li>
                   </ul>
-
                   <div class="promo-actions">
                     <a
                       class="btn alt"
-                      href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
-                      >Join Internal Testing</a
+                      href="https://bobcat-bulletin.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                    <a
-                      class="btn ghost"
-                      href="https://campusmap.ucmercedhub.com/support/"
-                      rel="noopener"
-                      >Support Page</a
-                    >
+                      Open Bobcat Bulletin ↗
+                    </a>
+                    <a class="btn ghost" href="#student-projects">Project Details</a>
                   </div>
-
-                  <p class="promo-contact">
-                    Interested in testing or collaborating:
-                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
-                  </p>
                 </div>
 
-                <div class="promo-media" aria-hidden="true">
-                  <img
-                    class="promo-art"
-                    src="https://tiles.flavioherrera.com/images/1775548813491-03c19d38-c72a-4fcb-9b69-2a727494fb38-f1f2.png"
-                    alt="Preview of the UCM Hub Android app"
-                    loading="lazy"
-                    width="430"
-                    height="430"
-                  />
+                <div class="promo-media">
+                  <div class="promo-art-wrap">
+                    <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
+                    <img
+                      class="promo-art"
+                      src="/img/bobcat-bulletin-preview.png"
+                      alt="Placeholder preview of the Bobcat Bulletin website"
+                      loading="eager"
+                      width="1200"
+                      height="750"
+                    />
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Slide 2: UC Payrolls -->
+            <li class="slide">
+              <div class="promo-slide-inner">
+                <div class="promo-copy">
+                  <span class="promo-eyebrow">Updated by UC Merced Hub</span>
+                  <h3 class="promo-title">UC Payrolls Visualizer</h3>
+                  <p class="promo-text">
+                    Search and compare UC Merced employee payroll history through
+                    interactive visualizations built from public compensation data.
+                  </p>
+                  <div class="promo-meta">
+                    <span>Built by UC Merced Hub</span>
+                    <span>Updated July 20, 2026</span>
+                  </div>
+                  <ul class="promo-highlights">
+                    <li>Employee search and payroll history</li>
+                    <li>Interactive year-over-year visualizations</li>
+                    <li>Comparison support for related employee records</li>
+                  </ul>
+                  <div class="promo-actions">
+                    <a class="btn" href="https://ucpayrolls.com/" rel="noopener">
+                      Explore UC Payrolls
+                    </a>
+                    <a class="btn ghost" href="#uc-payrolls-card">View Project Details</a>
+                  </div>
+                </div>
+
+                <div class="promo-media">
+                  <div class="promo-art-wrap">
+                    <img
+                      class="promo-art"
+                      src="/img/payrolls1.png"
+                      alt="UC Payrolls Visualizer interface"
+                      loading="lazy"
+                      width="1200"
+                      height="750"
+                    />
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Slide 3: Campus Map -->
+            <li class="slide">
+              <div class="promo-slide-inner">
+                <div class="promo-copy">
+                  <span class="promo-eyebrow">Updated by UC Merced Hub</span>
+                  <h3 class="promo-title">Campus Map + Events Hub</h3>
+                  <p class="promo-text">
+                    Visually explore UC Merced, navigate campus, discover events,
+                    and access specialized campus information from one interactive map.
+                  </p>
+                  <div class="promo-meta">
+                    <span>Built by UC Merced Hub</span>
+                    <span>Updated approximately May 24, 2026</span>
+                  </div>
+                  <ul class="promo-highlights">
+                    <li>Interactive campus navigation</li>
+                    <li>Event discovery and location details</li>
+                    <li>Specialized campus maps and project information</li>
+                  </ul>
+                  <div class="promo-actions">
+                    <a class="btn" href="https://campusmap.ucmercedhub.com/" rel="noopener">
+                      Open Campus Map
+                    </a>
+                    <a class="btn ghost" href="#campus-map-card">View Project Details</a>
+                  </div>
+                </div>
+
+                <div class="promo-media">
+                  <div class="promo-art-wrap">
+                    <img
+                      class="promo-art"
+                      src="/img/map4.png"
+                      alt="Interactive UC Merced campus map"
+                      loading="lazy"
+                      width="1200"
+                      height="750"
+                    />
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Slide 4: SeeMerced -->
+            <li class="slide">
+              <div class="promo-slide-inner">
+                <div class="promo-copy">
+                  <span class="promo-eyebrow">From UC Merced Hub</span>
+                  <h3 class="promo-title">SeeMerced Grade Analysis</h3>
+                  <p class="promo-text">
+                    Explore historical UC Merced grade distributions, compare course
+                    outcomes, and visualize academic trends across multiple years.
+                  </p>
+                  <div class="promo-meta">
+                    <span>Built by UC Merced Hub</span>
+                    <span>Published approximately July 24, 2025</span>
+                  </div>
+                  <ul class="promo-highlights">
+                    <li>Historical grade-distribution data</li>
+                    <li>Course and period comparisons</li>
+                    <li>Long-term trend visualizations</li>
+                  </ul>
+                  <div class="promo-actions">
+                    <a
+                      class="btn"
+                      href="https://herreraflavio.github.io/seemerced2/"
+                      rel="noopener"
+                    >
+                      Explore SeeMerced
+                    </a>
+                    <a class="btn ghost" href="#seemerced-card">View Project Details</a>
+                  </div>
+                </div>
+
+                <div class="promo-media">
+                  <div class="promo-art-wrap">
+                    <img
+                      class="promo-art"
+                      src="/img/grade1.png"
+                      alt="SeeMerced grade-analysis interface"
+                      loading="lazy"
+                      width="1200"
+                      height="750"
+                    />
+                  </div>
                 </div>
               </div>
             </li>
           </ul>
 
           <div class="slider-controls">
-            <button class="slider-btn prev" aria-label="Previous promotional slide">‹</button>
-            <button class="slider-btn next" aria-label="Next promotional slide">›</button>
-            <div class="slider-dots" aria-hidden="false"></div>
+            <button class="slider-btn prev" type="button" aria-label="Previous What’s New slide">‹</button>
+            <button class="slider-btn next" type="button" aria-label="Next What’s New slide">›</button>
+            <div class="slider-dots" aria-label="Choose a What’s New slide"></div>
           </div>
         </div>
       </section>
 
-      <section class="showcase" role="region" aria-labelledby="showcase-title">
-        <h2 id="showcase-title" class="visually-hidden">Project screenshots</h2>
-        <div class="frame js-slider" data-interval="6000">
-          <ul class="slides">
-            <li class="slide" data-active="true">
-              <figure>
-                <img
-                  src="/img/map4.png"
-                  width="1200"
-                  height="675"
-                  loading="eager"
-                  alt="Interactive campus map showing building projects and events"
-                />
-                <figcaption>
-                  Interactive Campus Map
-                  <a
-                    class="btn-sm primary"
-                    href="https://campusmap.ucmercedhub.com/"
-                    rel="noopener"
-                    >Launch Map</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-
-            <li class="slide">
-              <figure>
-                <img
-                  src="/img/grade1.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="Graph showing failure rates for classes over time"
-                />
-                <figcaption>
-                  SeeMerced 2.0: Grade Analysis
-                  <a
-                    class="btn-sm primary"
-                    href="https://herreraflavio.github.io/seemerced2/"
-                    rel="noopener"
-                    >Analyze Grades</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-
-            <li class="slide">
-              <figure>
-                <img
-                  src="/img/calendar2.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="Calendar generator interface"
-                />
-                <figcaption>
-                  Auto Calendar Generator
-                  <a
-                    class="btn-sm primary"
-                    href="https://herreraflavio.github.io/calendar/"
-                    rel="noopener"
-                    >Build Schedule</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-
-            <li class="slide">
-              <figure>
-                <img
-                  src="/img/payrolls1.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="UC Payrolls Visualizer"
-                />
-                <figcaption>
-                  UC Merced Payrolls
-                  <a
-                    class="btn-sm primary"
-                    href="https://ucpayrolls.com/"
-                    rel="noopener"
-                    >Visualize Payrolls</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-          </ul>
-
-          <div class="slider-controls">
-            <button class="slider-btn prev" aria-label="Previous showcase slide">‹</button>
-            <button class="slider-btn next" aria-label="Next showcase slide">›</button>
-            <div class="slider-dots" aria-hidden="false"></div>
+      <section
+        class="project-section student-projects"
+        id="student-projects"
+        aria-labelledby="student-projects-title"
+      >
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Community-built</span>
+            <h2 id="student-projects-title">Student Projects</h2>
+            <p>
+              Independent projects created by UC Merced students and featured for
+              the broader campus community.
+            </p>
           </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card featured-student" id="bobcat-bulletin-card">
+            <div class="project-card-media">
+              <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
+              <img
+                src="/img/bobcat-bulletin-preview.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Placeholder preview of the Bobcat Bulletin website"
+              />
+            </div>
+
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge student">Student Project</span>
+                <span class="status-badge">Live</span>
+              </div>
+
+              <h3>Bobcat Bulletin</h3>
+              <p class="creator-line">Created by xopnek on Discord</p>
+              <p class="project-date">Published July 23, 2026</p>
+
+              <p class="project-description">
+                Bobcat Bulletin takes basic data from UC Merced Police Department
+                daily reports and aggregates it onto one simple, navigable website.
+              </p>
+
+              <ul class="details-list">
+                <li>Daily-report data aggregation</li>
+                <li>Centralized browsing experience</li>
+                <li>Simple navigation for campus report information</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://bobcat-bulletin.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Project ↗
+                </a>
+                <a
+                  class="btn-sm"
+                  href="mailto:contact@ucmercedhub.com?subject=Feedback%20about%20Bobcat%20Bulletin"
+                >
+                  Send Feedback
+                </a>
+              </div>
+
+              <p class="project-disclaimer">
+                Independently developed and maintained by its creator. Featured by
+                UC Merced Hub. UC Merced Hub does not control the project’s content,
+                availability, or maintenance.
+              </p>
+            </div>
+          </article>
         </div>
       </section>
 
-      <section class="projects" id="projects" aria-labelledby="projects-title">
-        <h2 id="projects-title">Featured Tools</h2>
-        <div class="grid">
-          <article class="card">
-            <img
-              src="/img/map3.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Campus Map Interface"
-            />
-            <div class="body">
-              <span class="chip live">Live & Interactive</span>
-              <h3 class="title">Campus Map + Events Hub</h3>
-              <p>
-                The ultimate visual guide to UC Merced. Navigate campus, scan
-                events in real-time, and track construction.
+      <section class="submit-project" aria-labelledby="submit-project-title">
+        <div class="submit-project-inner">
+          <div>
+            <h2 id="submit-project-title">Built something useful for UC Merced?</h2>
+            <p>
+              Submit a website, map, application, data visualization, or other
+              student-built digital project for possible inclusion on UC Merced Hub.
+            </p>
+          </div>
+          <a
+            class="btn alt"
+            href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
+          >
+            Submit a Project
+          </a>
+        </div>
+      </section>
+
+      <section
+        class="project-section"
+        id="hub-projects"
+        aria-labelledby="hub-projects-title"
+      >
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Built and maintained in-house</span>
+            <h2 id="hub-projects-title">UC Merced Hub Projects</h2>
+            <p>
+              Tools designed, built, and maintained by UC Merced Hub for students,
+              researchers, employees, and visitors.
+            </p>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" id="campus-map-card">
+            <div class="project-card-media">
+              <img
+                src="/img/map3.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Campus Map interface"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>Campus Map + Events Hub</h3>
+              <p class="project-date">Updated approximately May 24, 2026</p>
+              <p class="project-description">
+                Navigate UC Merced, explore campus events, and view specialized maps
+                and campus development information.
               </p>
               <ul class="details-list">
-                <li>Daily Events (clean format)</li>
-                <li>Planned buildings: budgets & timelines</li>
-                <li>Housing: Floor plans & bed growth charts</li>
+                <li>Interactive campus navigation</li>
+                <li>Events, rooms, and location information</li>
+                <li>Housing, construction, and specialized map layers</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://campusmap.ucmercedhub.com/"
                   rel="noopener"
-                  >Open Map</a
                 >
+                  Open Map
+                </a>
+                <a
+                  class="btn-sm"
+                  href="https://campusmap.ucmercedhub.com/support/"
+                  rel="noopener"
+                >
+                  Support
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/grade2.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Grade distribution graphs"
-            />
-            <div class="body">
-              <span class="chip">Data Analysis</span>
-              <h3 class="title">SeeMerced (Grade Distributions)</h3>
-              <p>
-                Historical grade data for every class at UC Merced from Summer
-                2004 to Summer 2024.
+          <article class="project-card" id="seemerced-card">
+            <div class="project-card-media">
+              <img
+                src="/img/grade2.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="SeeMerced grade-distribution graphs"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>SeeMerced Grade Distributions</h3>
+              <p class="project-date">Published approximately July 24, 2025</p>
+              <p class="project-description">
+                Explore historical grade data for UC Merced courses and visualize
+                academic outcomes over time.
               </p>
               <ul class="details-list">
-                <li>Compare average fail rates over periods</li>
-                <li>Calculate probability of failing a class</li>
-                <li>Visualize trends over 20 years</li>
+                <li>Compare average course outcomes</li>
+                <li>Explore historical grade distributions</li>
+                <li>Visualize multi-year academic trends</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://herreraflavio.github.io/seemerced2/"
                   rel="noopener"
-                  >View Data</a
                 >
+                  View Data
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/calendar1.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Calendar tool"
-            />
-            <div class="body">
-              <span class="chip">Student Tools</span>
-              <h3 class="title">Google Calendar Generator</h3>
-              <p>
-                Input your CRNs to instantly generate a semester schedule. Export
-                to Google Calendar or download the .ics file.
+          <article class="project-card" id="calendar-card">
+            <div class="project-card-media">
+              <img
+                src="/img/calendar1.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Calendar Builder interface"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>Google Calendar Generator</h3>
+              <p class="project-date">Date placeholder — update as needed</p>
+              <p class="project-description">
+                Enter course registration numbers to generate a semester schedule
+                and export it to Google Calendar or an ICS file.
               </p>
               <ul class="details-list">
-                <li>Includes Professor details</li>
-                <li>Shows RateMyProfessor difficulty scores</li>
-                <li>Fast export to mobile calendars</li>
+                <li>CRN-based schedule generation</li>
+                <li>Professor and course information</li>
+                <li>Google Calendar and ICS export</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://herreraflavio.github.io/calendar/"
                   rel="noopener"
-                  >Generate</a
                 >
+                  Generate Schedule
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/payrolls2.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Payroll line graph"
-            />
-            <div class="body">
-              <span class="chip">Public Data</span>
-              <h3 class="title">UC Payrolls Visualizer</h3>
-              <p>
-                Search and visualize the payroll history of every UC Merced
-                employee.
+          <article class="project-card" id="uc-payrolls-card">
+            <div class="project-card-media">
+              <img
+                src="/img/payrolls2.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="UC Payrolls line graph"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Recently Updated</span>
+              </div>
+              <h3>UC Payrolls Visualizer</h3>
+              <p class="project-date">Updated July 20, 2026</p>
+              <p class="project-description">
+                Search and visualize the payroll history of UC Merced employees using
+                public compensation data.
               </p>
               <ul class="details-list">
-                <li>Interactive line graphs</li>
-                <li>Search by employee name</li>
-                <li>Historical salary tracking</li>
+                <li>Employee name search</li>
+                <li>Interactive historical graphs</li>
+                <li>Payroll-record comparison and normalization</li>
               </ul>
-              <div class="actions">
-                <a
-                  class="btn-sm primary"
-                  href="https://ucpayrolls.com/"
-                  rel="noopener"
-                  >Search Salaries</a
-                >
+              <div class="project-actions">
+                <a class="btn-sm primary" href="https://ucpayrolls.com/" rel="noopener">
+                  Search Payrolls
+                </a>
               </div>
             </div>
           </article>
@@ -1054,16 +1582,28 @@
 
     <footer role="contentinfo">
       <div class="footer-inner">
-        <nav aria-label="Footer">
-          <div class="footer-links">
-            <a href="https://campusmap.ucmercedhub.com/">Map</a>
-            <a href="https://herreraflavio.github.io/seemerced2/">Grades</a>
-            <a href="https://herreraflavio.github.io/calendar/">Calendar</a>
+        <div class="footer-top">
+          <a class="footer-brand" href="/">
+            <img src="/og-image.png" alt="" width="32" height="32" />
+            <span>UC Merced Hub</span>
+          </a>
+
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#student-projects">Student Projects</a>
+            <a href="#hub-projects">UC Merced Hub Projects</a>
+            <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+              Submit a Project
+            </a>
+            <a href="https://campusmap.ucmercedhub.com/support/" rel="noopener">Support</a>
+            <a href="https://campusmap.ucmercedhub.com/privacy_policy/" rel="noopener">Privacy</a>
             <a href="mailto:contact@ucmercedhub.com">Contact</a>
-          </div>
-        </nav>
+          </nav>
+        </div>
+
         <div class="copyright">
-          © <span id="year"></span> UC Merced Hub. Not officially affiliated with the University of California.
+          © <span id="year"></span> UC Merced Hub. Independently operated and not
+          officially affiliated with the University of California. Student projects
+          are independently developed and maintained by their respective creators.
         </div>
       </div>
     </footer>
@@ -1074,123 +1614,214 @@
         "@type": "WebSite",
         "name": "UC Merced Hub",
         "url": "https://ucmercedhub.com/",
+        "description": "Independent UC Merced student projects and tools built by UC Merced Hub.",
         "hasPart": [
+          {
+            "@type": "WebApplication",
+            "name": "Bobcat Bulletin",
+            "url": "https://bobcat-bulletin.vercel.app/",
+            "description": "A student-built website aggregating basic data from UC Merced Police Department daily reports.",
+            "datePublished": "2026-07-23",
+            "creator": {
+              "@type": "Person",
+              "name": "xopnek"
+            }
+          },
           {
             "@type": "WebApplication",
             "name": "Interactive Campus Map",
             "url": "https://campusmap.ucmercedhub.com/",
-            "description": "Live campus map with events, crime logs, and housing data."
+            "description": "Interactive UC Merced campus map with events and specialized campus information."
           },
           {
             "@type": "WebApplication",
             "name": "SeeMerced",
             "url": "https://herreraflavio.github.io/seemerced2/",
-            "description": "Grade distribution analysis 2004-2024."
+            "description": "Historical UC Merced grade-distribution analysis."
           },
           {
             "@type": "SoftwareApplication",
             "name": "Calendar Generator",
             "url": "https://herreraflavio.github.io/calendar/",
-            "description": "CRN to ICS generator with RateMyProfessor integration."
+            "description": "CRN-based semester schedule and calendar export tool."
           },
           {
             "@type": "WebApplication",
             "name": "UC Payrolls",
             "url": "https://ucpayrolls.com/",
-            "description": "UC Merced employee payroll visualization."
+            "description": "UC Merced employee payroll-history visualization."
           }
         ],
-        "publisher": { "@type": "Person", "name": "UCM Hub" }
+        "publisher": {
+          "@type": "Organization",
+          "name": "UC Merced Hub",
+          "url": "https://ucmercedhub.com/"
+        }
       }
     </script>
 
     <script>
       (function () {
-        const prefersReduced = window.matchMedia(
+        const prefersReducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
 
         function initSlider(frame) {
           const slides = Array.from(frame.querySelectorAll(".slide"));
-          const prev = frame.querySelector(".slider-btn.prev");
-          const next = frame.querySelector(".slider-btn.next");
-          const dotsEl = frame.querySelector(".slider-dots");
-          const interval = Number(frame.dataset.interval || 6000);
+          const previousButton = frame.querySelector(".slider-btn.prev");
+          const nextButton = frame.querySelector(".slider-btn.next");
+          const dotsElement = frame.querySelector(".slider-dots");
+          const interval = Number(frame.dataset.interval || 7500);
 
           if (!slides.length) return;
 
-          let i = slides.findIndex((s) => s.dataset.active === "true");
-          if (i === -1) {
-            i = 0;
+          let activeIndex = slides.findIndex(
+            (slide) => slide.dataset.active === "true"
+          );
+
+          if (activeIndex === -1) {
+            activeIndex = 0;
             slides[0].dataset.active = "true";
           }
 
+          function updateSlides() {
+            slides.forEach((slide, index) => {
+              const isActive = index === activeIndex;
+              slide.dataset.active = isActive ? "true" : "false";
+              slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+            });
+          }
+
           function renderDots() {
-            if (!dotsEl) return;
-            dotsEl.innerHTML = "";
-            slides.forEach((_, idx) => {
-              const b = document.createElement("button");
-              b.setAttribute("aria-label", "Go to slide " + (idx + 1));
-              b.setAttribute("aria-current", idx === i ? "true" : "false");
-              b.addEventListener("click", () => go(idx));
-              dotsEl.appendChild(b);
+            if (!dotsElement) return;
+
+            dotsElement.innerHTML = "";
+
+            slides.forEach((slide, index) => {
+              const button = document.createElement("button");
+              const title = slide.querySelector(".promo-title")?.textContent?.trim();
+
+              button.type = "button";
+              button.setAttribute(
+                "aria-label",
+                title ? `Show ${title}` : `Show slide ${index + 1}`
+              );
+              button.setAttribute(
+                "aria-current",
+                index === activeIndex ? "true" : "false"
+              );
+              button.addEventListener("click", function () {
+                goToSlide(index);
+              });
+
+              dotsElement.appendChild(button);
             });
           }
 
           function updateDots() {
-            if (!dotsEl) return;
-            Array.from(dotsEl.children).forEach((dot, idx) => {
-              dot.setAttribute("aria-current", idx === i ? "true" : "false");
+            if (!dotsElement) return;
+
+            Array.from(dotsElement.children).forEach((dot, index) => {
+              dot.setAttribute(
+                "aria-current",
+                index === activeIndex ? "true" : "false"
+              );
             });
           }
 
-          function go(nextIndex) {
-            slides[i].dataset.active = "false";
-            i = (nextIndex + slides.length) % slides.length;
-            slides[i].dataset.active = "true";
+          function goToSlide(nextIndex) {
+            activeIndex = (nextIndex + slides.length) % slides.length;
+            updateSlides();
             updateDots();
           }
 
-          if (prev) prev.addEventListener("click", () => go(i - 1));
-          if (next) next.addEventListener("click", () => go(i + 1));
+          if (previousButton) {
+            previousButton.addEventListener("click", function () {
+              goToSlide(activeIndex - 1);
+            });
+          }
 
+          if (nextButton) {
+            nextButton.addEventListener("click", function () {
+              goToSlide(activeIndex + 1);
+            });
+          }
+
+          updateSlides();
           renderDots();
 
           let timer = null;
 
-          const on = () => {
-            if (!prefersReduced && !timer) {
-              timer = setInterval(() => go(i + 1), interval);
+          function startTimer() {
+            if (!prefersReducedMotion && !timer) {
+              timer = window.setInterval(function () {
+                goToSlide(activeIndex + 1);
+              }, interval);
             }
-          };
+          }
 
-          const off = () => {
+          function stopTimer() {
             if (timer) {
-              clearInterval(timer);
+              window.clearInterval(timer);
               timer = null;
             }
-          };
+          }
 
-          const io = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) on();
-                else off();
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) startTimer();
+                  else stopTimer();
+                });
+              },
+              { threshold: 0.4 }
+            );
+
+            observer.observe(frame);
+          } else {
+            startTimer();
+          }
+
+          frame.addEventListener("mouseenter", stopTimer);
+          frame.addEventListener("mouseleave", startTimer);
+          frame.addEventListener("focusin", stopTimer);
+          frame.addEventListener("focusout", startTimer);
+        }
+
+        function initNavigationMenus() {
+          const menus = Array.from(document.querySelectorAll(".nav-menu"));
+
+          menus.forEach(function (menu) {
+            menu.addEventListener("toggle", function () {
+              if (!menu.open) return;
+
+              menus.forEach(function (otherMenu) {
+                if (otherMenu !== menu) otherMenu.removeAttribute("open");
               });
-            },
-            { threshold: 0.45 }
-          );
+            });
+          });
 
-          io.observe(frame);
+          document.addEventListener("click", function (event) {
+            menus.forEach(function (menu) {
+              if (!menu.contains(event.target)) menu.removeAttribute("open");
+            });
+          });
 
-          frame.addEventListener("mouseenter", off);
-          frame.addEventListener("mouseleave", on);
-          frame.addEventListener("focusin", off);
-          frame.addEventListener("focusout", on);
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              menus.forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
+          });
         }
 
         document.querySelectorAll(".js-slider").forEach(initSlider);
-        document.getElementById("year").textContent = new Date().getFullYear();
+        initNavigationMenus();
+
+        const yearElement = document.getElementById("year");
+        if (yearElement) yearElement.textContent = new Date().getFullYear();
       })();
     </script>
   </body>
