@@ -891,12 +891,6 @@
         box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
       }
 
-      .project-card.featured-student {
-        grid-column: span 12;
-        display: grid;
-        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
-      }
-
       .project-card-media {
         /* min-height: 100%; */
         background: #edf1f5;
@@ -917,7 +911,7 @@
         background: #dce8f4;
       }
 
-      .project-card:not(.featured-student) .project-card-media img {
+      .project-card .project-card-media img {
         aspect-ratio: 16 / 9;
         height: auto;
       }
@@ -928,11 +922,6 @@
         flex-direction: column;
         gap: 0.62rem;
         padding: 1.25rem;
-      }
-
-      .featured-student .project-card-body {
-        justify-content: center;
-        padding: clamp(1.4rem, 3vw, 2.25rem);
       }
 
       .badge-row {
@@ -965,10 +954,6 @@
         margin: 0.15rem 0 0;
         font-size: 1.22rem;
         line-height: 1.25;
-      }
-
-      .featured-student h3 {
-        font-size: clamp(1.55rem, 3vw, 2.25rem);
       }
 
       .creator-line,
@@ -1125,7 +1110,7 @@
 
       /* Responsive */
       @media (min-width: 650px) {
-        .project-card:not(.featured-student) {
+        .project-card {
           grid-column: span 6;
         }
       }
@@ -1170,8 +1155,7 @@
           box-shadow: none;
         }
 
-        .app-promo-slide-inner,
-        .project-card.featured-student {
+        .app-promo-slide-inner {
           grid-template-columns: 1fr;
         }
 
@@ -1196,16 +1180,6 @@
         .whats-new-actions {
           grid-column: 1 / -1;
           justify-content: flex-start;
-        }
-
-        .featured-student .project-card-media img {
-          min-height: auto;
-          aspect-ratio: 16 / 9;
-        }
-
-        .featured-student .project-card-media img.project-card-poster {
-          aspect-ratio: 4 / 5;
-          max-height: 680px;
         }
 
         .submit-project-inner,
@@ -1917,7 +1891,7 @@
         </div>
 
         <div class="project-grid">
-          <article class="project-card featured-student" id="merced-bus-tracker-card">
+          <article class="project-card" id="merced-bus-tracker-card">
             <div class="project-card-media">
               <img
                 class="project-card-poster"
@@ -1965,7 +1939,7 @@
             </div>
           </article>
 
-          <article class="project-card featured-student" id="bobcat-bulletin-card">
+          <article class="project-card" id="bobcat-bulletin-card">
             <div class="project-card-media">
               <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
               <img
