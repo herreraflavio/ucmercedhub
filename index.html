@@ -702,6 +702,13 @@
         object-position: center top;
       }
 
+      .whats-new-image.contain {
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+        background: #dce8f4;
+      }
+
       .whats-new-overlay {
         position: absolute;
         inset: 0;
@@ -901,6 +908,13 @@
         height: 100%;
         min-height: 250px;
         object-fit: cover;
+      }
+
+      .project-card-media img.project-card-poster {
+        object-fit: contain;
+        object-position: center;
+        padding: 0.75rem;
+        background: #dce8f4;
       }
 
       .project-card:not(.featured-student) .project-card-media img {
@@ -1189,6 +1203,11 @@
           aspect-ratio: 16 / 9;
         }
 
+        .featured-student .project-card-media img.project-card-poster {
+          aspect-ratio: 4 / 5;
+          max-height: 680px;
+        }
+
         .submit-project-inner,
         .footer-top {
           align-items: flex-start;
@@ -1242,6 +1261,12 @@
           aspect-ratio: 16 / 9;
           object-fit: cover;
           object-position: center top;
+        }
+
+        .whats-new-image.contain {
+          aspect-ratio: auto;
+          object-fit: contain;
+          object-position: center;
         }
 
         .whats-new-overlay {
@@ -1404,6 +1429,9 @@
             <div class="nav-dropdown">
               <div class="dropdown-heading">Student Projects</div>
               <a href="#student-projects">View All Student Projects</a>
+              <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
+                Merced Bus Tracker
+              </a>
               <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
                 Bobcat Bulletin
               </a>
@@ -1605,8 +1633,59 @@
 
         <div class="whats-new-frame js-slider" data-interval="7500">
           <ul class="slides">
-            <!-- Slide 1: Bobcat Bulletin -->
+            <!-- Slide 1: Merced Bus Tracker — newly added, launched earlier -->
             <li class="slide" data-active="true">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image contain"
+                  src="/img/BusTrackerPoster.webp"
+                  alt="Merced Bus Tracker promotional graphic showing mobile route planning, a bus, route maps, and a QR code"
+                  loading="eager"
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow student">Newly Added Student Project</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        Merced Bus Tracker
+                      </h3>
+                      <p class="whats-new-text">
+                        Plan trips across Merced by comparing The Bus and CatTracks
+                        routes, checking current schedules, and following vehicles in
+                        real time.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Added to Hub</span>
+                        <span class="whats-new-meta-value">July 28, 2026</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Originally launched</span>
+                        <span class="whats-new-meta-value">Earlier in 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn alt"
+                        href="https://mercedbustracker.net/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open Project ↗
+                      </a>
+                      <a class="btn ghost" href="#merced-bus-tracker-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 2: Bobcat Bulletin -->
+            <li class="slide">
               <article class="whats-new-slide">
                 <img
                   class="whats-new-image"
@@ -1654,7 +1733,7 @@
               </article>
             </li>
 
-            <!-- Slide 2: UC Payrolls -->
+            <!-- Slide 3: UC Payrolls -->
             <li class="slide">
               <article class="whats-new-slide">
                 <img
@@ -1700,7 +1779,7 @@
               </article>
             </li>
 
-            <!-- Slide 3: Campus Map -->
+            <!-- Slide 4: Campus Map -->
             <li class="slide">
               <article class="whats-new-slide">
                 <img
@@ -1750,7 +1829,7 @@
               </article>
             </li>
 
-            <!-- Slide 4: SeeMerced -->
+            <!-- Slide 5: SeeMerced -->
             <li class="slide">
               <article class="whats-new-slide">
                 <img
@@ -1838,6 +1917,54 @@
         </div>
 
         <div class="project-grid">
+          <article class="project-card featured-student" id="merced-bus-tracker-card">
+            <div class="project-card-media">
+              <img
+                class="project-card-poster"
+                src="/img/merced-bus-tracker.png"
+                width="593"
+                height="768"
+                loading="lazy"
+                alt="Merced Bus Tracker flyer with route-planning screenshots, a transit bus, and a QR code"
+              />
+            </div>
+
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge student">Student Project</span>
+                <span class="status-badge">Live</span>
+              </div>
+
+              <h3>Merced Bus Tracker</h3>
+              <p class="project-date">
+                Added to UC Merced Hub July 28, 2026 · Launched earlier in 2026
+              </p>
+
+              <p class="project-description">
+                Merced Bus Tracker helps riders plan trips by bringing together The
+                Bus and CatTracks routes, current schedule information, and real-time
+                vehicle tracking.
+              </p>
+
+              <ul class="details-list">
+                <li>Compare The Bus and CatTracks routes</li>
+                <li>Find the fastest available trip option</li>
+                <li>View current schedules and real-time tracking</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://mercedbustracker.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Project ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
           <article class="project-card featured-student" id="bobcat-bulletin-card">
             <div class="project-card-media">
               <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
@@ -2124,6 +2251,13 @@
         "url": "https://ucmercedhub.com/",
         "description": "Independent UC Merced student projects and tools built by UC Merced Hub.",
         "hasPart": [
+          {
+            "@type": "WebApplication",
+            "name": "Merced Bus Tracker",
+            "url": "https://mercedbustracker.net/",
+            "description": "A student-built trip-planning website combining The Bus and CatTracks routes, schedules, and real-time tracking.",
+            "datePublished": "2026"
+          },
           {
             "@type": "WebApplication",
             "name": "Bobcat Bulletin",
