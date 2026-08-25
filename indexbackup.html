@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>UC Merced Hub — Interactive Map, Grade Data & Campus Tools</title>
+
+    <title>UC Merced Hub — Student Projects & Campus Tools</title>
     <meta
       name="description"
-      content="A centralized gateway to UC Merced projects: Interactive Campus Map with live events, SeeMerced grade distributions, Auto Calendar Generator, and Employee Payroll data."
+      content="Discover independent UC Merced student projects alongside maps, data tools, and applications built and maintained by UC Merced Hub."
     />
     <link rel="canonical" href="https://ucmercedhub.com/" />
     <meta name="robots" content="index,follow" />
@@ -19,20 +20,25 @@
     <meta property="og:url" content="https://ucmercedhub.com/" />
     <meta
       property="og:title"
-      content="UC Merced Hub — Projects & Campus Data"
+      content="UC Merced Hub — Student Projects & Campus Tools"
     />
     <meta
       property="og:description"
-      content="Interactive maps, grade distribution graphs, schedule generators, and payroll analysis."
+      content="Student-built projects and UC Merced Hub tools for the campus community."
     />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="UC Merced Hub — Projects & Campus Data"
+      content="UC Merced Hub — Student Projects & Campus Tools"
     />
     <meta
       name="twitter:description"
-      content="Interactive maps, grade distribution graphs, schedule generators, and payroll analysis."
+      content="Student-built projects and UC Merced Hub tools for the campus community."
+    />
+    <meta
+      name="twitter:image"
+      content="https://ucmercedhub.com/og-image.jpg"
     />
 
     <link rel="icon" href="/favicon.ico" />
@@ -40,13 +46,16 @@
 
     <style>
       :root {
-        /* UC-themed palette */
         --uc-blue: #003a70;
+        --uc-blue-2: #0b4f91;
         --uc-gold: #ffc72c;
         --ink: #0a0a0a;
         --muted: #5b6670;
         --bg: #f7f7f5;
         --card: #ffffff;
+        --line: #e4e8ec;
+        --success-bg: #e6fcf5;
+        --success-ink: #087f5b;
         --radius: 14px;
         --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         --maxw: 1200px;
@@ -55,24 +64,59 @@
       * {
         box-sizing: border-box;
       }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       html,
       body {
-        height: 100%;
+        min-height: 100%;
       }
+
       body {
         margin: 0;
-        font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
-          Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Ubuntu, Cantarell, "Noto Sans", Arial, "Apple Color Emoji",
+          "Segoe UI Emoji";
         color: var(--ink);
         background: var(--bg);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      button,
+      summary,
+      a {
+        -webkit-tap-highlight-color: transparent;
       }
 
       a {
         color: var(--uc-blue);
         text-decoration: none;
       }
+
       a:hover {
         text-decoration: underline;
+      }
+
+      :focus-visible {
+        outline: 3px solid rgba(255, 199, 44, 0.8);
+        outline-offset: 3px;
+      }
+
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
 
       .skip-link {
@@ -83,122 +127,294 @@
         height: 1px;
         overflow: hidden;
       }
+
       .skip-link:focus {
         left: 1rem;
         top: 1rem;
+        z-index: 1000;
         width: auto;
         height: auto;
-        background: #fff;
-        padding: 0.5rem 0.75rem;
+        padding: 0.55rem 0.8rem;
+        overflow: visible;
         border-radius: 0.5rem;
+        background: #fff;
         box-shadow: var(--shadow);
       }
 
-      /* HEADER & NAV */
+      /* Header and navigation */
       header {
         position: sticky;
         top: 0;
         z-index: 50;
-        background: #ffffffcc;
+        background: rgba(255, 255, 255, 0.94);
         backdrop-filter: blur(12px);
-        border-bottom: 1px solid #e8e8ea;
+        border-bottom: 1px solid var(--line);
       }
+
       .nav {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 0.75rem 1rem;
+        padding: 0.7rem 1rem;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap; /* Allows wrapping on mobile */
         gap: 1rem;
       }
-      
-      /* Brand Logo Area */
+
       .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-right: auto;
+        color: var(--ink);
+        font-size: 1.08rem;
+        font-weight: 750;
+        letter-spacing: 0.1px;
+        white-space: nowrap;
+      }
+
+      .brand:hover {
+        text-decoration: none;
+      }
+
+      .brand-logo {
+        width: 38px;
+        height: 38px;
+        display: block;
+        flex: 0 0 auto;
+        border-radius: 9px;
+        object-fit: cover;
+        box-shadow: 0 4px 14px rgba(0, 58, 112, 0.16);
+      }
+
+      .nav-links {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-        margin-right: auto;
+        justify-content: flex-end;
+        gap: 0.45rem;
       }
-      .brand-mark {
-        width: 36px;
-        height: 36px;
+
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid rgba(0, 58, 112, 0.15);
+        border-radius: 10px;
+        color: var(--uc-blue);
+        background: #fff;
+        cursor: pointer;
+      }
+
+      .nav-toggle-lines,
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        width: 20px;
+        height: 2px;
+        display: block;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform 0.18s ease, opacity 0.18s ease;
+      }
+
+      .nav-toggle-lines {
+        position: relative;
+      }
+
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        content: "";
+        position: absolute;
+        left: 0;
+      }
+
+      .nav-toggle-lines::before {
+        top: -6px;
+      }
+
+      .nav-toggle-lines::after {
+        top: 6px;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines {
+        background: transparent;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      .nav-menu {
+        position: relative;
+      }
+
+      .nav-menu > summary {
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 0.7rem;
         border-radius: 9px;
-        background: linear-gradient(135deg, var(--uc-blue), #012851);
-        display: grid;
-        place-items: center;
-        color: #fff;
-        font-size: 0.9rem;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .nav-menu > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .nav-menu > summary::after {
+        content: "▾";
+        color: var(--uc-blue);
+        font-size: 0.76rem;
+        transition: transform 0.18s ease;
+      }
+
+      .nav-menu[open] > summary,
+      .nav-menu > summary:hover {
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
+      }
+
+      .nav-menu[open] > summary::after {
+        transform: rotate(180deg);
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        width: min(290px, calc(100vw - 2rem));
+        padding: 0.55rem;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
         box-shadow: var(--shadow);
       }
 
-      /* Navigation Links */
-      .nav-links {
-        display: flex;
-        gap: 1.5rem;
-        align-items: center;
-      }
-      .nav-links a {
-        font-weight: 600;
-        font-size: 0.95rem;
+      .nav-dropdown a {
+        display: block;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
         color: var(--ink);
-        position: relative;
-        transition: color 0.2s;
+        font-size: 0.92rem;
+        font-weight: 600;
       }
-      .nav-links a:hover {
+
+      .nav-dropdown a:hover {
         color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
         text-decoration: none;
       }
-      /* Optional underline effect on hover */
-      .nav-links a::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: -4px;
-        left: 0;
-        background-color: var(--uc-gold);
-        transition: width 0.2s;
-      }
-      .nav-links a:hover::after {
-        width: 100%;
+
+      .nav-dropdown .dropdown-heading {
+        padding: 0.35rem 0.75rem 0.45rem;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
 
-      /* Mobile Nav Adjustments */
-      @media (max-width: 600px) {
-        .nav-links {
-          width: 100%;
-          justify-content: space-between;
-          padding-top: 0.5rem;
-          gap: 0.8rem;
-          font-size: 0.9rem;
-        }
+      .nav-dropdown .dropdown-separator {
+        height: 1px;
+        margin: 0.35rem 0;
+        background: var(--line);
       }
 
-      /* CTA Button Styles (reused elsewhere) */
+      .nav-simple-link {
+        padding: 0.55rem 0.65rem;
+        border-radius: 9px;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
+      }
+
+      .nav-simple-link:hover {
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.055);
+        text-decoration: none;
+      }
+
+      /* Shared buttons */
       .btn {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1rem;
         border: 1.5px solid var(--uc-blue);
+        border-radius: 999px;
         color: #fff;
         background: var(--uc-blue);
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
-        font-weight: 600;
-        font-size: 0.9rem;
         box-shadow: var(--shadow);
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.25;
         white-space: nowrap;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          background 0.18s ease;
       }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        text-decoration: none;
+      }
+
       .btn.alt {
-        background: var(--uc-gold);
         color: #1a1a1a;
+        background: var(--uc-gold);
         border-color: var(--uc-gold);
       }
 
+      .btn.ghost {
+        color: var(--uc-blue);
+        background: transparent;
+        border-color: rgba(0, 58, 112, 0.2);
+        box-shadow: none;
+      }
+
+      .btn.ghost:hover {
+        background: rgba(0, 58, 112, 0.05);
+      }
+
+      .btn-sm {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.48rem 0.78rem;
+        border: 1.5px solid #dfe4e9;
+        border-radius: 10px;
+        color: var(--uc-blue);
+        background: #fff;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .btn-sm:hover {
+        text-decoration: none;
+        background: #f6f8fa;
+      }
+
+      .btn-sm.primary {
+        color: #fff;
+        background: var(--uc-blue);
+        border-color: var(--uc-blue);
+      }
+
+      /* Hero */
       main {
         display: block;
       }
@@ -206,539 +422,1799 @@
       .hero {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 2.5rem 1rem 1.5rem;
-        display: grid;
-        gap: 1.25rem;
-      }
-      .hero h1 {
-        font-size: clamp(1.8rem, 3.2vw, 3rem);
-        line-height: 1.1;
-        margin: 0;
-      }
-      .hero p.lede {
-        color: var(--muted);
-        margin: 0.25rem 0 0;
-        font-size: clamp(1rem, 1.4vw, 1.15rem);
-        max-width: 65ch;
-      }
-      .hero-cta {
-        display: flex;
-        gap: 0.6rem;
-        flex-wrap: wrap;
-        margin-top: 0.5rem;
+        padding: clamp(2.6rem, 6vw, 5.2rem) 1rem clamp(1.6rem, 4vw, 2.8rem);
       }
 
-      /* Showcase carousel */
-      .showcase {
-        max-width: var(--maxw);
-        margin: 0 auto;
-        padding: 1rem;
+      .hero-eyebrow,
+      .section-eyebrow,
+      .promo-eyebrow,
+      .ownership-badge,
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        width: fit-content;
+        border-radius: 999px;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.075em;
+        line-height: 1.2;
+        text-transform: uppercase;
       }
-      .showcase .frame {
-        position: relative;
-        border-radius: var(--radius);
-        background: var(--card);
-        box-shadow: var(--shadow);
-        overflow: clip;
+
+      .hero-eyebrow {
+        padding: 0.38rem 0.72rem;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.08);
+        border: 1px solid rgba(0, 58, 112, 0.08);
       }
+
+      .hero h1 {
+        max-width: 860px;
+        margin: 0.85rem 0 0;
+        font-size: clamp(2.15rem, 5vw, 4.15rem);
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+      }
+
+      .hero .lede {
+        max-width: 760px;
+        margin: 1rem 0 0;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.6vw, 1.2rem);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.35rem;
+      }
+
+      /* Section headings */
+      .section-heading {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1.25rem;
+        margin-bottom: 1.15rem;
+      }
+
+      .section-heading-copy {
+        max-width: 760px;
+      }
+
+      .section-eyebrow {
+        padding: 0.32rem 0.65rem;
+        color: #594300;
+        background: rgba(255, 199, 44, 0.2);
+      }
+
+      .section-heading h2 {
+        margin: 0.45rem 0 0.25rem;
+        font-size: clamp(1.5rem, 3vw, 2.25rem);
+        line-height: 1.15;
+      }
+
+      .section-heading p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      /* Shared slider foundation */
       .slides {
-        list-style: none;
+        display: grid;
         margin: 0;
         padding: 0;
-        display: grid;
+        list-style: none;
       }
+
       .slide {
-        grid-area: 1/1;
         display: none;
+        grid-area: 1 / 1;
       }
+
       .slide[data-active="true"] {
         display: block;
       }
-      .slide figure {
-        margin: 0;
-      }
-      .slide img {
-        display: block;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-      }
-      .slide figcaption {
-        padding: 0.75rem 0.9rem;
-        font-weight: 600;
-        border-top: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.75rem;
-      }
 
-      .controls {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        pointer-events: none;
-      }
-      .controls button {
-        pointer-events: auto;
-        appearance: none;
-        border: 0;
-        background: #ffffffd9;
-        padding: 0.55rem 0.7rem;
-        margin: 0.5rem;
-        border-radius: 10px;
-        box-shadow: var(--shadow);
-        cursor: pointer;
-        font-weight: 700;
-      }
-      .dots {
-        position: absolute;
-        bottom: 0.5rem;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
+      .promo-eyebrow {
         gap: 0.4rem;
-      }
-      .dots button {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        border: 0;
-        background: #d0d6dc;
-        cursor: pointer;
-      }
-      .dots button[aria-current="true"] {
-        background: var(--uc-gold);
+        padding: 0.36rem 0.7rem;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.085);
+        border: 1px solid rgba(0, 58, 112, 0.09);
       }
 
-      /* Project grid */
-      .projects {
+      .promo-eyebrow.student {
+        color: #594300;
+        background: rgba(255, 199, 44, 0.24);
+        border-color: rgba(255, 199, 44, 0.32);
+      }
+
+      /* Mobile app promotion banner */
+      .app-promo {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 2rem 1rem 3.5rem;
+        padding: 0 1rem 2.35rem;
+        scroll-margin-top: 88px;
       }
-      .projects h2 {
-        font-size: clamp(1.35rem, 2.6vw, 2rem);
-        margin: 0 0 1rem;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 1.5rem;
-      }
-      .card {
-        grid-column: span 12;
-        background: var(--card);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        overflow: clip;
+
+      .promotion-disclosure {
         display: flex;
-        flex-direction: column;
-        transition: transform 0.2s ease;
-      }
-      .card:hover {
-        transform: translateY(-2px);
-      }
-      .card img {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16/9;
-        object-fit: cover;
-      }
-      .card .body {
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        flex-grow: 1;
-      }
-      .chip {
-        align-self: flex-start;
-        font-size: 0.75rem;
-        background: #eef2f6;
-        color: #2c3e50;
-        border-radius: 999px;
-        padding: 0.25rem 0.6rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-      .chip.live {
-        background: #e6fcf5;
-        color: #0ca678;
-      }
-      .card .title {
-        font-weight: 700;
-        font-size: 1.15rem;
-        margin: 0;
-        line-height: 1.3;
-      }
-      .card p {
-        margin: 0;
+        align-items: center;
+        gap: 0.55rem;
+        margin: 0 0 0.65rem;
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.8rem;
+        line-height: 1.35;
       }
-      .card .details-list {
-        margin: 0.5rem 0 0;
-        padding: 0;
-        list-style: none;
-        font-size: 0.9rem;
-        color: var(--muted);
-      }
-      .card .details-list li {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.4rem;
-        margin-bottom: 0.25rem;
-      }
-      .card .details-list li::before {
-        content: "•";
-        color: var(--uc-gold);
-        font-weight: bold;
-      }
-      .actions {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-top: auto;
-        padding-top: 1rem;
-      }
-      .actions a.btn-sm {
+
+      .promotion-disclosure strong {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        border: 1.5px solid #e2e6ea;
-        padding: 0.45rem 0.75rem;
-        border-radius: 10px;
-        font-weight: 600;
+        padding: 0.22rem 0.5rem;
+        border: 1px solid rgba(0, 58, 112, 0.12);
+        border-radius: 999px;
+        color: var(--uc-blue);
+        background: rgba(0, 58, 112, 0.06);
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .app-promo-frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: calc(var(--radius) + 5px);
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(255, 199, 44, 0.2),
+            transparent 31%
+          ),
+          linear-gradient(135deg, #ffffff, #f2f7fb 62%, #f8fafc);
+        box-shadow: var(--shadow);
+      }
+
+      .app-promo-slide-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
+        align-items: center;
+        gap: clamp(1.4rem, 4vw, 3rem);
+        min-height: 430px;
+        padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1.4rem, 4vw, 3rem) 3.8rem;
+      }
+
+      .app-promo-copy {
+        padding: 0.2rem 0;
+      }
+
+      .app-promo-title {
+        margin: 0.9rem 0 0.7rem;
+        font-size: clamp(1.75rem, 3.8vw, 3rem);
+        line-height: 1.06;
+        letter-spacing: -0.025em;
+      }
+
+      .app-promo-text {
+        max-width: 62ch;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      .app-promo-highlights {
+        display: grid;
+        gap: 0.52rem;
+        margin: 1rem 0 1.2rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .app-promo-highlights li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        color: #29445d;
+        font-size: 0.95rem;
+        font-weight: 520;
+      }
+
+      .app-promo-highlights li::before {
+        content: "✓";
+        flex: 0 0 auto;
+        margin-top: 0.02rem;
+        color: var(--uc-blue);
+        font-weight: 900;
+      }
+
+      .promo-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+      }
+
+      .app-promo-contact {
+        margin: 1rem 0 0;
+        color: var(--muted);
         font-size: 0.9rem;
       }
-      .actions a.btn-sm.primary {
-        border-color: var(--uc-blue);
-        background: var(--uc-blue);
-        color: #fff;
-      }
-      .actions a.btn-sm.gold {
-        border-color: var(--uc-gold);
-        background: var(--uc-gold);
-        color: #1a1a1a;
+
+      .app-promo-contact a {
+        font-weight: 700;
       }
 
-      @media (min-width: 640px) {
-        .card {
-          grid-column: span 6; 
-        }
+      .app-promo-media {
+        display: grid;
+        place-items: center;
       }
 
-      footer {
-        border-top: 1px solid #e8e8ea;
+      .app-promo-art {
+        display: block;
+        width: min(100%, 430px);
+        height: auto;
+        object-fit: contain;
+        border-radius: 22px;
+        background: transparent;
+        box-shadow:
+          0 18px 40px rgba(0, 58, 112, 0.12),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+      }
+
+      /* What's New full-image carousel */
+      .whats-new {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 1rem 1rem 2.9rem;
+        scroll-margin-top: 88px;
+      }
+
+      .whats-new-frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.11);
+        border-radius: calc(var(--radius) + 5px);
+        background: #e9eef2;
+        box-shadow: var(--shadow);
+      }
+
+      .whats-new-slide {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        min-height: 520px;
+        overflow: hidden;
+        background: #e9eef2;
+        display:flex;
+        justify-content: center;
+      }
+
+      .whats-new-image {
+       
+        inset: 0;
+        display: block;
+   
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .whats-new-image.contain {
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+        background: #dce8f4;
+      }
+
+      .whats-new-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        padding: clamp(1.35rem, 3.2vw, 2.5rem)
+          clamp(1.35rem, 3.4vw, 2.75rem) 4.15rem;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0.98) 9%,
+          rgba(255, 255, 255, 0.88) 18%,
+          rgba(255, 255, 255, 0.78) 26%,
+          rgba(255, 255, 255, 0.15) 33.333%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+
+      .whats-new-content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(190px, 0.62fr) auto;
+        align-items: end;
+        gap: clamp(1.25rem, 3vw, 2.6rem);
+      }
+
+      .whats-new-primary {
+        min-width: 0;
+      }
+
+      .whats-new-project-title {
+        margin: 0.65rem 0 0.45rem;
+        font-size: clamp(1.75rem, 4vw, 3.25rem);
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+      }
+
+      .whats-new-text {
+        max-width: 66ch;
+        margin: 0;
+        color: #34495b;
+        font-size: clamp(0.94rem, 1.2vw, 1.03rem);
+      }
+
+      .whats-new-meta {
+        display: grid;
+        gap: 0.75rem;
+        padding-bottom: 0.1rem;
+      }
+
+      .whats-new-meta-item {
+        display: grid;
+        gap: 0.05rem;
+      }
+
+      .whats-new-meta-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .whats-new-meta-value {
+        color: #18354f;
+        font-size: 0.92rem;
+        font-weight: 750;
+      }
+
+      .whats-new-actions {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+
+      /* Shared carousel controls */
+      .slider-controls {
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      .slider-btn {
+        position: absolute;
+        top: 50%;
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        transform: translateY(-50%);
+        appearance: none;
+        border: 1px solid rgba(0, 58, 112, 0.09);
+        border-radius: 12px;
+        color: var(--uc-blue);
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: 800;
+        pointer-events: auto;
+        backdrop-filter: blur(8px);
+      }
+
+      .slider-btn:hover {
         background: #fff;
-        margin-top: 2rem;
       }
+
+      .slider-btn.prev {
+        left: 0.8rem;
+      }
+
+      .slider-btn.next {
+        right: 0.8rem;
+      }
+
+      .slider-dots {
+        position: absolute;
+        right: 0;
+        bottom: 1rem;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+        pointer-events: auto;
+      }
+
+      .slider-dots button {
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        border: 1px solid rgba(0, 58, 112, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition: width 0.18s ease, background 0.18s ease;
+      }
+
+      .slider-dots button[aria-current="true"] {
+        width: 25px;
+        background: var(--uc-gold);
+      }
+
+      /* Project sections and cards */
+      .project-section {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 2.4rem 1rem 3rem;
+        scroll-margin-top: 88px;
+      }
+
+      .project-section.student-projects {
+        padding-top: 2.8rem;
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+
+      .project-card {
+        grid-column: span 12;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: var(--radius);
+        background: var(--card);
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+      }
+
+      .project-card-media {
+        /* min-height: 100%; */
+        background: #edf1f5;
+      }
+
+      .project-card-media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 250px;
+        object-fit: cover;
+      }
+
+      .project-card-media img.project-card-poster {
+        object-fit: contain;
+        object-position: center;
+        padding: 0.75rem;
+        background: #dce8f4;
+      }
+
+      .project-card .project-card-media img {
+        aspect-ratio: 16 / 9;
+        height: auto;
+      }
+
+      .project-card-body {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 0.62rem;
+        padding: 1.25rem;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .ownership-badge,
+      .status-badge {
+        padding: 0.3rem 0.62rem;
+      }
+
+      .ownership-badge.student {
+        color: #594300;
+        background: rgba(255, 199, 44, 0.22);
+      }
+
+      .ownership-badge.hub {
+        color: #fff;
+        background: var(--uc-blue);
+      }
+
+      .status-badge {
+        color: var(--success-ink);
+        background: var(--success-bg);
+      }
+
+      .project-card h3 {
+        margin: 0.15rem 0 0;
+        font-size: 1.22rem;
+        line-height: 1.25;
+      }
+
+      .creator-line,
+      .project-date {
+        margin: 0;
+        font-size: 0.9rem;
+      }
+
+      .creator-line {
+        color: var(--uc-blue);
+        font-weight: 700;
+      }
+
+      .project-date {
+        color: var(--muted);
+      }
+
+      .project-description {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+      }
+
+      .details-list {
+        display: grid;
+        gap: 0.35rem;
+        margin: 0.35rem 0 0;
+        padding: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        list-style: none;
+      }
+
+      .details-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.45rem;
+      }
+
+      .details-list li::before {
+        content: "•";
+        color: var(--uc-gold);
+        font-weight: 900;
+      }
+
+      .project-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+        padding-top: 0.85rem;
+      }
+
+      .project-disclaimer {
+        margin: 0.9rem 0 0;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+
+      /* Submit project CTA */
+      .submit-project {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1rem 2.2rem;
+      }
+
+      .submit-project-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: clamp(1.25rem, 3vw, 2rem);
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: var(--radius);
+        background: linear-gradient(135deg, #fff, #f1f6fa);
+      }
+
+      .submit-project h2 {
+        margin: 0 0 0.3rem;
+        font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+        line-height: 1.2;
+      }
+
+      .submit-project p {
+        max-width: 720px;
+        margin: 0;
+        color: var(--muted);
+      }
+
+
+      .submit-project-actions {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.65rem;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 2rem;
+        border-top: 1px solid var(--line);
+        background: #fff;
+      }
+
       .footer-inner {
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: 1.5rem 1rem;
+        padding: 1.65rem 1rem;
       }
+
+      .footer-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: var(--ink);
+        font-weight: 750;
+      }
+
+      .footer-brand img {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
       .footer-links {
         display: flex;
-        gap: 1.5rem;
         flex-wrap: wrap;
-        font-size: 0.95rem;
-        margin-bottom: 0.5rem;
+        justify-content: flex-end;
+        gap: 0.65rem 1.3rem;
+        font-size: 0.92rem;
       }
+
+      .footer-links a {
+        font-weight: 600;
+      }
+
       .copyright {
         color: var(--muted);
-        font-size: 0.9rem;
+        font-size: 0.88rem;
       }
-      .visually-hidden {
-        position: absolute !important;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        white-space: nowrap;
+
+      /* Responsive */
+      @media (min-width: 650px) {
+        .project-card {
+          grid-column: span 6;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          flex-wrap: wrap;
+          gap: 0.65rem;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+          margin-left: auto;
+        }
+
+        .nav-links {
+          width: 100%;
+          display: none;
+          grid-template-columns: 1fr;
+          gap: 0.25rem;
+          padding: 0.35rem 0 0.25rem;
+          border-top: 1px solid var(--line);
+        }
+
+        .nav[data-menu-open="true"] .nav-links {
+          display: grid;
+        }
+
+        .nav-menu {
+          position: static;
+        }
+
+        .nav-menu > summary,
+        .nav-simple-link {
+          width: 100%;
+        }
+
+        .nav-dropdown {
+          position: static;
+          width: 100%;
+          margin-top: 0.35rem;
+          box-shadow: none;
+        }
+
+        .app-promo-slide-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .app-promo-slide-inner {
+          min-height: auto;
+          padding-bottom: 4rem;
+        }
+
+        .app-promo-media {
+          order: -1;
+        }
+
+        .whats-new-slide {
+          aspect-ratio: 4 / 3;
+          min-height: 650px;
+        }
+
+        .whats-new-content {
+          grid-template-columns: minmax(0, 1fr) minmax(190px, 0.42fr);
+        }
+
+        .whats-new-actions {
+          grid-column: 1 / -1;
+          justify-content: flex-start;
+        }
+
+        .submit-project-inner,
+        .footer-top {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .submit-project-actions {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .footer-links {
+          justify-content: flex-start;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .hero {
+          padding-top: 2.3rem;
+        }
+
+        .hero h1 {
+          font-size: clamp(2rem, 12vw, 3.05rem);
+        }
+
+        .section-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .app-promo-slide-inner {
+          padding: 1.1rem 1.1rem 4rem;
+        }
+
+        .app-promo-art {
+          max-height: 300px;
+        }
+
+        .whats-new-slide {
+          min-height: 0;
+          aspect-ratio: auto;
+          overflow: visible;
+          background: #fff;
+                  display: flex;
+        flex-direction: column;
+        }
+
+        .whats-new-image {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          height: auto;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+          object-position: center top;
+        }
+
+        .whats-new-image.contain {
+          aspect-ratio: auto;
+          object-fit: contain;
+          object-position: center;
+        }
+
+        .whats-new-overlay {
+          position: relative;
+          inset: auto;
+          min-width: 0;
+          padding: 1.1rem 1rem 4.6rem;
+          background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.92) 0%,
+            rgba(255, 255, 255, 1) 2.5rem,
+            rgba(255, 255, 255, 1) 100%
+          );
+        }
+
+        .whats-new-content,
+        .whats-new-primary,
+        .whats-new-meta,
+        .whats-new-actions {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .whats-new-content {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 0.9rem;
+        }
+
+        .whats-new-project-title,
+        .whats-new-text,
+        .whats-new-meta-value {
+          overflow-wrap: anywhere;
+        }
+
+        .whats-new-text {
+          max-width: none;
+        }
+
+        .whats-new-meta {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .whats-new-actions {
+          grid-column: auto;
+          justify-content: stretch;
+        }
+
+        .whats-new-frame .slider-btn,
+        .app-promo-frame .slider-btn {
+          top: auto;
+          bottom: 0.55rem;
+          transform: none;
+        }
+
+        .whats-new-frame .slider-btn.prev,
+        .app-promo-frame .slider-btn.prev {
+          left: 0.75rem;
+        }
+
+        .whats-new-frame .slider-btn.next,
+        .app-promo-frame .slider-btn.next {
+          right: 0.75rem;
+        }
+
+
+        .slider-dots {
+          bottom: 1.05rem;
+        }
+
+        .hero-actions,
+        .promo-actions,
+        .whats-new-actions,
+        .project-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .btn,
+        .btn-sm {
+          width: 100%;
+        }
+      }
+
+
+
+      @media (max-width: 430px) {
+        .whats-new-meta {
+          grid-template-columns: 1fr;
+          gap: 0.45rem;
+        }
+
+        .whats-new-project-title {
+          font-size: clamp(1.65rem, 10vw, 2.3rem);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+        }
       }
     </style>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-4O1jnkC4vGQpMFu1jeqIx.js"></script>
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        };
+      plausible.init =
+        plausible.init ||
+        function (options) {
+          plausible.o = options || {};
+        };
+      plausible.init();
+    </script>
   </head>
+
   <body>
-    <a class="skip-link" href="#projects">Skip to projects</a>
+    <a class="skip-link" href="#main">Skip to main content</a>
 
     <header>
-      <nav class="nav" aria-label="Primary">
-        <div class="brand" aria-label="Site home">
-          <div class="brand-mark" aria-hidden="true">Hub</div>
-          <a
-            href="/"
-            style="font-size: 1.1rem; color: inherit; text-decoration: none"
-            >UC Merced Hub</a
-          >
-        </div>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="/" aria-label="UC Merced Hub home">
+          <img
+            class="brand-logo"
+            src="/og-image.jpg"
+            alt=""
+            width="38"
+            height="38"
+          />
+          <span>UC Merced Hub</span>
+        </a>
 
-        <div class="nav-links">
-          <a href="https://campusmap.ucmercedhub.com/" rel="noopener">campusmap</a>
-          <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">seemerced2.0</a>
-          <a href="https://herreraflavio.github.io/calendar/" rel="noopener">calendarBuilder</a>
-          <a href="https://ucpayrolls.com/" rel="noopener">ucpayrolls</a>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-navigation-links"
+          aria-label="Open navigation menu"
+        >
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+
+        <div class="nav-links" id="primary-navigation-links">
+          <details class="nav-menu">
+            <summary>Student Projects</summary>
+            <div class="nav-dropdown">
+              <div class="dropdown-heading">Student Projects</div>
+              <a href="#student-projects">View All Student Projects</a>
+              <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
+                Merced Bus Tracker
+              </a>
+              <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
+                Bobcat Bulletin
+              </a>
+              <div class="dropdown-separator"></div>
+              <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+                Submit a Project
+              </a>
+            </div>
+          </details>
+
+          <details class="nav-menu">
+            <summary>UC Merced Hub Projects</summary>
+            <div class="nav-dropdown">
+              <div class="dropdown-heading">Built by UC Merced Hub</div>
+              <a href="#hub-projects">View All Hub Projects</a>
+              <a href="https://campusmap.ucmercedhub.com/" rel="noopener">Campus Map</a>
+              <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">SeeMerced</a>
+              <a href="https://herreraflavio.github.io/calendar/" rel="noopener">Calendar Builder</a>
+              <a href="https://ucpayrolls.com/" rel="noopener">UC Payrolls</a>
+            </div>
+          </details>
+
+          <a class="nav-simple-link" href="mailto:contact@ucmercedhub.com">Contact</a>
         </div>
       </nav>
     </header>
 
     <main id="main" tabindex="-1">
-      <section class="hero" aria-labelledby="tagline">
-        <h1 id="tagline">
-          Everything UCM.<br />Mapped, Graphed, and Organized.
-        </h1>
+      <section class="hero" aria-labelledby="hero-title">
+        <span class="hero-eyebrow">Built by and for the UC Merced community</span>
+        <h1 id="hero-title">Discover student projects and campus tools.</h1>
         <p class="lede">
-          A centralized suite of tools for students and researchers. Explore the
-          campus live, analyze historical grade data, generate schedules instantly,
-          and track payroll trends.
+          Explore independent projects created by UC Merced students alongside
+          maps, data tools, and applications designed and maintained by UC Merced Hub.
         </p>
-
+        <div class="hero-actions">
+          <a class="btn" href="#whats-new">What’s New</a>
+          <a class="btn ghost" href="#student-projects">Explore Student Projects</a>
+          <a class="btn ghost" href="#hub-projects">Explore Hub Projects</a>
+        </div>
       </section>
 
-      <section class="showcase" role="region" aria-labelledby="showcase-title">
-        <h2 id="showcase-title" class="visually-hidden">Project screenshots</h2>
-        <div class="frame">
-          <ul class="slides" id="slides">
+      <section class="app-promo" id="app-promotion" aria-labelledby="app-promo-heading">
+        <h2 id="app-promo-heading" class="visually-hidden">
+          UC Merced Hub mobile application announcements
+        </h2>
+
+        <p class="promotion-disclosure" role="note">
+          <strong>Promotional content</strong>
+          <span>UC Merced Hub mobile app announcements and opportunities.</span>
+        </p>
+
+        <div class="app-promo-frame js-slider" data-interval="7000">
+          <ul class="slides">
             <li class="slide" data-active="true">
-              <figure>
-                <img
-                  src="/img/map1.png"
-                  width="1200"
-                  height="675"
-                  loading="eager"
-                  alt="Interactive campus map showing building projects and events"
-                />
-                <figcaption>
-                  Interactive Campus Map
-                  <a
-                    class="btn-sm primary"
-                    href="https://campusmap.ucmercedhub.com/"
-                    rel="noopener"
-                    >Launch Map</a
-                  >
-                </figcaption>
-              </figure>
+              <div class="app-promo-slide-inner">
+                <div class="app-promo-copy">
+                  <span class="promo-eyebrow">Now live on iPhone</span>
+                  <h3 class="promo-title app-promo-title">
+                    UCM Hub is now live on the App Store.
+                  </h3>
+                  <p class="app-promo-text">
+                    Visually explore and navigate UC Merced campus in real time. The
+                    iOS app helps students, faculty, and visitors discover campus events
+                    faster with an interactive map built for quick exploration.
+                  </p>
+
+                  <ul class="app-promo-highlights" aria-label="iOS launch highlights">
+                    <li>Interactive event mapping across campus</li>
+                    <li>Instant event details and room information</li>
+                    <li>Date filters for today, this week, and upcoming events</li>
+                    <li>Map Feed for switching between specialized campus maps</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn"
+                      href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download on the App Store
+                    </a>
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/"
+                      rel="noopener"
+                    >
+                      Explore Web Version
+                    </a>
+                  </div>
+
+                  <p class="app-promo-contact">
+                    Questions, partnerships, or feedback:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="app-promo-media">
+                  <img
+                    class="app-promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548808325-00e192c9-df7a-4ece-bcdf-8f98e4fd96ca-f1f2_iphone.png"
+                    alt="Preview of the UCM Hub iPhone app"
+                    loading="eager"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
             </li>
+
             <li class="slide">
-              <figure>
-                <img
-                  src="/img/grade1.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="Graph showing failure rates for classes over time"
-                />
-                <figcaption>
-                  SeeMerced 2.0: Grade Analysis
-                  <a
-                    class="btn-sm primary"
-                    href="https://herreraflavio.github.io/seemerced2/"
-                    rel="noopener"
-                    >Analyze Grades</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-            <li class="slide">
-              <figure>
-                <img
-                  src="/img/calendar2.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="Calendar generator interface"
-                />
-                <figcaption>
-                  Auto Calendar Generator
-                  <a
-                    class="btn-sm primary"
-                    href="https://herreraflavio.github.io/calendar/"
-                    rel="noopener"
-                    >Build Schedule</a
-                  >
-                </figcaption>
-              </figure>
-            </li>
-                <li class="slide">
-              <figure>
-                <img
-                  src="/img/payrolls1.png"
-                  width="1200"
-                  height="675"
-                  loading="lazy"
-                  alt="UC Payrolls Visualizer"
-                />
-                <figcaption>
-                  UC Merced Payrolls   
-                  <a
-                    class="btn-sm primary"
-                    href="https://herreraflavio.github.io/calendar/"
-                    rel="noopener"
-                    >Visualize Payrolls</a
-                  >
-                </figcaption>
-              </figure>
+              <div class="app-promo-slide-inner">
+                <div class="app-promo-copy">
+                  <span class="promo-eyebrow">Android internal testing</span>
+                  <h3 class="promo-title app-promo-title">
+                    Android internal testing is now underway.
+                  </h3>
+                  <p class="app-promo-text">
+                    Discover what is happening at UC Merced in real time with the
+                    Android version of UCM Hub. Internal testing is open for early
+                    feedback before the broader launch.
+                  </p>
+
+                  <ul class="app-promo-highlights" aria-label="Android testing highlights">
+                    <li>Interactive event mapping with zoom and pan exploration</li>
+                    <li>Event times, rooms, descriptions, and location details</li>
+                    <li>Real-time GPS directions to buildings and events</li>
+                    <li>Date filtering for current and upcoming events</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn alt"
+                      href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
+                    >
+                      Join Internal Testing
+                    </a>
+                    <a
+                      class="btn ghost"
+                      href="https://campusmap.ucmercedhub.com/support/"
+                      rel="noopener"
+                    >
+                      Support Page
+                    </a>
+                  </div>
+
+                  <p class="app-promo-contact">
+                    Interested in testing or collaborating:
+                    <a href="mailto:contact@ucmercedhub.com">contact@ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="app-promo-media">
+                  <img
+                    class="app-promo-art"
+                    src="https://tiles.flavioherrera.com/images/1775548813491-03c19d38-c72a-4fcb-9b69-2a727494fb38-f1f2.png"
+                    alt="Preview of the UCM Hub Android app"
+                    loading="lazy"
+                    width="430"
+                    height="430"
+                  />
+                </div>
+              </div>
             </li>
           </ul>
 
-          <div class="controls" aria-hidden="false">
-            <button id="prev" aria-label="Previous slide">‹</button>
-            <button id="next" aria-label="Next slide">›</button>
-            <div class="dots" id="dots" aria-hidden="false"></div>
+          <div class="slider-controls">
+            <button
+              class="slider-btn prev"
+              type="button"
+              aria-label="Previous mobile app promotion"
+            >
+              ‹
+            </button>
+            <button
+              class="slider-btn next"
+              type="button"
+              aria-label="Next mobile app promotion"
+            >
+              ›
+            </button>
+            <div class="slider-dots" aria-label="Choose a mobile app promotion"></div>
           </div>
         </div>
       </section>
 
-      <section class="projects" id="projects" aria-labelledby="projects-title">
-        <h2 id="projects-title">Featured Tools</h2>
-        <div class="grid">
-          
-          <article class="card">
-            <img
-              src="/img/map2.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Campus Map Interface"
-            />
-            <div class="body">
-              <span class="chip live">Live & Interactive</span>
-              <h3 class="title">Campus Map + Events Hub</h3>
-              <p>
-                The ultimate visual guide to UC Merced. Navigate campus, scan
-                events in real-time, and track construction.
+      <section class="whats-new" id="whats-new" aria-labelledby="whats-new-title">
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Latest activity</span>
+            <h2 id="whats-new-title">What’s New</h2>
+            <p>
+              Recently published projects, meaningful product updates, and other
+              highlights from across the UC Merced Hub community.
+            </p>
+          </div>
+        </div>
+
+        <div class="whats-new-frame js-slider" data-interval="7500">
+          <ul class="slides">
+            <!-- Slide 1: Merced Bus Tracker — newly added, launched earlier -->
+            <li class="slide" data-active="true">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image contain"
+                  src="/img/BusTrackerPoster.webp"
+                  alt="Merced Bus Tracker promotional graphic showing mobile route planning, a bus, route maps, and a QR code"
+                  loading="eager"
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow student">Newly Added Student Project</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        Merced Bus Tracker
+                      </h3>
+                      <p class="whats-new-text">
+                        Plan trips across Merced by comparing The Bus and CatTracks
+                        routes, checking current schedules, and following vehicles in
+                        real time.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Added to Hub</span>
+                        <span class="whats-new-meta-value">July 28, 2026</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Originally launched</span>
+                        <span class="whats-new-meta-value">Earlier in 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn alt"
+                        href="https://mercedbustracker.net/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open Project ↗
+                      </a>
+                      <a class="btn ghost" href="#merced-bus-tracker-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 2: Bobcat Bulletin -->
+            <li class="slide">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/bobcat-bulletin-preview.png"
+                  alt="Placeholder preview of the Bobcat Bulletin website"
+                  loading="eager"
+               
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow student">New Student Project</span>
+                      <h3 class="promo-title whats-new-project-title">Bobcat Bulletin</h3>
+                      <p class="whats-new-text">
+                        Aggregates basic data from UC Merced Police Department daily
+                        reports into one simple, navigable website.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Created by</span>
+                        <span class="whats-new-meta-value">xopnek</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Published</span>
+                        <span class="whats-new-meta-value">July 23, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn alt"
+                        href="https://bobcat-bulletin.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open Project ↗
+                      </a>
+                      <a class="btn ghost" href="#bobcat-bulletin-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 3: UC Payrolls -->
+            <li class="slide">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="https://www.ucmercedhub.com/img/payrolls1.png"
+                  alt="UC Payrolls Visualizer interface"
+                  loading="lazy"
+                
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Recently Updated</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        UC Payrolls Visualizer
+                      </h3>
+                      <p class="whats-new-text">
+                        Search, compare, and visualize UC Merced employee payroll
+                        histories using public compensation data.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Maintained by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Updated</span>
+                        <span class="whats-new-meta-value">July 20, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a class="btn" href="https://ucpayrolls.com/" rel="noopener">
+                        Explore Payrolls
+                      </a>
+                      <a class="btn ghost" href="#uc-payrolls-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 4: Campus Map -->
+            <li class="slide">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/map4.png"
+                  alt="Interactive UC Merced campus map"
+                  loading="lazy"
+                 
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Major Map Update</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        Campus Map + Events Hub
+                      </h3>
+                      <p class="whats-new-text">
+                        Explore UC Merced, navigate campus, discover events, and open
+                        specialized campus maps from one interactive experience.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Maintained by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Updated</span>
+                        <span class="whats-new-meta-value">May 24, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn"
+                        href="https://campusmap.ucmercedhub.com/"
+                        rel="noopener"
+                      >
+                        Open Campus Map
+                      </a>
+                      <a class="btn ghost" href="#campus-map-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 5: SeeMerced -->
+            <!-- <li class="slide">
+              <article class="whats-new-slide">
+                <img
+                  class="whats-new-image"
+                  src="/img/grade1.png"
+                  alt="SeeMerced grade-analysis interface"
+                  loading="lazy"
+               
+                />
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow">Project Highlight</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        SeeMerced Grade Analysis
+                      </h3>
+                      <p class="whats-new-text">
+                        Explore historical UC Merced grade distributions, compare course
+                        outcomes, and visualize long-term academic trends.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Built by</span>
+                        <span class="whats-new-meta-value">UC Merced Hub</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Published</span>
+                        <span class="whats-new-meta-value">July 24, 2025</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn"
+                        href="https://herreraflavio.github.io/seemerced2/"
+                        rel="noopener"
+                      >
+                        Explore SeeMerced
+                      </a>
+                      <a class="btn ghost" href="#seemerced-card">Details</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li> -->
+          </ul>
+
+          <div class="slider-controls">
+            <button
+              class="slider-btn prev"
+              type="button"
+              aria-label="Previous What’s New slide"
+            >
+              ‹
+            </button>
+            <button
+              class="slider-btn next"
+              type="button"
+              aria-label="Next What’s New slide"
+            >
+              ›
+            </button>
+            <div class="slider-dots" aria-label="Choose a What’s New slide"></div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="project-section student-projects"
+        id="student-projects"
+        aria-labelledby="student-projects-title"
+      >
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Community-built</span>
+            <h2 id="student-projects-title">Student Projects</h2>
+            <p>
+              Independent projects created by UC Merced students and featured for
+              the broader campus community.
+            </p>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" id="merced-bus-tracker-card">
+            <div class="project-card-media">
+              <img
+                class="project-card-poster"
+                src="/img/BusTrackerPoster.webp"
+                width="593"
+                height="768"
+                loading="lazy"
+                alt="Merced Bus Tracker flyer with route-planning screenshots, a transit bus, and a QR code"
+              />
+            </div>
+
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge student">Student Project</span>
+                <span class="status-badge">Live</span>
+              </div>
+
+              <h3>Merced Bus Tracker</h3>
+              <p class="project-date">
+                Added to UC Merced Hub July 28, 2026 · Launched earlier in 2026
+              </p>
+
+              <p class="project-description">
+                Merced Bus Tracker helps riders plan trips by bringing together The
+                Bus and CatTracks routes, current schedule information, and real-time
+                vehicle tracking.
+              </p>
+
+              <ul class="details-list">
+                <li>Compare The Bus and CatTracks routes</li>
+                <li>Find the fastest available trip option</li>
+                <li>View current schedules and real-time tracking</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://mercedbustracker.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Project ↗
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card" id="bobcat-bulletin-card">
+            <div class="project-card-media">
+              <!-- Replace this placeholder with the final Bobcat Bulletin preview image. -->
+              <img
+                src="/img/bobcat-bulletin-preview.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Placeholder preview of the Bobcat Bulletin website"
+              />
+            </div>
+
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge student">Student Project</span>
+                <span class="status-badge">Live</span>
+              </div>
+
+              <h3>Bobcat Bulletin</h3>
+              <p class="creator-line">Created by xopnek on Discord</p>
+              <p class="project-date">Published July 23, 2026</p>
+
+              <p class="project-description">
+                Bobcat Bulletin takes basic data from UC Merced Police Department
+                daily reports and aggregates it onto one simple, navigable website.
+              </p>
+
+              <ul class="details-list">
+                <li>Daily-report data aggregation</li>
+                <li>Centralized browsing experience</li>
+                <li>Simple navigation for campus report information</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://bobcat-bulletin.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open Project ↗
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="submit-project" aria-labelledby="submit-project-title">
+        <div class="submit-project-inner">
+          <div>
+            <h2 id="submit-project-title">Built something useful—or have project feedback?</h2>
+            <p>
+              Submit a student-built website, map, application, or data visualization
+              for possible inclusion on UC Merced Hub, or share feedback about a
+              project already featured here.
+            </p>
+          </div>
+          <div class="submit-project-actions">
+            <a
+              class="btn alt"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
+            >
+              Submit a Project
+            </a>
+            <a
+              class="btn ghost"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
+            >
+              Send Project Feedback
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="project-section"
+        id="hub-projects"
+        aria-labelledby="hub-projects-title"
+      >
+        <div class="section-heading">
+          <div class="section-heading-copy">
+            <span class="section-eyebrow">Built and maintained in-house</span>
+            <h2 id="hub-projects-title">UC Merced Hub Projects</h2>
+            <p>
+              Tools designed, built, and maintained by UC Merced Hub for students,
+              researchers, employees, and visitors.
+            </p>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" id="campus-map-card">
+            <div class="project-card-media">
+              <img
+                src="/img/map3.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Campus Map interface"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>Campus Map + Events Hub</h3>
+              <p class="project-date">Updated approximately May 24, 2026</p>
+              <p class="project-description">
+                Navigate UC Merced, explore campus events, and view specialized maps
+                and campus development information.
               </p>
               <ul class="details-list">
-                <li>Daily Crime & Fire Logs (clean format)</li>
-                <li>Planned buildings: budgets & timelines</li>
-                <li>Housing: Floor plans & bed growth charts</li>
+                <li>Interactive campus navigation</li>
+                <li>Events, rooms, and location information</li>
+                <li>Housing, construction, and specialized map layers</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://campusmap.ucmercedhub.com/"
                   rel="noopener"
-                  >Open Map</a
                 >
+                  Open Map
+                </a>
+                <a
+                  class="btn-sm"
+                  href="https://campusmap.ucmercedhub.com/support/"
+                  rel="noopener"
+                >
+                  Support
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/grade2.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Grade distribution graphs"
-            />
-            <div class="body">
-              <span class="chip">Data Analysis</span>
-              <h3 class="title">SeeMerced (Grade Distributions)</h3>
-              <p>
-                Historical grade data for every class at UC Merced from Summer
-                2004 to Summer 2024.
+          <article class="project-card" id="seemerced-card">
+            <div class="project-card-media">
+              <img
+                src="/img/grade2.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="SeeMerced grade-distribution graphs"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>SeeMerced Grade Distributions</h3>
+              <p class="project-date">Published approximately July 24, 2025</p>
+              <p class="project-description">
+                Explore historical grade data for UC Merced courses and visualize
+                academic outcomes over time.
               </p>
               <ul class="details-list">
-                <li>Compare average fail rates over periods</li>
-                <li>Calculate probability of failing a class</li>
-                <li>Visualize trends over 20 years</li>
+                <li>Compare average course outcomes</li>
+                <li>Explore historical grade distributions</li>
+                <li>Visualize multi-year academic trends</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://herreraflavio.github.io/seemerced2/"
                   rel="noopener"
-                  >View Data</a
                 >
+                  View Data
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/calendar1.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Calendar tool"
-            />
-            <div class="body">
-              <span class="chip">Student Tools</span>
-              <h3 class="title">Google Calendar Generator</h3>
-              <p>
-                Input your CRNs to instantly generate a semester schedule. Export
-                to Google Calendar or download the .ics file.
+          <article class="project-card" id="calendar-card">
+            <div class="project-card-media">
+              <img
+                src="/img/calendar1.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="Calendar Builder interface"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Live</span>
+              </div>
+              <h3>Google Calendar Generator</h3>
+              <p class="project-date">Date placeholder — update as needed</p>
+              <p class="project-description">
+                Enter course registration numbers to generate a semester schedule
+                and export it to Google Calendar or an ICS file.
               </p>
               <ul class="details-list">
-                <li>Includes Professor details</li>
-                <li>Shows RateMyProfessor difficulty scores</li>
-                <li>Fast export to mobile calendars</li>
+                <li>CRN-based schedule generation</li>
+                <li>Professor and course information</li>
+                <li>Google Calendar and ICS export</li>
               </ul>
-              <div class="actions">
+              <div class="project-actions">
                 <a
                   class="btn-sm primary"
                   href="https://herreraflavio.github.io/calendar/"
                   rel="noopener"
-                  >Generate</a
                 >
+                  Generate Schedule
+                </a>
               </div>
             </div>
           </article>
 
-          <article class="card">
-            <img
-              src="/img/payrolls2.png"
-              width="1200"
-              height="675"
-              loading="lazy"
-              alt="Payroll line graph"
-            />
-            <div class="body">
-              <span class="chip">Public Data</span>
-              <h3 class="title">UC Payrolls Visualizer</h3>
-              <p>
-                Search and visualize the payroll history of every UC Merced
-                employee.
+          <article class="project-card" id="uc-payrolls-card">
+            <div class="project-card-media">
+              <img
+                src="/img/payrolls2.png"
+                width="1200"
+                height="675"
+                loading="lazy"
+                alt="UC Payrolls line graph"
+              />
+            </div>
+            <div class="project-card-body">
+              <div class="badge-row">
+                <span class="ownership-badge hub">Built by UC Merced Hub</span>
+                <span class="status-badge">Recently Updated</span>
+              </div>
+              <h3>UC Payrolls Visualizer</h3>
+              <p class="project-date">Updated July 20, 2026</p>
+              <p class="project-description">
+                Search and visualize the payroll history of UC Merced employees using
+                public compensation data.
               </p>
               <ul class="details-list">
-                <li>Interactive line graphs</li>
-                <li>Search by employee name</li>
-                <li>Historical salary tracking</li>
+                <li>Employee name search</li>
+                <li>Interactive historical graphs</li>
+                <li>Payroll-record comparison and normalization</li>
               </ul>
-              <div class="actions">
-                <a
-                  class="btn-sm primary"
-                  href="https://ucpayrolls.com/"
-                  rel="noopener"
-                  >Search Salaries</a
-                >
+              <div class="project-actions">
+                <a class="btn-sm primary" href="https://ucpayrolls.com/" rel="noopener">
+                  Search Payrolls
+                </a>
               </div>
             </div>
           </article>
-
         </div>
       </section>
     </main>
 
     <footer role="contentinfo">
       <div class="footer-inner">
-        <nav aria-label="Footer">
-          <div class="footer-links">
-            <a href="https://campusmap.ucmercedhub.com/">Map</a>
-            <a href="https://herreraflavio.github.io/seemerced2/">Grades</a>
-            <a href="https://herreraflavio.github.io/calendar/">Calendar</a>
-            <a href="mailto:hello@ucmercedhub.com">Contact</a>
-          </div>
-        </nav>
+        <div class="footer-top">
+          <a class="footer-brand" href="/">
+            <img src="/og-image.jpg" alt="" width="32" height="32" />
+            <span>UC Merced Hub</span>
+          </a>
+
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#student-projects">Student Projects</a>
+            <a href="#hub-projects">UC Merced Hub Projects</a>
+            <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+              Submit a Project
+            </a>
+            <a href="https://campusmap.ucmercedhub.com/support/" rel="noopener">Support</a>
+            <a href="https://campusmap.ucmercedhub.com/privacy_policy/" rel="noopener">Privacy</a>
+            <a href="mailto:contact@ucmercedhub.com">Contact</a>
+          </nav>
+        </div>
+
         <div class="copyright">
-          © <span id="year"></span> UC Merced Hub. Not officially affiliated with the University of California.
+          © <span id="year"></span> UC Merced Hub. Independently operated and not
+          officially affiliated with the University of California. Student projects
+          are independently developed and maintained by their respective creators.
         </div>
       </div>
     </footer>
@@ -749,100 +2225,268 @@
         "@type": "WebSite",
         "name": "UC Merced Hub",
         "url": "https://ucmercedhub.com/",
+        "description": "Independent UC Merced student projects and tools built by UC Merced Hub.",
         "hasPart": [
+          {
+            "@type": "WebApplication",
+            "name": "Merced Bus Tracker",
+            "url": "https://mercedbustracker.net/",
+            "description": "A student-built trip-planning website combining The Bus and CatTracks routes, schedules, and real-time tracking.",
+            "datePublished": "2026"
+          },
+          {
+            "@type": "WebApplication",
+            "name": "Bobcat Bulletin",
+            "url": "https://bobcat-bulletin.vercel.app/",
+            "description": "A student-built website aggregating basic data from UC Merced Police Department daily reports.",
+            "datePublished": "2026-07-23",
+            "creator": {
+              "@type": "Person",
+              "name": "xopnek"
+            }
+          },
           {
             "@type": "WebApplication",
             "name": "Interactive Campus Map",
             "url": "https://campusmap.ucmercedhub.com/",
-            "description": "Live campus map with events, crime logs, and housing data."
+            "description": "Interactive UC Merced campus map with events and specialized campus information."
           },
           {
             "@type": "WebApplication",
             "name": "SeeMerced",
             "url": "https://herreraflavio.github.io/seemerced2/",
-            "description": "Grade distribution analysis 2004-2024."
+            "description": "Historical UC Merced grade-distribution analysis."
           },
           {
             "@type": "SoftwareApplication",
             "name": "Calendar Generator",
             "url": "https://herreraflavio.github.io/calendar/",
-            "description": "CRN to ICS generator with RateMyProfessor integration."
+            "description": "CRN-based semester schedule and calendar export tool."
           },
           {
             "@type": "WebApplication",
             "name": "UC Payrolls",
             "url": "https://ucpayrolls.com/",
-            "description": "UC Merced employee payroll visualization."
+            "description": "UC Merced employee payroll-history visualization."
           }
         ],
-        "publisher": { "@type": "Person", "name": "UCM Hub" }
+        "publisher": {
+          "@type": "Organization",
+          "name": "UC Merced Hub",
+          "url": "https://ucmercedhub.com/"
+        }
       }
     </script>
 
     <script>
       (function () {
-        const slides = Array.from(document.querySelectorAll(".slide"));
-        const dotsEl = document.getElementById("dots");
-        const prev = document.getElementById("prev");
-        const next = document.getElementById("next");
-        const prefersReduced = window.matchMedia(
+        const prefersReducedMotion = window.matchMedia(
           "(prefers-reduced-motion: reduce)"
         ).matches;
-        let i = slides.findIndex((s) => s.dataset.active === "true");
-        if (i === -1) (i = 0), (slides[0].dataset.active = "true");
 
-        function renderDots() {
-          dotsEl.innerHTML = "";
-          slides.forEach((_, idx) => {
-            const b = document.createElement("button");
-            b.setAttribute("aria-label", "Go to slide " + (idx + 1));
-            b.setAttribute("aria-current", idx === i ? "true" : "false");
-            b.addEventListener("click", () => {
-              go(idx);
+        function initSlider(frame) {
+          const slides = Array.from(frame.querySelectorAll(".slide"));
+          const previousButton = frame.querySelector(".slider-btn.prev");
+          const nextButton = frame.querySelector(".slider-btn.next");
+          const dotsElement = frame.querySelector(".slider-dots");
+          const interval = Number(frame.dataset.interval || 7500);
+
+          if (!slides.length) return;
+
+          let activeIndex = slides.findIndex(
+            (slide) => slide.dataset.active === "true"
+          );
+
+          if (activeIndex === -1) {
+            activeIndex = 0;
+            slides[0].dataset.active = "true";
+          }
+
+          function updateSlides() {
+            slides.forEach((slide, index) => {
+              const isActive = index === activeIndex;
+              slide.dataset.active = isActive ? "true" : "false";
+              slide.setAttribute("aria-hidden", isActive ? "false" : "true");
             });
-            dotsEl.appendChild(b);
+          }
+
+          function renderDots() {
+            if (!dotsElement) return;
+
+            dotsElement.innerHTML = "";
+
+            slides.forEach((slide, index) => {
+              const button = document.createElement("button");
+              const title = slide.querySelector(".promo-title")?.textContent?.trim();
+
+              button.type = "button";
+              button.setAttribute(
+                "aria-label",
+                title ? `Show ${title}` : `Show slide ${index + 1}`
+              );
+              button.setAttribute(
+                "aria-current",
+                index === activeIndex ? "true" : "false"
+              );
+              button.addEventListener("click", function () {
+                goToSlide(index);
+              });
+
+              dotsElement.appendChild(button);
+            });
+          }
+
+          function updateDots() {
+            if (!dotsElement) return;
+
+            Array.from(dotsElement.children).forEach((dot, index) => {
+              dot.setAttribute(
+                "aria-current",
+                index === activeIndex ? "true" : "false"
+              );
+            });
+          }
+
+          function goToSlide(nextIndex) {
+            activeIndex = (nextIndex + slides.length) % slides.length;
+            updateSlides();
+            updateDots();
+          }
+
+          if (previousButton) {
+            previousButton.addEventListener("click", function () {
+              goToSlide(activeIndex - 1);
+            });
+          }
+
+          if (nextButton) {
+            nextButton.addEventListener("click", function () {
+              goToSlide(activeIndex + 1);
+            });
+          }
+
+          updateSlides();
+          renderDots();
+
+          let timer = null;
+
+          function startTimer() {
+            if (!prefersReducedMotion && !timer) {
+              timer = window.setInterval(function () {
+                goToSlide(activeIndex + 1);
+              }, interval);
+            }
+          }
+
+          function stopTimer() {
+            if (timer) {
+              window.clearInterval(timer);
+              timer = null;
+            }
+          }
+
+          if ("IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (entry.isIntersecting) startTimer();
+                  else stopTimer();
+                });
+              },
+              { threshold: 0.4 }
+            );
+
+            observer.observe(frame);
+          } else {
+            startTimer();
+          }
+
+          frame.addEventListener("mouseenter", stopTimer);
+          frame.addEventListener("mouseleave", startTimer);
+          frame.addEventListener("focusin", stopTimer);
+          frame.addEventListener("focusout", startTimer);
+        }
+
+        function initNavigationMenus() {
+          const menus = Array.from(document.querySelectorAll(".nav-menu"));
+
+          menus.forEach(function (menu) {
+            menu.addEventListener("toggle", function () {
+              if (!menu.open) return;
+
+              menus.forEach(function (otherMenu) {
+                if (otherMenu !== menu) otherMenu.removeAttribute("open");
+              });
+            });
+          });
+
+          document.addEventListener("click", function (event) {
+            menus.forEach(function (menu) {
+              if (!menu.contains(event.target)) menu.removeAttribute("open");
+            });
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              menus.forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
           });
         }
 
-        function go(nextIndex) {
-          slides[i].dataset.active = "false";
-          i = (nextIndex + slides.length) % slides.length;
-          slides[i].dataset.active = "true";
-          Array.from(dotsEl.children).forEach((dot, idx) =>
-            dot.setAttribute("aria-current", idx === i ? "true" : "false")
-          );
+        function initMobileNavigation() {
+          const navigation = document.querySelector(".nav");
+          const toggle = document.querySelector(".nav-toggle");
+          const links = document.getElementById("primary-navigation-links");
+
+          if (!navigation || !toggle || !links) return;
+
+          function setMenuOpen(isOpen) {
+            navigation.dataset.menuOpen = isOpen ? "true" : "false";
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            toggle.setAttribute(
+              "aria-label",
+              isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
+
+            if (!isOpen) {
+              links.querySelectorAll(".nav-menu").forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
+          }
+
+          toggle.addEventListener("click", function () {
+            setMenuOpen(navigation.dataset.menuOpen !== "true");
+          });
+
+          links.addEventListener("click", function (event) {
+            if (
+              event.target.closest("a") &&
+              window.matchMedia("(max-width: 900px)").matches
+            ) {
+              setMenuOpen(false);
+            }
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setMenuOpen(false);
+          });
+
+          window.addEventListener("resize", function () {
+            if (window.innerWidth > 900) setMenuOpen(false);
+          });
+
+          setMenuOpen(false);
         }
 
-        prev.addEventListener("click", () => go(i - 1));
-        next.addEventListener("click", () => go(i + 1));
-        renderDots();
+        document.querySelectorAll(".js-slider").forEach(initSlider);
+        initNavigationMenus();
+        initMobileNavigation();
 
-        // Auto-advance
-        let timer = null;
-        const frame = document.querySelector(".showcase .frame");
-        const on = () => {
-          if (!prefersReduced && !timer)
-            timer = setInterval(() => go(i + 1), 6000);
-        };
-        const off = () => {
-          if (timer) {
-            clearInterval(timer);
-            timer = null;
-          }
-        };
-
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => (e.isIntersecting ? on() : off()));
-          },
-          { threshold: 0.6 }
-        );
-        io.observe(frame);
-
-        frame.addEventListener("mouseenter", off);
-        frame.addEventListener("mouseleave", on);
-
-        document.getElementById("year").textContent = new Date().getFullYear();
+        const yearElement = document.getElementById("year");
+        if (yearElement) yearElement.textContent = new Date().getFullYear();
       })();
     </script>
   </body>
