@@ -7,7 +7,7 @@
     <title>UC Merced Hub — Student Projects & Campus Tools</title>
     <meta
       name="description"
-      content="Discover independent UC Merced student projects alongside maps, data tools, and applications built and maintained by UC Merced Hub."
+      content="Discover independent UC Merced student projects, student Discord communities, maps, data tools, and applications featured by UC Merced Hub."
     />
     <link rel="canonical" href="https://ucmercedhub.com/" />
     <meta name="robots" content="index,follow" />
@@ -24,7 +24,7 @@
     />
     <meta
       property="og:description"
-      content="Student-built projects and UC Merced Hub tools for the campus community."
+      content="Community-built student projects, Discord communities, and UC Merced Hub tools for the campus community."
     />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -34,7 +34,7 @@
     />
     <meta
       name="twitter:description"
-      content="Student-built projects and UC Merced Hub tools for the campus community."
+      content="Community-built student projects, Discord communities, and UC Merced Hub tools for the campus community."
     />
     <meta
       name="twitter:image"
@@ -664,6 +664,250 @@
           inset 0 0 0 1px rgba(255, 255, 255, 0.35);
       }
 
+
+      /* Keep promotion slides at one consistent height. Because all slides share
+         the same grid cell, the frame adopts the height of the tallest slide. */
+      .app-promo-frame .slide {
+        display: block;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .app-promo-frame .slide[data-active="true"] {
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      /* Discord orbital artwork — echoes the solar-system interaction used on
+         discord.ucmercedhub.com without reproducing the full directory UI. */
+      .discord-orbit-scene {
+        position: relative;
+        width: min(100%, 430px);
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: 26px;
+        background:
+          radial-gradient(circle at 24% 18%, rgba(255, 199, 44, 0.28), transparent 27%),
+          radial-gradient(circle at 74% 68%, rgba(0, 58, 112, 0.16), transparent 38%),
+          linear-gradient(145deg, #ffffff, #eef5fb 65%, #f9fbfd);
+        box-shadow: 0 18px 40px rgba(0, 58, 112, 0.12);
+        isolation: isolate;
+      }
+
+      .discord-orbit-scene::before {
+        content: "";
+        position: absolute;
+        inset: 9%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.96), rgba(255,255,255,0) 67%);
+        z-index: -1;
+      }
+
+      .discord-orbit-ring {
+        position: absolute;
+        border: 1px dashed rgba(0, 58, 112, 0.22);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .discord-orbit-ring.ring-one {
+        width: 62%;
+        aspect-ratio: 1;
+      }
+
+      .discord-orbit-ring.ring-two {
+        width: 86%;
+        aspect-ratio: 1;
+        opacity: 0.72;
+      }
+
+      .discord-orbit-core {
+        position: relative;
+        z-index: 4;
+        display: grid;
+        justify-items: center;
+        gap: 0.62rem;
+        text-align: center;
+      }
+
+      .discord-orbit-core-icon {
+        width: clamp(126px, 34%, 158px);
+        aspect-ratio: 1;
+        padding: 8px;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: 34%;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow:
+          0 24px 56px rgba(0, 58, 112, 0.2),
+          0 0 0 14px rgba(255, 199, 44, 0.08);
+      }
+
+      .discord-orbit-core-icon img {
+        width: 100%;
+        height: 100%;
+        border-radius: 30%;
+        object-fit: cover;
+        background: #edf1f5;
+      }
+
+      .discord-orbit-core strong {
+        padding: 0.38rem 0.68rem;
+        border: 1px solid rgba(0, 58, 112, 0.09);
+        border-radius: 999px;
+        color: #18354f;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 8px 22px rgba(0, 58, 112, 0.08);
+        font-size: 0.88rem;
+        line-height: 1.15;
+      }
+
+      .discord-orbit-node {
+        position: absolute;
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        min-width: 78px;
+        min-height: 78px;
+        padding: 0.55rem;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: 28%;
+        color: #18354f;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 14px 32px rgba(0, 58, 112, 0.12);
+        text-align: center;
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1.15;
+      }
+
+      .discord-orbit-node img {
+        width: 100%;
+        height: 100%;
+        border-radius: 24%;
+        object-fit: cover;
+        background: #edf1f5;
+      }
+
+      .discord-orbit-node.node-one {
+        top: 12%;
+        right: 13%;
+      }
+
+      .discord-orbit-node.node-two {
+        bottom: 15%;
+        right: 10%;
+      }
+
+      .discord-orbit-node.node-three {
+        bottom: 12%;
+        left: 12%;
+      }
+
+      .discord-orbit-node.node-four {
+        top: 15%;
+        left: 10%;
+      }
+
+      .discord-orbit-feature {
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+      }
+
+      .discord-orbit-feature span {
+        display: block;
+      }
+
+      .discord-orbit-feature .feature-icon {
+        margin-bottom: 0.18rem;
+        font-size: 1.05rem;
+        line-height: 1;
+      }
+
+      /* Large orbital composition for the Discord-directory What's New slide. */
+      .discord-whats-new-art {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 78% 18%, rgba(255, 199, 44, 0.38), transparent 26%),
+          radial-gradient(circle at 18% 34%, rgba(0, 58, 112, 0.18), transparent 34%),
+          linear-gradient(135deg, #dce8f4, #f8fbfd 52%, #eef4f8);
+      }
+
+      .discord-whats-new-art .discord-orbit-scene {
+        width: min(560px, 55vw);
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        box-shadow: none;
+        transform: translateY(-13%);
+      }
+
+      .discord-whats-new-art .discord-orbit-scene::before {
+        inset: 4%;
+      }
+
+      .discord-whats-new-art .discord-orbit-core-icon {
+        width: clamp(118px, 15vw, 170px);
+      }
+
+      .discord-whats-new-art .discord-orbit-node {
+        width: clamp(64px, 8vw, 88px);
+        min-width: 0;
+        height: clamp(64px, 8vw, 88px);
+        min-height: 0;
+        padding: 6px;
+      }
+
+      /* Community-built submissions: one shared element with two related paths. */
+      .community-submit-combined {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 1.5rem;
+        overflow: hidden;
+        border: 1px solid rgba(0, 58, 112, 0.1);
+        border-radius: var(--radius);
+        background:
+          radial-gradient(circle at top left, rgba(255, 199, 44, 0.13), transparent 34%),
+          linear-gradient(135deg, #fff, #f1f6fa);
+      }
+
+      .community-submit-column {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 0.9rem;
+        padding: clamp(1.2rem, 2.6vw, 1.7rem);
+      }
+
+      .community-submit-column + .community-submit-column {
+        border-left: 1px solid var(--line);
+      }
+
+      .community-submit-column h3 {
+        margin: 0;
+        font-size: clamp(1.18rem, 2.1vw, 1.55rem);
+        line-height: 1.2;
+      }
+
+      .community-submit-column p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .community-submit-column .submit-project-actions {
+        margin-top: auto;
+        justify-content: flex-start;
+      }
+
       /* What's New full-image carousel */
       .whats-new {
         max-width: var(--maxw);
@@ -700,6 +944,11 @@
         height: 100%;
         object-fit: cover;
         object-position: center top;
+      }
+
+
+      .whats-new-image.discord-whats-new-art {
+        display: grid;
       }
 
       .whats-new-image.contain {
@@ -1016,6 +1265,106 @@
         line-height: 1.45;
       }
 
+      /* Student Discord Servers: nested community-built subsection */
+      .community-subsection {
+        margin-top: 2.8rem;
+        padding-top: 2.35rem;
+        border-top: 1px solid var(--line);
+        scroll-margin-top: 88px;
+      }
+
+      .community-subsection-heading {
+        max-width: 760px;
+        margin-bottom: 1.15rem;
+      }
+
+      .community-subsection-heading h3 {
+        margin: 0.45rem 0 0.3rem;
+        font-size: clamp(1.35rem, 2.7vw, 1.95rem);
+        line-height: 1.15;
+      }
+
+      .community-subsection-heading p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .discord-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.5rem;
+      }
+
+      .discord-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem;
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: var(--radius);
+        background:
+          radial-gradient(circle at top right, rgba(255, 199, 44, 0.12), transparent 34%),
+          var(--card);
+        box-shadow: var(--shadow);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .discord-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+      }
+
+      .discord-card-top {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        margin-bottom: 0.95rem;
+      }
+
+      .discord-card-icon {
+        width: 70px;
+        height: 70px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(0, 58, 112, 0.08);
+        border-radius: 21px;
+        object-fit: cover;
+        background: #edf1f5;
+      }
+
+      .discord-card h4 {
+        margin: 0.12rem 0 0;
+        font-size: 1.22rem;
+        line-height: 1.2;
+      }
+
+      .discord-card-category {
+        margin: 0.18rem 0 0;
+        color: var(--muted);
+        font-size: 0.87rem;
+        font-weight: 650;
+      }
+
+      .discord-card .project-description {
+        flex: 1;
+      }
+
+      .submit-discord-inline {
+        margin-top: 1.5rem;
+      }
+
+      .submit-discord-inline .submit-project-inner {
+        background:
+          radial-gradient(circle at top right, rgba(255, 199, 44, 0.16), transparent 34%),
+          linear-gradient(135deg, #fff, #eef5fb);
+      }
+
+      .community-first-heading {
+        margin: 0 0 1.15rem;
+      }
+
+      .community-first-heading h3 {
+        margin-top: 0;
+      }
+
       /* Submit project CTA */
       .submit-project {
         max-width: var(--maxw);
@@ -1182,10 +1531,24 @@
           justify-content: flex-start;
         }
 
+        .community-submit-combined {
+          grid-template-columns: 1fr;
+        }
+
+        .community-submit-column + .community-submit-column {
+          border-left: 0;
+          border-top: 1px solid var(--line);
+        }
+
         .submit-project-inner,
         .footer-top {
           align-items: flex-start;
           flex-direction: column;
+        }
+
+
+        .discord-grid {
+          grid-template-columns: 1fr;
         }
 
         .submit-project-actions {
@@ -1218,6 +1581,26 @@
 
         .app-promo-art {
           max-height: 300px;
+        }
+
+
+        .discord-promo-preview {
+          width: 100%;
+        }
+
+        .discord-whats-new-stack {
+          width: min(520px, 92%);
+          gap: 0.65rem;
+          transform: none;
+        }
+
+        .discord-whats-new-server {
+          gap: 0.65rem;
+          padding: 0.72rem;
+        }
+
+        .discord-whats-new-server span {
+          display: none;
         }
 
         .whats-new-slide {
@@ -1313,10 +1696,25 @@
           bottom: 1.05rem;
         }
 
+        .discord-whats-new-art .discord-orbit-scene {
+          width: min(360px, 82vw);
+          transform: none;
+        }
+
+        .discord-whats-new-art .discord-orbit-core-icon {
+          width: clamp(92px, 26vw, 118px);
+        }
+
+        .discord-whats-new-art .discord-orbit-node {
+          width: clamp(52px, 15vw, 66px);
+          height: clamp(52px, 15vw, 66px);
+        }
+
         .hero-actions,
         .promo-actions,
         .whats-new-actions,
-        .project-actions {
+        .project-actions,
+        .community-submit-panel .submit-project-actions {
           align-items: stretch;
           flex-direction: column;
         }
@@ -1401,15 +1799,24 @@
 
         <div class="nav-links" id="primary-navigation-links">
           <details class="nav-menu">
-            <summary>Student Projects</summary>
+            <summary>Community-built</summary>
             <div class="nav-dropdown">
-              <div class="dropdown-heading">Student Projects</div>
+              <div class="dropdown-heading">Community-built</div>
               <a href="#student-projects">View All Student Projects</a>
               <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
                 Merced Bus Tracker
               </a>
               <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
                 Bobcat Bulletin
+              </a>
+              <div class="dropdown-separator"></div>
+              <div class="dropdown-heading">Community</div>
+              <a href="#student-discord-servers">Student Discord Servers</a>
+              <a href="https://discord.ucmercedhub.com/" rel="noopener">
+                Browse Discord Directory
+              </a>
+              <a href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission">
+                Submit a Discord Server
               </a>
               <div class="dropdown-separator"></div>
               <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
@@ -1452,17 +1859,104 @@
 
       <section class="app-promo" id="app-promotion" aria-labelledby="app-promo-heading">
         <h2 id="app-promo-heading" class="visually-hidden">
-          UC Merced Hub mobile application announcements
+          UC Merced Hub promotions and community announcements
         </h2>
 
         <p class="promotion-disclosure" role="note">
           <strong>Promotional content</strong>
-          <span>UC Merced Hub mobile app announcements and opportunities.</span>
+          <span>UC Merced Hub announcements, community resources, and opportunities.</span>
         </p>
 
         <div class="app-promo-frame js-slider" data-interval="7000">
           <ul class="slides">
+            <!-- Promotion 1: Central UCM -->
             <li class="slide" data-active="true">
+              <div class="app-promo-slide-inner">
+                <div class="app-promo-copy">
+                  <span class="promo-eyebrow student">Featured UC Merced Community</span>
+                  <h3 class="promo-title app-promo-title">
+                    Central UCM: a campus-wide Discord for Bobcats.
+                  </h3>
+                  <p class="app-promo-text">
+                    Join a general UC Merced community for campus conversation, student
+                    help, meetups, clubs, majors, gaming, and everyday campus life.
+                  </p>
+
+                  <ul class="app-promo-highlights" aria-label="Central UCM highlights">
+                    <li>General UC Merced conversation and student-help channels</li>
+                    <li>Major-specific spaces for Business, SSHA, Engineering, and Natural Sciences</li>
+                    <li>Meetups, clubs, gaming, introductions, and study support</li>
+                    <li>Community-focused moderation designed to keep the space welcoming</li>
+                  </ul>
+
+                  <div class="promo-actions">
+                    <a
+                      class="btn alt"
+                      href="https://discord.gg/JdRgayFtpQ"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Join Central UCM ↗
+                    </a>
+                    <a
+                      class="btn ghost"
+                      href="https://discord.ucmercedhub.com/"
+                      rel="noopener"
+                    >
+                      View Discord Directory
+                    </a>
+                  </div>
+
+                  <p class="app-promo-contact">
+                    Featured on
+                    <a href="https://discord.ucmercedhub.com/">discord.ucmercedhub.com</a>
+                  </p>
+                </div>
+
+                <div class="app-promo-media">
+                  <div
+                    class="discord-orbit-scene"
+                    role="img"
+                    aria-label="Central UCM Discord icon surrounded by community topics including majors, meetups, gaming, and student life"
+                  >
+                    <span class="discord-orbit-ring ring-one" aria-hidden="true"></span>
+                    <span class="discord-orbit-ring ring-two" aria-hidden="true"></span>
+
+                    <div class="discord-orbit-core">
+                      <div class="discord-orbit-core-icon">
+                        <img
+                          src="https://cdn.discordapp.com/icons/1502200043925671956/c481deb307d3f8eb4ca152149ecbc0dc.webp?size=160&amp;quality=lossless"
+                          alt=""
+                          width="158"
+                          height="158"
+                        />
+                      </div>
+                      <strong>Central UCM</strong>
+                    </div>
+
+                    <div class="discord-orbit-node discord-orbit-feature node-one" aria-hidden="true">
+                      <span class="feature-icon">🎓</span>
+                      <span>Majors</span>
+                    </div>
+                    <div class="discord-orbit-node discord-orbit-feature node-two" aria-hidden="true">
+                      <span class="feature-icon">🎮</span>
+                      <span>Gaming</span>
+                    </div>
+                    <div class="discord-orbit-node discord-orbit-feature node-three" aria-hidden="true">
+                      <span class="feature-icon">🤝</span>
+                      <span>Meetups</span>
+                    </div>
+                    <div class="discord-orbit-node discord-orbit-feature node-four" aria-hidden="true">
+                      <span class="feature-icon">🐾</span>
+                      <span>Student Life</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- Promotion 2: iOS -->
+            <li class="slide">
               <div class="app-promo-slide-inner">
                 <div class="app-promo-copy">
                   <span class="promo-eyebrow">Now live on iPhone</span>
@@ -1511,7 +2005,7 @@
                     class="app-promo-art"
                     src="https://tiles.flavioherrera.com/images/1775548808325-00e192c9-df7a-4ece-bcdf-8f98e4fd96ca-f1f2_iphone.png"
                     alt="Preview of the UCM Hub iPhone app"
-                    loading="eager"
+                    loading="lazy"
                     width="430"
                     height="430"
                   />
@@ -1519,6 +2013,7 @@
               </div>
             </li>
 
+            <!-- Promotion 3: Android -->
             <li class="slide">
               <div class="app-promo-slide-inner">
                 <div class="app-promo-copy">
@@ -1579,18 +2074,18 @@
             <button
               class="slider-btn prev"
               type="button"
-              aria-label="Previous mobile app promotion"
+              aria-label="Previous promotion"
             >
               ‹
             </button>
             <button
               class="slider-btn next"
               type="button"
-              aria-label="Next mobile app promotion"
+              aria-label="Next promotion"
             >
               ›
             </button>
-            <div class="slider-dots" aria-label="Choose a mobile app promotion"></div>
+            <div class="slider-dots" aria-label="Choose a promotion"></div>
           </div>
         </div>
       </section>
@@ -1609,14 +2104,97 @@
 
         <div class="whats-new-frame js-slider" data-interval="7500">
           <ul class="slides">
-            <!-- Slide 1: Google Calendar Generator — updated August 25, 2026 -->
+            <!-- Slide 1: UC Merced Discord Communities — launched August 26, 2026 -->
             <li class="slide" data-active="true">
+              <article class="whats-new-slide">
+                <div
+                  class="whats-new-image discord-whats-new-art"
+                  role="img"
+                  aria-label="Solar-system-style preview of UC Merced Discord communities featured at discord.ucmercedhub.com"
+                >
+                  <div class="discord-orbit-scene">
+                    <span class="discord-orbit-ring ring-one" aria-hidden="true"></span>
+                    <span class="discord-orbit-ring ring-two" aria-hidden="true"></span>
+
+                    <div class="discord-orbit-core">
+                      <div class="discord-orbit-core-icon">
+                        <img
+                          src="https://cdn.discordapp.com/icons/1502200043925671956/c481deb307d3f8eb4ca152149ecbc0dc.webp?size=160&amp;quality=lossless"
+                          alt=""
+                        />
+                      </div>
+                      <strong>Central UCM</strong>
+                    </div>
+
+                    <div class="discord-orbit-node node-one" aria-hidden="true">
+                      <img
+                        src="https://discord.ucmercedhub.com/images/discord_server_image_1.png"
+                        alt=""
+                      />
+                    </div>
+                    <div class="discord-orbit-node node-two" aria-hidden="true">
+                      <img
+                        src="https://discord.ucmercedhub.com/images/discord_server_image_2.png"
+                        alt=""
+                      />
+                    </div>
+                    <div class="discord-orbit-node node-three" aria-hidden="true">
+                      <img
+                        src="https://discord.ucmercedhub.com/images/discord_server_image_3.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="whats-new-overlay">
+                  <div class="whats-new-content">
+                    <div class="whats-new-primary">
+                      <span class="promo-eyebrow student">New UCM Hub Community Site</span>
+                      <h3 class="promo-title whats-new-project-title">
+                        UC Merced Discord Communities
+                      </h3>
+                      <p class="whats-new-text">
+                        A new UCM Hub destination brings UC Merced Discord communities
+                        together in one browsable directory with server details, channel
+                        previews, and direct invite links.
+                      </p>
+                    </div>
+
+                    <div class="whats-new-meta">
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">New site</span>
+                        <span class="whats-new-meta-value">discord.ucmercedhub.com</span>
+                      </div>
+                      <div class="whats-new-meta-item">
+                        <span class="whats-new-meta-label">Launched</span>
+                        <span class="whats-new-meta-value">August 26, 2026</span>
+                      </div>
+                    </div>
+
+                    <div class="whats-new-actions">
+                      <a
+                        class="btn alt"
+                        href="https://discord.ucmercedhub.com/"
+                        rel="noopener"
+                      >
+                        Browse Discord Directory
+                      </a>
+                      <a class="btn ghost" href="#student-discord-servers">Featured Servers</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </li>
+
+            <!-- Slide 2: Google Calendar Generator — updated August 25, 2026 -->
+            <li class="slide">
               <article class="whats-new-slide">
                 <img
                   class="whats-new-image"
                   src="/img/calendar3.png"
                   alt="Google Calendar Generator weekly schedule preview"
-                  loading="eager"
+                  loading="lazy"
                 />
 
                 <div class="whats-new-overlay">
@@ -1659,14 +2237,14 @@
               </article>
             </li>
 
-            <!-- Slide 2: Merced Bus Tracker — newly added, launched earlier -->
+            <!-- Slide 3: Merced Bus Tracker -->
             <li class="slide">
               <article class="whats-new-slide">
                 <img
                   class="whats-new-image contain"
                   src="/img/BusTrackerPoster.webp"
                   alt="Merced Bus Tracker promotional graphic showing mobile route planning, a bus, route maps, and a QR code"
-                  loading="eager"
+                  loading="lazy"
                 />
 
                 <div class="whats-new-overlay">
@@ -1710,15 +2288,14 @@
               </article>
             </li>
 
-            <!-- Slide 2: Bobcat Bulletin -->
+            <!-- Slide 4: Bobcat Bulletin -->
             <li class="slide">
               <article class="whats-new-slide">
                 <img
                   class="whats-new-image"
                   src="/img/bobcat-bulletin-preview.png"
-                  alt="Placeholder preview of the Bobcat Bulletin website"
-                  loading="eager"
-               
+                  alt="Preview of the Bobcat Bulletin website"
+                  loading="lazy"
                 />
 
                 <div class="whats-new-overlay">
@@ -1758,152 +2335,6 @@
                 </div>
               </article>
             </li>
-
-            <!-- Slide 3: UC Payrolls -->
-            <li class="slide">
-              <article class="whats-new-slide">
-                <img
-                  class="whats-new-image"
-                  src="https://www.ucmercedhub.com/img/payrolls1.png"
-                  alt="UC Payrolls Visualizer interface"
-                  loading="lazy"
-                
-                />
-
-                <div class="whats-new-overlay">
-                  <div class="whats-new-content">
-                    <div class="whats-new-primary">
-                      <span class="promo-eyebrow">Recently Updated</span>
-                      <h3 class="promo-title whats-new-project-title">
-                        UC Payrolls Visualizer
-                      </h3>
-                      <p class="whats-new-text">
-                        Search, compare, and visualize UC Merced employee payroll
-                        histories using public compensation data.
-                      </p>
-                    </div>
-
-                    <div class="whats-new-meta">
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Maintained by</span>
-                        <span class="whats-new-meta-value">UC Merced Hub</span>
-                      </div>
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Updated</span>
-                        <span class="whats-new-meta-value">July 20, 2026</span>
-                      </div>
-                    </div>
-
-                    <div class="whats-new-actions">
-                      <a class="btn" href="https://ucpayrolls.com/" rel="noopener">
-                        Explore Payrolls
-                      </a>
-                      <a class="btn ghost" href="#uc-payrolls-card">Details</a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </li>
-
-            <!-- Slide 4: Campus Map -->
-            <li class="slide">
-              <article class="whats-new-slide">
-                <img
-                  class="whats-new-image"
-                  src="/img/map4.png"
-                  alt="Interactive UC Merced campus map"
-                  loading="lazy"
-                 
-                />
-
-                <div class="whats-new-overlay">
-                  <div class="whats-new-content">
-                    <div class="whats-new-primary">
-                      <span class="promo-eyebrow">Major Map Update</span>
-                      <h3 class="promo-title whats-new-project-title">
-                        Campus Map + Events Hub
-                      </h3>
-                      <p class="whats-new-text">
-                        Explore UC Merced, navigate campus, discover events, and open
-                        specialized campus maps from one interactive experience.
-                      </p>
-                    </div>
-
-                    <div class="whats-new-meta">
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Maintained by</span>
-                        <span class="whats-new-meta-value">UC Merced Hub</span>
-                      </div>
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Updated</span>
-                        <span class="whats-new-meta-value">May 24, 2026</span>
-                      </div>
-                    </div>
-
-                    <div class="whats-new-actions">
-                      <a
-                        class="btn"
-                        href="https://campusmap.ucmercedhub.com/"
-                        rel="noopener"
-                      >
-                        Open Campus Map
-                      </a>
-                      <a class="btn ghost" href="#campus-map-card">Details</a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </li>
-
-            <!-- Slide 5: SeeMerced -->
-            <!-- <li class="slide">
-              <article class="whats-new-slide">
-                <img
-                  class="whats-new-image"
-                  src="/img/grade1.png"
-                  alt="SeeMerced grade-analysis interface"
-                  loading="lazy"
-               
-                />
-
-                <div class="whats-new-overlay">
-                  <div class="whats-new-content">
-                    <div class="whats-new-primary">
-                      <span class="promo-eyebrow">Project Highlight</span>
-                      <h3 class="promo-title whats-new-project-title">
-                        SeeMerced Grade Analysis
-                      </h3>
-                      <p class="whats-new-text">
-                        Explore historical UC Merced grade distributions, compare course
-                        outcomes, and visualize long-term academic trends.
-                      </p>
-                    </div>
-
-                    <div class="whats-new-meta">
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Built by</span>
-                        <span class="whats-new-meta-value">UC Merced Hub</span>
-                      </div>
-                      <div class="whats-new-meta-item">
-                        <span class="whats-new-meta-label">Published</span>
-                        <span class="whats-new-meta-value">July 24, 2025</span>
-                      </div>
-                    </div>
-
-                    <div class="whats-new-actions">
-                      <a
-                        class="btn"
-                        href="https://herreraflavio.github.io/seemerced2/"
-                        rel="noopener"
-                      >
-                        Explore SeeMerced
-                      </a>
-                      <a class="btn ghost" href="#seemerced-card">Details</a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </li> -->
           </ul>
 
           <div class="slider-controls">
@@ -1934,12 +2365,20 @@
         <div class="section-heading">
           <div class="section-heading-copy">
             <span class="section-eyebrow">Community-built</span>
-            <h2 id="student-projects-title">Student Projects</h2>
+            <h2 id="student-projects-title">Student Projects &amp; Communities</h2>
             <p>
-              Independent projects created by UC Merced students and featured for
-              the broader campus community.
+              Independent projects and student-run communities created for the broader
+              UC Merced community.
             </p>
           </div>
+        </div>
+
+        <div class="community-subsection-heading community-first-heading">
+          <h3>Student Projects</h3>
+          <p>
+            Websites, maps, applications, and data tools created independently by
+            UC Merced students.
+          </p>
         </div>
 
         <div class="project-grid">
@@ -2037,31 +2476,164 @@
             </div>
           </article>
         </div>
-      </section>
 
-      <section class="submit-project" aria-labelledby="submit-project-title">
-        <div class="submit-project-inner">
-          <div>
-            <h2 id="submit-project-title">Built something useful—or have project feedback?</h2>
+        <div class="community-subsection" id="student-discord-servers">
+          <div class="community-subsection-heading">
+            <h3>Student Discord Servers</h3>
             <p>
-              Submit a student-built website, map, application, or data visualization
-              for possible inclusion on UC Merced Hub, or share feedback about a
-              project already featured here.
+              Student-run and community Discord spaces that help Bobcats connect around
+              classes, majors, campus life, meetups, and shared interests. Browse the
+              full directory at
+              <a href="https://discord.ucmercedhub.com/">discord.ucmercedhub.com</a>.
             </p>
           </div>
-          <div class="submit-project-actions">
-            <a
-              class="btn alt"
-              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
-            >
-              Submit a Project
-            </a>
-            <a
-              class="btn ghost"
-              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
-            >
-              Send Project Feedback
-            </a>
+
+          <div class="discord-grid">
+            <article class="discord-card">
+              <div class="discord-card-top">
+                <img
+                  class="discord-card-icon"
+                  src="https://cdn.discordapp.com/icons/1502200043925671956/c481deb307d3f8eb4ca152149ecbc0dc.webp?size=160&amp;quality=lossless"
+                  width="70"
+                  height="70"
+                  loading="lazy"
+                  alt="Central UCM Discord server icon"
+                />
+
+                <div>
+                  <div class="badge-row">
+                    <span class="ownership-badge student">Student Community</span>
+                    <span class="status-badge">Active</span>
+                  </div>
+                  <h4>Central UCM</h4>
+                  <p class="discord-card-category">Campus Community</p>
+                </div>
+              </div>
+
+              <p class="project-description">
+                A broad UC Merced community for campus conversation, student help,
+                meetups, clubs, majors, gaming, and everyday Bobcat life.
+              </p>
+
+              <ul class="details-list">
+                <li>General campus and student-life channels</li>
+                <li>Major-specific spaces for several schools</li>
+                <li>Meetups, clubs, gaming, and study support</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://discord.gg/JdRgayFtpQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Join Server ↗
+                </a>
+              </div>
+            </article>
+
+            <article class="discord-card">
+              <div class="discord-card-top">
+                <img
+                  class="discord-card-icon"
+                  src="https://discord.ucmercedhub.com/images/discord_server_image_1.png"
+                  width="70"
+                  height="70"
+                  loading="lazy"
+                  alt="STEM Majors Discord server icon"
+                />
+
+                <div>
+                  <div class="badge-row">
+                    <span class="ownership-badge student">Student Community</span>
+                    <span class="status-badge">Active</span>
+                  </div>
+                  <h4>STEM Majors</h4>
+                  <p class="discord-card-category">Academic</p>
+                </div>
+              </div>
+
+              <p class="project-description">
+                A UC Merced STEM community with class and study spaces for CSE,
+                Engineering, Physics, Math, and related academic areas.
+              </p>
+
+              <ul class="details-list">
+                <li>CSE and Engineering course communities</li>
+                <li>Physics and Math discussion channels</li>
+                <li>Study support and classmate connection</li>
+              </ul>
+
+              <div class="project-actions">
+                <a
+                  class="btn-sm primary"
+                  href="https://discord.gg/KzbH9tgdC"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Join Server ↗
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <div
+            class="community-submit-combined"
+            aria-label="Community-built submissions and feedback"
+          >
+            <section class="community-submit-column" aria-labelledby="submit-discord-title">
+              <div>
+                <h3 id="submit-discord-title">Run a UC Merced Discord server?</h3>
+                <p>
+                  Submit a student or community Discord server for possible inclusion in
+                  the UCM Hub directory. Include the server name, invite link, icon, and a
+                  short description of who the community is for.
+                </p>
+              </div>
+
+              <div class="submit-project-actions">
+                <a
+                  class="btn alt"
+                  href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission"
+                >
+                  Submit a Discord Server
+                </a>
+                <a
+                  class="btn ghost"
+                  href="https://discord.ucmercedhub.com/"
+                  rel="noopener"
+                >
+                  Browse Directory
+                </a>
+              </div>
+            </section>
+
+            <section class="community-submit-column" aria-labelledby="submit-project-title">
+              <div>
+                <h3 id="submit-project-title">Built something useful—or have project feedback?</h3>
+                <p>
+                  Submit a student-built website, map, application, or data visualization
+                  for possible inclusion on UC Merced Hub, or share feedback about a
+                  project already featured here.
+                </p>
+              </div>
+
+              <div class="submit-project-actions">
+                <a
+                  class="btn alt"
+                  href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
+                >
+                  Submit a Project
+                </a>
+                <a
+                  class="btn ghost"
+                  href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
+                >
+                  Send Project Feedback
+                </a>
+              </div>
+            </section>
           </div>
         </div>
       </section>
@@ -2252,6 +2824,7 @@
 
           <nav class="footer-links" aria-label="Footer navigation">
             <a href="#student-projects">Student Projects</a>
+            <a href="#student-discord-servers">Student Discord Servers</a>
             <a href="#hub-projects">UC Merced Hub Projects</a>
             <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
               Submit a Project
@@ -2295,6 +2868,13 @@
               "@type": "Person",
               "name": "xopnek"
             }
+          },
+          {
+            "@type": "CollectionPage",
+            "name": "UC Merced Discord Communities",
+            "url": "https://discord.ucmercedhub.com/",
+            "description": "A directory of student-run and community Discord servers for UC Merced classes, majors, campus life, and student connection.",
+            "dateModified": "2026-08-26"
           },
           {
             "@type": "WebApplication",
