@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>UC Merced Hub — Student Projects & Campus Tools</title>
+    <title>UC Merced Hub — Projects, Communities & Campus Tools</title>
     <meta
       name="description"
-      content="Discover independent UC Merced student projects, student Discord communities, maps, data tools, and applications featured by UC Merced Hub."
+      content="Discover student-built projects, student clubs and communities, and useful campus tools featured by UC Merced Hub."
     />
     <link rel="canonical" href="https://ucmercedhub.com/" />
     <meta name="robots" content="index,follow" />
@@ -20,21 +20,21 @@
     <meta property="og:url" content="https://ucmercedhub.com/" />
     <meta
       property="og:title"
-      content="UC Merced Hub — Student Projects & Campus Tools"
+      content="UC Merced Hub — Projects, Communities & Campus Tools"
     />
     <meta
       property="og:description"
-      content="Community-built student projects, Discord communities, and UC Merced Hub tools for the campus community."
+      content="Student-built projects, student clubs and communities, and UC Merced Hub tools for the campus community."
     />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="UC Merced Hub — Student Projects & Campus Tools"
+      content="UC Merced Hub — Projects, Communities & Campus Tools"
     />
     <meta
       name="twitter:description"
-      content="Community-built student projects, Discord communities, and UC Merced Hub tools for the campus community."
+      content="Student-built projects, student clubs and communities, and UC Merced Hub tools for the campus community."
     />
     <meta
       name="twitter:image"
@@ -146,9 +146,7 @@
         position: sticky;
         top: 0;
         z-index: 50;
-        background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--line);
+        background: #fff;
       }
 
       .nav {
@@ -183,7 +181,6 @@
         flex: 0 0 auto;
         border-radius: 9px;
         object-fit: cover;
-        box-shadow: 0 4px 14px rgba(0, 58, 112, 0.16);
       }
 
       .nav-links {
@@ -201,10 +198,9 @@
         align-items: center;
         justify-content: center;
         padding: 0;
-        border: 1px solid rgba(0, 58, 112, 0.15);
-        border-radius: 10px;
+        border: 0;
         color: var(--uc-blue);
-        background: #fff;
+        background: transparent;
         cursor: pointer;
       }
 
@@ -262,7 +258,6 @@
         align-items: center;
         gap: 0.4rem;
         padding: 0.55rem 0.7rem;
-        border-radius: 9px;
         color: var(--ink);
         font-size: 0.93rem;
         font-weight: 650;
@@ -284,7 +279,6 @@
       .nav-menu[open] > summary,
       .nav-menu > summary:hover {
         color: var(--uc-blue);
-        background: rgba(0, 58, 112, 0.055);
       }
 
       .nav-menu[open] > summary::after {
@@ -293,20 +287,16 @@
 
       .nav-dropdown {
         position: absolute;
-        top: calc(100% + 0.5rem);
+        top: 100%;
         right: 0;
         width: min(290px, calc(100vw - 2rem));
-        padding: 0.55rem;
-        border: 1px solid var(--line);
-        border-radius: 12px;
+        padding: 0.45rem 0.25rem 0.7rem;
         background: #fff;
-        box-shadow: var(--shadow);
       }
 
       .nav-dropdown a {
         display: block;
-        padding: 0.65rem 0.75rem;
-        border-radius: 8px;
+        padding: 0.58rem 0.75rem;
         color: var(--ink);
         font-size: 0.92rem;
         font-weight: 600;
@@ -314,7 +304,6 @@
 
       .nav-dropdown a:hover {
         color: var(--uc-blue);
-        background: rgba(0, 58, 112, 0.055);
         text-decoration: none;
       }
 
@@ -327,15 +316,17 @@
         text-transform: uppercase;
       }
 
-      .nav-dropdown .dropdown-separator {
-        height: 1px;
-        margin: 0.35rem 0;
-        background: var(--line);
+      .nav-dropdown .dropdown-group + .dropdown-group {
+        margin-top: 0.65rem;
+        padding-top: 0.25rem;
+      }
+
+      .nav-dropdown .dropdown-group {
+        min-width: 0;
       }
 
       .nav-simple-link {
         padding: 0.55rem 0.65rem;
-        border-radius: 9px;
         color: var(--ink);
         font-size: 0.93rem;
         font-weight: 650;
@@ -343,7 +334,6 @@
 
       .nav-simple-link:hover {
         color: var(--uc-blue);
-        background: rgba(0, 58, 112, 0.055);
         text-decoration: none;
       }
 
@@ -463,13 +453,6 @@
         font-size: clamp(1rem, 1.6vw, 1.2rem);
       }
 
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.7rem;
-        margin-top: 1.35rem;
-      }
-
       /* Section headings */
       .section-heading {
         display: flex;
@@ -542,11 +525,22 @@
       .promotion-disclosure {
         display: flex;
         align-items: center;
-        gap: 0.55rem;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.55rem;
         margin: 0 0 0.65rem;
         color: var(--muted);
         font-size: 0.8rem;
         line-height: 1.35;
+      }
+
+      .promotion-disclosure .promotion-contact {
+        margin-left: auto;
+        color: var(--muted);
+      }
+
+      .promotion-disclosure .promotion-contact a {
+        color: var(--uc-blue);
+        font-weight: 700;
       }
 
       .promotion-disclosure strong {
@@ -867,45 +861,46 @@
         padding: 6px;
       }
 
-      /* Community-built submissions: one shared element with two related paths. */
-      .community-submit-combined {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      /* Submission CTA shown directly after the content it belongs to. */
+      .community-submit-inline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
         margin-top: 1.5rem;
-        overflow: hidden;
+        padding: clamp(1.2rem, 2.6vw, 1.7rem);
         border: 1px solid rgba(0, 58, 112, 0.1);
         border-radius: var(--radius);
         background:
-          radial-gradient(circle at top left, rgba(255, 199, 44, 0.13), transparent 34%),
+          radial-gradient(circle at top left, rgba(255, 199, 44, 0.11), transparent 34%),
           linear-gradient(135deg, #fff, #f1f6fa);
       }
 
-      .community-submit-column {
-        display: flex;
+      .community-submit-inline.discord-submit {
+        background:
+          radial-gradient(circle at top right, rgba(255, 199, 44, 0.14), transparent 34%),
+          linear-gradient(135deg, #fff, #eef5fb);
+      }
+
+      .community-submit-copy {
         min-width: 0;
-        flex-direction: column;
-        gap: 0.9rem;
-        padding: clamp(1.2rem, 2.6vw, 1.7rem);
       }
 
-      .community-submit-column + .community-submit-column {
-        border-left: 1px solid var(--line);
-      }
-
-      .community-submit-column h3 {
-        margin: 0;
-        font-size: clamp(1.18rem, 2.1vw, 1.55rem);
+      .community-submit-inline h3 {
+        margin: 0 0 0.3rem;
+        font-size: clamp(1.15rem, 2vw, 1.5rem);
         line-height: 1.2;
       }
 
-      .community-submit-column p {
+      .community-submit-inline p {
+        max-width: 720px;
         margin: 0;
         color: var(--muted);
       }
 
-      .community-submit-column .submit-project-actions {
-        margin-top: auto;
-        justify-content: flex-start;
+      .community-submit-inline .submit-project-actions {
+        flex: 0 0 auto;
+        justify-content: flex-end;
       }
 
       /* What's New full-image carousel */
@@ -969,11 +964,11 @@
         background: linear-gradient(
           to top,
           rgba(255, 255, 255, 1) 0%,
-          rgba(255, 255, 255, 0.98) 9%,
-          rgba(255, 255, 255, 0.88) 18%,
-          rgba(255, 255, 255, 0.78) 26%,
-          rgba(255, 255, 255, 0.15) 33.333%,
-          rgba(255, 255, 255, 0) 100%
+          rgba(255, 255, 255, 0.99) 11%,
+          rgba(255, 255, 255, 0.94) 21%,
+          rgba(255, 255, 255, 0.84) 30%,
+          rgba(255, 255, 255, 0.38) 40%,
+          rgba(255, 255, 255, 0) 68%
         );
       }
 
@@ -1267,9 +1262,8 @@
 
       /* Student Discord Servers: nested community-built subsection */
       .community-subsection {
-        margin-top: 2.8rem;
-        padding-top: 2.35rem;
-        border-top: 1px solid var(--line);
+        margin-top: 3.6rem;
+        padding-top: 0;
         scroll-margin-top: 88px;
       }
 
@@ -1280,8 +1274,8 @@
 
       .community-subsection-heading h3 {
         margin: 0.45rem 0 0.3rem;
-        font-size: clamp(1.35rem, 2.7vw, 1.95rem);
-        line-height: 1.15;
+        font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+        line-height: 1.18;
       }
 
       .community-subsection-heading p {
@@ -1345,16 +1339,6 @@
 
       .discord-card .project-description {
         flex: 1;
-      }
-
-      .submit-discord-inline {
-        margin-top: 1.5rem;
-      }
-
-      .submit-discord-inline .submit-project-inner {
-        background:
-          radial-gradient(circle at top right, rgba(255, 199, 44, 0.16), transparent 34%),
-          linear-gradient(135deg, #fff, #eef5fb);
       }
 
       .community-first-heading {
@@ -1466,7 +1450,8 @@
 
       @media (max-width: 900px) {
         .nav {
-          flex-wrap: wrap;
+          position: relative;
+          flex-wrap: nowrap;
           gap: 0.65rem;
         }
 
@@ -1476,12 +1461,19 @@
         }
 
         .nav-links {
-          width: 100%;
+          position: absolute;
+          top: 100%;
+          right: 0;
+          left: 0;
+          z-index: 70;
+          width: auto;
+          max-height: calc(100vh - 88px);
           display: none;
           grid-template-columns: 1fr;
-          gap: 0.25rem;
-          padding: 0.35rem 0 0.25rem;
-          border-top: 1px solid var(--line);
+          gap: 0.1rem;
+          padding: 0.35rem 1rem 0.9rem;
+          overflow-y: auto;
+          background: #fff;
         }
 
         .nav[data-menu-open="true"] .nav-links {
@@ -1500,8 +1492,14 @@
         .nav-dropdown {
           position: static;
           width: 100%;
-          margin-top: 0.35rem;
+          margin: 0.1rem 0 0.35rem;
+          padding: 0 0 0.2rem 0.8rem;
+          background: #fff;
           box-shadow: none;
+        }
+
+        .nav-dropdown .dropdown-heading {
+          padding-top: 0.55rem;
         }
 
         .app-promo-slide-inner {
@@ -1531,15 +1529,7 @@
           justify-content: flex-start;
         }
 
-        .community-submit-combined {
-          grid-template-columns: 1fr;
-        }
-
-        .community-submit-column + .community-submit-column {
-          border-left: 0;
-          border-top: 1px solid var(--line);
-        }
-
+        .community-submit-inline,
         .submit-project-inner,
         .footer-top {
           align-items: flex-start;
@@ -1561,7 +1551,58 @@
         }
       }
 
+      @media (max-width: 820px) and (min-width: 621px) {
+        .whats-new-slide {
+          min-height: 720px;
+          aspect-ratio: auto;
+        }
+
+        .whats-new-overlay {
+          padding-right: 1.35rem;
+          padding-left: 1.35rem;
+        }
+
+        .whats-new-content,
+        .whats-new-primary,
+        .whats-new-meta,
+        .whats-new-actions {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .whats-new-content {
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 0.85rem;
+        }
+
+        .whats-new-meta {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.65rem 1rem;
+        }
+
+        .whats-new-actions {
+          grid-column: auto;
+          justify-content: flex-start;
+        }
+
+        .whats-new-project-title,
+        .whats-new-text,
+        .whats-new-meta-value {
+          overflow-wrap: anywhere;
+        }
+      }
+
       @media (max-width: 620px) {
+        .promotion-disclosure {
+          align-items: flex-start;
+        }
+
+        .promotion-disclosure .promotion-contact {
+          width: 100%;
+          margin-left: 0;
+        }
+
         .hero {
           padding-top: 2.3rem;
         }
@@ -1710,11 +1751,10 @@
           height: clamp(52px, 15vw, 66px);
         }
 
-        .hero-actions,
         .promo-actions,
         .whats-new-actions,
         .project-actions,
-        .community-submit-panel .submit-project-actions {
+        .community-submit-inline .submit-project-actions {
           align-items: stretch;
           flex-direction: column;
         }
@@ -1801,27 +1841,42 @@
           <details class="nav-menu">
             <summary>Community-built</summary>
             <div class="nav-dropdown">
-              <div class="dropdown-heading">Community-built</div>
-              <a href="#student-projects">View All Student Projects</a>
-              <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
-                Merced Bus Tracker
-              </a>
-              <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
-                Bobcat Bulletin
-              </a>
-              <div class="dropdown-separator"></div>
-              <div class="dropdown-heading">Community</div>
-              <a href="#student-discord-servers">Student Discord Servers</a>
-              <a href="https://discord.ucmercedhub.com/" rel="noopener">
-                Browse Discord Directory
-              </a>
-              <a href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission">
-                Submit a Discord Server
-              </a>
-              <div class="dropdown-separator"></div>
-              <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
-                Submit a Project
-              </a>
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Projects</div>
+                <a href="#student-projects">View All Student Projects</a>
+                <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
+                  Merced Bus Tracker
+                </a>
+                <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  Bobcat Bulletin
+                </a>
+                <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+                  Submit a Project
+                </a>
+              </div>
+
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Clubs</div>
+                <a href="#student-clubs">Student Clubs</a>
+                <a
+                  href="https://robotics-society-ucmerced.angelavargas0831.workers.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Robotics Society
+                </a>
+              </div>
+
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Discord Servers</div>
+                <a href="#student-discord-servers">Featured Discord Servers</a>
+                <a href="https://discord.ucmercedhub.com/" rel="noopener">
+                  Browse Discord Directory
+                </a>
+                <a href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission">
+                  Submit a Discord Server
+                </a>
+              </div>
             </div>
           </details>
 
@@ -1845,16 +1900,11 @@
     <main id="main" tabindex="-1">
       <section class="hero" aria-labelledby="hero-title">
         <span class="hero-eyebrow">Built by and for the UC Merced community</span>
-        <h1 id="hero-title">Discover student projects and campus tools.</h1>
+        <h1 id="hero-title">Explore projects, communities, and campus tools.</h1>
         <p class="lede">
-          Explore independent projects created by UC Merced students alongside
-          maps, data tools, and applications designed and maintained by UC Merced Hub.
+          Discover student-built projects, student-run communities, and useful tools
+          created for the broader UC Merced community.
         </p>
-        <div class="hero-actions">
-          <a class="btn" href="#whats-new">What’s New</a>
-          <a class="btn ghost" href="#student-projects">Explore Student Projects</a>
-          <a class="btn ghost" href="#hub-projects">Explore Hub Projects</a>
-        </div>
       </section>
 
       <section class="app-promo" id="app-promotion" aria-labelledby="app-promo-heading">
@@ -1865,6 +1915,10 @@
         <p class="promotion-disclosure" role="note">
           <strong>Promotional content</strong>
           <span>UC Merced Hub announcements, community resources, and opportunities.</span>
+          <span class="promotion-contact">
+            Interested in being promoted?
+            <a href="mailto:contact@ucmerced.edu">Contact contact@ucmerced.edu</a>
+          </span>
         </p>
 
         <div class="app-promo-frame js-slider" data-interval="7000">
@@ -2365,10 +2419,10 @@
         <div class="section-heading">
           <div class="section-heading-copy">
             <span class="section-eyebrow">Community-built</span>
-            <h2 id="student-projects-title">Student Projects &amp; Communities</h2>
+            <h2 id="student-projects-title">Student Projects, Clubs &amp; Communities</h2>
             <p>
-              Independent projects and student-run communities created for the broader
-              UC Merced community.
+              Explore independent projects, student-led organizations, and community
+              spaces built to serve, inform, and connect the UC Merced community.
             </p>
           </div>
         </div>
@@ -2376,7 +2430,7 @@
         <div class="community-subsection-heading community-first-heading">
           <h3>Student Projects</h3>
           <p>
-            Websites, maps, applications, and data tools created independently by
+            Websites, maps, applications, and data tools independently created by
             UC Merced students.
           </p>
         </div>
@@ -2475,6 +2529,91 @@
               </div>
             </div>
           </article>
+        </div>
+
+        <section
+          class="community-submit-inline"
+          aria-labelledby="submit-project-title"
+        >
+          <div class="community-submit-copy">
+            <h3 id="submit-project-title">Built something useful—or have project feedback?</h3>
+            <p>
+              Submit a student-built website, map, application, or data visualization
+              for possible inclusion on UC Merced Hub, or share feedback about a
+              project already featured here.
+            </p>
+          </div>
+
+          <div class="submit-project-actions">
+            <a
+              class="btn alt"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
+            >
+              Submit a Project
+            </a>
+            <a
+              class="btn ghost"
+              href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
+            >
+              Send Project Feedback
+            </a>
+          </div>
+        </section>
+
+        <div class="community-subsection" id="student-clubs">
+          <div class="community-subsection-heading">
+            <h3>Student Clubs</h3>
+            <p>
+              Student-led organizations where Bobcats can build skills, collaborate on
+              projects, and connect around shared academic and technical interests.
+            </p>
+          </div>
+
+          <div class="project-grid">
+            <article class="project-card" id="robotics-society-card">
+              <div class="project-card-media">
+                <img
+                  src="/img/clubs/robotics/banner.png"
+                  width="1200"
+                  height="675"
+                  loading="lazy"
+                  alt="UC Merced Robotics Society banner"
+                />
+              </div>
+
+              <div class="project-card-body">
+                <div class="badge-row">
+                  <span class="ownership-badge student">Student Club</span>
+                  <span class="status-badge">Active</span>
+                </div>
+
+                <h3>Robotics Society at UC Merced</h3>
+
+                <p class="project-description">
+                  A multidisciplinary student organization focused on hands-on robotics
+                  projects and practical experience across engineering, programming,
+                  circuits, and design.
+                </p>
+
+                <ul class="details-list">
+                  <li>Student-driven robotics projects</li>
+                  <li>Hands-on programming, circuits, and design</li>
+                  <li>Multidisciplinary collaboration across fields of study</li>
+                </ul>
+
+                <div class="project-actions">
+                  <a
+                    class="btn-sm primary"
+                    href="https://robotics-society-ucmerced.angelavargas0831.workers.dev/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Club ↗
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
 
         <div class="community-subsection" id="student-discord-servers">
@@ -2578,63 +2717,35 @@
             </article>
           </div>
 
-          <div
-            class="community-submit-combined"
-            aria-label="Community-built submissions and feedback"
+          <section
+            class="community-submit-inline discord-submit"
+            aria-labelledby="submit-discord-title"
           >
-            <section class="community-submit-column" aria-labelledby="submit-discord-title">
-              <div>
-                <h3 id="submit-discord-title">Run a UC Merced Discord server?</h3>
-                <p>
-                  Submit a student or community Discord server for possible inclusion in
-                  the UCM Hub directory. Include the server name, invite link, icon, and a
-                  short description of who the community is for.
-                </p>
-              </div>
+            <div class="community-submit-copy">
+              <h3 id="submit-discord-title">Run a UC Merced Discord server?</h3>
+              <p>
+                Submit a student or community Discord server for possible inclusion in
+                the UCM Hub directory. Include the server name, invite link, icon, and a
+                short description of who the community is for.
+              </p>
+            </div>
 
-              <div class="submit-project-actions">
-                <a
-                  class="btn alt"
-                  href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission"
-                >
-                  Submit a Discord Server
-                </a>
-                <a
-                  class="btn ghost"
-                  href="https://discord.ucmercedhub.com/"
-                  rel="noopener"
-                >
-                  Browse Directory
-                </a>
-              </div>
-            </section>
-
-            <section class="community-submit-column" aria-labelledby="submit-project-title">
-              <div>
-                <h3 id="submit-project-title">Built something useful—or have project feedback?</h3>
-                <p>
-                  Submit a student-built website, map, application, or data visualization
-                  for possible inclusion on UC Merced Hub, or share feedback about a
-                  project already featured here.
-                </p>
-              </div>
-
-              <div class="submit-project-actions">
-                <a
-                  class="btn alt"
-                  href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission"
-                >
-                  Submit a Project
-                </a>
-                <a
-                  class="btn ghost"
-                  href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Feedback"
-                >
-                  Send Project Feedback
-                </a>
-              </div>
-            </section>
-          </div>
+            <div class="submit-project-actions">
+              <a
+                class="btn alt"
+                href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission"
+              >
+                Submit a Discord Server
+              </a>
+              <a
+                class="btn ghost"
+                href="https://discord.ucmercedhub.com/"
+                rel="noopener"
+              >
+                Browse Directory
+              </a>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -2824,6 +2935,7 @@
 
           <nav class="footer-links" aria-label="Footer navigation">
             <a href="#student-projects">Student Projects</a>
+            <a href="#student-clubs">Student Clubs</a>
             <a href="#student-discord-servers">Student Discord Servers</a>
             <a href="#hub-projects">UC Merced Hub Projects</a>
             <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
@@ -2849,7 +2961,7 @@
         "@type": "WebSite",
         "name": "UC Merced Hub",
         "url": "https://ucmercedhub.com/",
-        "description": "Independent UC Merced student projects and tools built by UC Merced Hub.",
+        "description": "Student-built projects, student clubs and communities, and useful tools featured by UC Merced Hub.",
         "hasPart": [
           {
             "@type": "WebApplication",
@@ -2868,6 +2980,12 @@
               "@type": "Person",
               "name": "xopnek"
             }
+          },
+          {
+            "@type": "Organization",
+            "name": "Robotics Society at UC Merced",
+            "url": "https://robotics-society-ucmerced.angelavargas0831.workers.dev/",
+            "description": "A multidisciplinary UC Merced student organization focused on hands-on robotics projects, programming, circuits, and design."
           },
           {
             "@type": "CollectionPage",
