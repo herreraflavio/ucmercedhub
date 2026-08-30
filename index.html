@@ -348,6 +348,83 @@
         min-width: 0;
       }
 
+      /* Desktop mega menus: full-width panels attached directly to the navbar. */
+      @media (min-width: 901px) {
+        .nav {
+          position: relative;
+        }
+
+        .nav-menu {
+          position: static;
+        }
+
+        .nav-menu[open] > summary {
+          box-shadow: inset 0 -3px 0 var(--uc-blue);
+        }
+
+        .nav-dropdown {
+          top: 100%;
+          right: 0;
+          left: 0;
+          width: 100%;
+          min-height: 285px;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: clamp(2.25rem, 5vw, 5rem);
+          align-items: start;
+          padding: 1.55rem clamp(1.25rem, 7vw, 8rem) 2.2rem;
+          border-top: 1px solid rgba(10, 10, 10, 0.07);
+          background: #fff;
+          box-shadow: 0 12px 22px rgba(10, 10, 10, 0.08);
+        }
+
+        .nav-menu[open] > .nav-dropdown {
+          display: grid;
+        }
+
+        .nav-dropdown .dropdown-group,
+        .hub-mega-menu .hub-mega-section {
+          min-width: 0;
+        }
+
+        .nav-dropdown .dropdown-group + .dropdown-group {
+          margin-top: 0;
+          padding-top: 0;
+        }
+
+        .nav-dropdown .dropdown-heading {
+          margin: 0 0 0.55rem;
+          padding: 0 0 0.7rem;
+          border-bottom: 1px solid var(--line);
+          color: var(--ink);
+          font-size: 0.78rem;
+          letter-spacing: 0.02em;
+        }
+
+        .nav-dropdown a {
+          padding: 0.54rem 0.25rem;
+          font-size: 0.95rem;
+          font-weight: 520;
+          line-height: 1.35;
+        }
+
+        .hub-mega-menu {
+          grid-template-columns: minmax(180px, 0.72fr) minmax(0, 2.28fr);
+        }
+
+        .hub-mega-menu > .dropdown-heading {
+          grid-column: 1;
+          align-self: start;
+        }
+
+        .hub-mega-links {
+          grid-column: 2;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.25rem clamp(1.5rem, 4vw, 4rem);
+          align-content: start;
+        }
+      }
+
       .nav-simple-link {
         padding: 0.7rem 0.4rem;
         color: var(--ink);
@@ -1558,6 +1635,10 @@
           padding-top: 0.55rem;
         }
 
+        .hub-mega-links {
+          display: block;
+        }
+
         .app-promo-slide-inner {
           grid-template-columns: 1fr;
         }
@@ -1900,6 +1981,11 @@
         background: #121619;
       }
 
+      html[data-theme="dark"] .nav-dropdown {
+        border-top-color: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 14px 24px rgba(0, 0, 0, 0.34);
+      }
+
       html[data-theme="dark"] .nav-toggle,
       html[data-theme="dark"] .nav-menu > summary,
       html[data-theme="dark"] .nav-simple-link,
@@ -2177,13 +2263,15 @@
 
           <details class="nav-menu">
             <summary>UC Merced Hub Projects</summary>
-            <div class="nav-dropdown">
+            <div class="nav-dropdown hub-mega-menu">
               <div class="dropdown-heading">Built by UC Merced Hub</div>
-              <a href="#hub-projects">View All Hub Projects</a>
-              <a href="https://campusmap.ucmercedhub.com/" rel="noopener">Campus Map</a>
-              <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">SeeMerced</a>
-              <a href="https://calendar.ucmercedhub.com/" rel="noopener">Calendar Builder</a>
-              <a href="https://ucpayrolls.com/" rel="noopener">UC Payrolls</a>
+              <div class="hub-mega-links">
+                <a href="#hub-projects">View All Hub Projects</a>
+                <a href="https://campusmap.ucmercedhub.com/" rel="noopener">Campus Map</a>
+                <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">SeeMerced</a>
+                <a href="https://calendar.ucmercedhub.com/" rel="noopener">Calendar Builder</a>
+                <a href="https://ucpayrolls.com/" rel="noopener">UC Payrolls</a>
+              </div>
             </div>
           </details>
 
