@@ -1,11 +1,672 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    jobs
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jobs | UC Merced Hub</title>
+    <meta name="description" content="Small paid web tasks with UC Merced Hub: help tidy links, keep pages consistent, and improve the site experience." />
+    <link rel="canonical" href="https://ucmercedhub.com/j*bs/" />
+    <link rel="icon" href="https://ucmercedhub.com/favicon.ico" />
+    <script>
+      try {
+        const saved = localStorage.getItem('ucmercedhub-theme');
+        document.documentElement.dataset.theme = saved === 'dark' || saved === 'light'
+          ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } catch (_) { document.documentElement.dataset.theme = 'light'; }
+    </script>
+    <style>
+      :root { --uc-blue:#003a70; --blue:#003a70; --blue2:#0b4f91; --uc-gold:#ffc72c; --gold:#ffc72c; --ink:#0a0a0a; --muted:#5b6670; --bg:#f7f7f5; --card:#fff; --line:#e4e8ec; --shadow:0 8px 24px rgba(0,0,0,.08); --maxw:1200px; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; min-height:100vh; display:flex; flex-direction:column; background:var(--bg); color:var(--ink); font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+      a { color:var(--blue); text-decoration:none; }
+      a:hover { text-decoration:underline; }
+      button { font:inherit; }
+      :focus-visible { outline:3px solid var(--gold); outline-offset:3px; }
+      .skip-link { position:absolute; left:-9999px; }
+      .skip-link:focus { left:1rem; top:1rem; z-index:100; padding:.5rem .8rem; background:var(--card); }
+      /* Header and navigation */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: #fff;
+        border-bottom: 1px solid rgba(10, 10, 10, 0.08);
+        box-shadow: 0 4px 14px rgba(10, 10, 10, 0.055);
+      }
+
+      .nav {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        min-height: 72px;
+        padding: 0.95rem clamp(1rem, 4vw, 3.25rem);
+        display: flex;
+        align-items: center;
+        gap: clamp(0.85rem, 1.8vw, 1.6rem);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-right: auto;
+        color: var(--ink);
+        font-size: 1.08rem;
+        font-weight: 750;
+        letter-spacing: 0.1px;
+        white-space: nowrap;
+      }
+
+      .brand:hover {
+        text-decoration: none;
+      }
+
+      .brand-logo {
+        width: 38px;
+        height: 38px;
+        display: block;
+        flex: 0 0 auto;
+        border-radius: 9px;
+        object-fit: cover;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: clamp(0.55rem, 1.2vw, 1.15rem);
+      }
+
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 0;
+        color: var(--uc-blue);
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .nav-toggle-lines,
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        width: 20px;
+        height: 2px;
+        display: block;
+        border-radius: 999px;
+        background: currentColor;
+        transition: transform 0.18s ease, opacity 0.18s ease;
+      }
+
+      .nav-toggle-lines {
+        position: relative;
+      }
+
+      .nav-toggle-lines::before,
+      .nav-toggle-lines::after {
+        content: "";
+        position: absolute;
+        left: 0;
+      }
+
+      .nav-toggle-lines::before {
+        top: -6px;
+      }
+
+      .nav-toggle-lines::after {
+        top: 6px;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines {
+        background: transparent;
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::before {
+        top: 0;
+        transform: rotate(45deg);
+      }
+
+      .nav[data-menu-open="true"] .nav-toggle-lines::after {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      .nav-menu {
+        position: relative;
+      }
+
+      .nav-menu > summary {
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 0.4rem;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .nav-menu > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .nav-menu > summary::after {
+        content: "▾";
+        color: var(--uc-blue);
+        font-size: 0.76rem;
+        transition: transform 0.18s ease;
+      }
+
+      .nav-menu[open] > summary,
+      .nav-menu > summary:hover {
+        color: var(--uc-blue);
+      }
+
+      .nav-menu[open] > summary::after {
+        transform: rotate(180deg);
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: min(290px, calc(100vw - 2rem));
+        padding: 0.45rem 0.25rem 0.7rem;
+        background: #fff;
+      }
+
+      .nav-dropdown a {
+        display: block;
+        padding: 0.58rem 0.75rem;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+
+      .nav-dropdown a:hover {
+        color: var(--uc-blue);
+        text-decoration: none;
+      }
+
+      .nav-dropdown .dropdown-heading {
+        padding: 0.35rem 0.75rem 0.45rem;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav-dropdown .dropdown-group + .dropdown-group {
+        margin-top: 0.65rem;
+        padding-top: 0.25rem;
+      }
+
+      .nav-dropdown .dropdown-group {
+        min-width: 0;
+      }
+
+      /* Desktop mega menus: full-width panels attached directly to the navbar. */
+      @media (min-width: 1025px) {
+        .nav {
+          position: relative;
+        }
+
+        .nav-menu {
+          position: static;
+        }
+
+        .nav-menu[open] > summary {
+          box-shadow: inset 0 -3px 0 var(--uc-blue);
+        }
+
+        .nav-dropdown {
+          top: 100%;
+          right: 0;
+          left: 0;
+          width: 100%;
+          min-height: 285px;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: clamp(2.25rem, 5vw, 5rem);
+          align-items: start;
+          padding: 1.55rem clamp(1.25rem, 7vw, 8rem) 2.2rem;
+          border-top: 1px solid rgba(10, 10, 10, 0.07);
+          background: #fff;
+          box-shadow: 0 12px 22px rgba(10, 10, 10, 0.08);
+        }
+
+        .nav-menu[open] > .nav-dropdown {
+          display: grid;
+        }
+
+        .nav-dropdown .dropdown-group,
+        .hub-mega-menu .hub-mega-section {
+          min-width: 0;
+        }
+
+        .nav-dropdown .dropdown-group + .dropdown-group {
+          margin-top: 0;
+          padding-top: 0;
+        }
+
+        .nav-dropdown .dropdown-heading {
+          margin: 0 0 0.55rem;
+          padding: 0 0 0.7rem;
+          border-bottom: 1px solid var(--line);
+          color: var(--ink);
+          font-size: 0.78rem;
+          letter-spacing: 0.02em;
+        }
+
+        .nav-dropdown a {
+          padding: 0.54rem 0.25rem;
+          font-size: 0.95rem;
+          font-weight: 520;
+          line-height: 1.35;
+        }
+
+        .hub-mega-menu {
+          grid-template-columns: minmax(180px, 0.72fr) minmax(0, 2.28fr);
+        }
+
+        .hub-mega-menu > .dropdown-heading {
+          grid-column: 1;
+          align-self: start;
+        }
+
+        .hub-mega-links {
+          grid-column: 2;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.25rem clamp(1.5rem, 4vw, 4rem);
+          align-content: start;
+        }
+      }
+
+      .nav-simple-link {
+        padding: 0.7rem 0.4rem;
+        color: var(--ink);
+        font-size: 0.93rem;
+        font-weight: 650;
+      }
+
+      .nav-simple-link:hover {
+        color: var(--uc-blue);
+        text-decoration: none;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.42rem;
+        padding: 0.7rem 0.4rem;
+        border: 0;
+        color: var(--ink);
+        background: transparent;
+        font: inherit;
+        font-size: 0.93rem;
+        font-weight: 650;
+        cursor: pointer;
+      }
+
+      .theme-toggle:hover {
+        color: var(--uc-blue);
+      }
+
+      .theme-toggle-icon {
+        width: 1.05rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        line-height: 1;
+      }
+
+      .nav-simple-link[aria-current="page"] { color: var(--uc-blue); box-shadow: inset 0 -3px 0 var(--uc-blue); }
+      main { width:100%; flex:1; }
+      .wrap { max-width:var(--maxw); margin:auto; padding:0 1rem; }
+      .hero { padding:clamp(3.5rem,8vw,6.5rem) 0 3rem; }
+      .eyebrow { display:inline-block; color:var(--blue); font-size:.78rem; font-weight:800; letter-spacing:.11em; text-transform:uppercase; }
+      h1 { max-width:850px; margin:.8rem 0 .75rem; font-size:clamp(2.5rem,6vw,4.8rem); line-height:1.1; letter-spacing:-.045em; }
+      .lede { max-width:700px; margin:0; color:var(--muted); font-size:clamp(1.08rem,2vw,1.22rem); }
+      .hero-meta { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.6rem 0 2rem; }
+      .pill { padding:.4rem .8rem; border:1px solid var(--line); border-radius:999px; background:var(--card); color:var(--ink); font-size:.88rem; font-weight:650; }
+      .btn { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:.73rem 1.1rem; border-radius:9px; background:var(--blue); color:#fff; font-weight:700; }
+      .btn:hover { background:var(--blue2); color:#fff; text-decoration:none; }
+      .section { padding:1rem 0 3.5rem; }
+      .section-heading { margin:0 0 .4rem; font-size:clamp(1.6rem,3vw,2.1rem); line-height:1.25; }
+      .section-intro { margin:0 0 1.5rem; color:var(--muted); }
+      .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+      .card { display:flex; flex-direction:column; padding:1.45rem; border:1px solid var(--line); border-radius:14px; background:var(--card); box-shadow:var(--shadow); }
+      .card-number { width:2.1rem; height:2.1rem; display:grid; place-items:center; border-radius:8px; background:rgba(0,58,112,.09); color:var(--blue); font-weight:800; }
+      .card h3 { margin:1.1rem 0 .45rem; font-size:1.18rem; line-height:1.3; }
+      .card p { margin:0; color:var(--muted); }
+      .card ul { margin:.9rem 0 0; padding-left:1.25rem; }
+      .card li + li { margin-top:.32rem; }
+      .apply { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:1.5rem; margin:0 auto 4rem; padding:clamp(1.5rem,4vw,2.3rem); border:1px solid var(--line); border-radius:14px; background:var(--card); }
+      .apply h2 { margin:0 0 .45rem; font-size:1.55rem; line-height:1.25; }
+      .apply p { margin:0; color:var(--muted); }
+      .apply .fine-print { margin-top:.75rem; font-size:.87rem; }
+      footer { margin-top:2rem; border-top:1px solid var(--line); background:#fff; }
+      .footer-inner { max-width:var(--maxw); margin:0 auto; padding:1.65rem 1rem; }
+      .footer-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem; margin-bottom:1rem; }
+      .footer-brand { display:flex; align-items:center; gap:.65rem; color:var(--ink); font-weight:750; white-space:nowrap; }
+      .footer-brand img { width:32px; height:32px; border-radius:8px; object-fit:cover; }
+      .footer-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.65rem 1.3rem; font-size:.92rem; }
+      .footer-links a { font-weight:600; }
+      .copyright { color:var(--muted); font-size:.88rem; }
+      html[data-theme="dark"] { color-scheme:dark; --ink:#f3f5f7; --muted:#aeb8c2; --bg:#101316; --card:#181d21; --line:#2b333a; --shadow:0 10px 28px rgba(0,0,0,.28); }
+      html[data-theme="dark"] a:not(.btn) { color:#72b7ec; }
+      html[data-theme="dark"] header, html[data-theme="dark"] footer, html[data-theme="dark"] .nav-dropdown, html[data-theme="dark"] .nav-links { background:#121619; }
+      html[data-theme="dark"] .brand, html[data-theme="dark"] .footer-brand, html[data-theme="dark"] .nav-simple-link, html[data-theme="dark"] .nav-menu > summary, html[data-theme="dark"] .theme-toggle, html[data-theme="dark"] .nav-dropdown a { color:var(--ink); }
+      html[data-theme="dark"] .nav-simple-link[aria-current="page"] { color:#72b7ec; }
+      html[data-theme="dark"] .card-number { background:rgba(114,183,236,.14); color:#72b7ec; }
+      @media (max-width: 1024px) {
+        .nav {
+          position: relative;
+          flex-wrap: nowrap;
+          gap: 0.65rem;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+          margin-left: auto;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: 100%;
+          right: 0;
+          left: 0;
+          z-index: 70;
+          width: auto;
+          max-height: calc(100vh - 88px);
+          display: none;
+          grid-template-columns: 1fr;
+          gap: 0.1rem;
+          padding: 0.35rem 1rem 0.9rem;
+          overflow-y: auto;
+          background: #fff;
+        }
+
+        .nav[data-menu-open="true"] .nav-links {
+          display: grid;
+        }
+
+        .nav-menu {
+          position: static;
+        }
+
+        .nav-menu > summary,
+        .nav-simple-link,
+        .theme-toggle {
+          width: 100%;
+        }
+
+        .theme-toggle {
+          justify-content: flex-start;
+        }
+
+        .nav-dropdown {
+          position: static;
+          width: 100%;
+          margin: 0.1rem 0 0.35rem;
+          padding: 0 0 0.2rem 0.8rem;
+          background: #fff;
+          box-shadow: none;
+        }
+
+        .nav-dropdown .dropdown-heading {
+          padding-top: 0.55rem;
+        }
+
+        .hub-mega-links {
+          display: block;
+        }
+
+      }
+      @media (max-width:900px) {
+        .cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .footer-top { flex-direction:column; }
+        .footer-links { justify-content:flex-start; }
+      }
+      @media (max-width:620px) {
+        .cards { grid-template-columns:1fr; }
+        .apply { grid-template-columns:1fr; }
+        .apply .btn { justify-self:start; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header>
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="https://ucmercedhub.com/" aria-label="UC Merced Hub home">
+          <img
+            class="brand-logo"
+            src="https://ucmercedhub.com/og-image.jpg"
+            alt=""
+            width="38"
+            height="38"
+          />
+          <span>UC Merced Hub</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="primary-navigation-links"
+          aria-label="Open navigation menu"
+        >
+          <span class="nav-toggle-lines" aria-hidden="true"></span>
+        </button>
+
+        <div class="nav-links" id="primary-navigation-links">
+          <details class="nav-menu">
+            <summary>Community-built</summary>
+            <div class="nav-dropdown">
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Projects</div>
+                <a href="https://ucmercedhub.com/#student-projects">View All Student Projects</a>
+                <a href="https://mercedbustracker.net/" target="_blank" rel="noopener noreferrer">
+                  Merced Bus Tracker
+                </a>
+                <a href="https://bobcat-bulletin.vercel.app/" target="_blank" rel="noopener noreferrer">
+                  Bobcat Bulletin
+                </a>
+                <a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">
+                  Submit a Project
+                </a>
+              </div>
+
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Clubs</div>
+                <a href="https://ucmercedhub.com/#student-clubs">Student Clubs</a>
+                <a
+                  href="https://robotics-society-ucmerced.angelavargas0831.workers.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Robotics Society
+                </a>
+                <a href="mailto:contact@ucmercedhub.com?subject=Club%20Feature%20Request">
+                  Feature a Club
+                </a>
+              </div>
+
+              <div class="dropdown-group">
+                <div class="dropdown-heading">Discord Servers</div>
+                <a href="https://ucmercedhub.com/#student-discord-servers">Featured Discord Servers</a>
+                <a href="https://discord.ucmercedhub.com/" rel="noopener">
+                  Browse Discord Directory
+                </a>
+                <a href="mailto:contact@ucmercedhub.com?subject=Discord%20Server%20Submission">
+                  Submit a Discord Server
+                </a>
+              </div>
+            </div>
+          </details>
+
+          <details class="nav-menu">
+            <summary>UC Merced Hub Projects</summary>
+            <div class="nav-dropdown hub-mega-menu">
+              <div class="dropdown-heading">Built by UC Merced Hub</div>
+              <div class="hub-mega-links">
+                <a href="https://ucmercedhub.com/#hub-projects">View All Hub Projects</a>
+                <a href="https://campusmap.ucmercedhub.com/" rel="noopener">Campus Map</a>
+                <a href="https://herreraflavio.github.io/seemerced2/" rel="noopener">SeeMerced</a>
+                <a href="https://calendar.ucmercedhub.com/" rel="noopener">Calendar Builder</a>
+                <a href="https://ucpayrolls.com/" rel="noopener">UC Payrolls</a>
+              </div>
+            </div>
+          </details>
+
+          <a class="nav-simple-link" href="/j*bs/" aria-current="page">Jobs</a>
+
+          <button
+            class="theme-toggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Switch to dark mode"
+          >
+            <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+            <span class="theme-toggle-label">Dark mode</span>
+          </button>
+
+          <a class="nav-simple-link" href="mailto:contact@ucmercedhub.com">Contact</a>
+        </div>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
+      <div class="wrap">
+        <section class="hero" aria-labelledby="page-title">
+          <span class="eyebrow">Small projects · Real impact</span>
+          <h1 id="page-title">Help make UC Merced Hub a little better.</h1>
+          <p class="lede">We have a few straightforward website tasks for someone who enjoys clean HTML, thoughtful details, and making useful things easier to navigate.</p>
+          <div class="hero-meta"><span class="pill">Paid work · around $20/hour</span><span class="pill">Flexible, short tasks</span><span class="pill">HTML · CSS · a little JavaScript</span></div>
+          <a class="btn" href="#tasks">See the tasks ↓</a>
+        </section>
+        <section class="section" id="tasks" aria-labelledby="tasks-title">
+          <span class="eyebrow">What needs doing</span>
+          <h2 class="section-heading" id="tasks-title">Three good places to start</h2>
+          <p class="section-intro">Pick a task that fits your skills. We can agree on scope and timing before you begin.</p>
+          <div class="cards">
+            <article class="card"><span class="card-number" aria-hidden="true">01</span><h3>Check links and tidy pages</h3><p>Go through existing pages, find broken or outdated links, and clean up small HTML issues.</p><ul><li>Test navigation and key buttons</li><li>Fix obvious link and text mistakes</li></ul></article>
+            <article class="card"><span class="card-number" aria-hidden="true">02</span><h3>Keep the layout consistent</h3><p>Make sure pages use the current header, footer, and basic spacing so the site feels connected.</p><ul><li>Align navigation and footer links</li><li>Check the layout on desktop and mobile</li></ul></article>
+            <article class="card"><span class="card-number" aria-hidden="true">03</span><h3>Polish a few site details</h3><p>Handle small updates as they come up, such as clearer labels, cleaner sections, or simple responsive fixes.</p><ul><li>Make targeted HTML and CSS edits</li><li>Spot check the result before handoff</li></ul></article>
+          </div>
+        </section>
+        <section class="apply" id="apply" aria-labelledby="apply-title">
+          <div><h2 id="apply-title">Interested in helping?</h2><p>Send a short introduction, any HTML/CSS work you can share, and which task interests you. No formal résumé needed.</p><p class="fine-print">UC Merced Hub is independently operated. These are project tasks with UC Merced Hub, not university positions.</p></div>
+          <a class="btn" href="mailto:contact@ucmercedhub.com?subject=UC%20Merced%20Hub%20Jobs%20Interest&amp;body=Hi%20Flavio%2C%0A%0AI%27m%20interested%20in%20helping%20with%3A%20%0A%0AA%20little%20about%20me%3A%20%0A%0ARelevant%20work%20or%20links%3A%20">Email us to get started ↗</a>
+        </section>
+      </div>
+    </main>
+    <footer role="contentinfo">
+      <div class="footer-inner"><div class="footer-top"><a class="footer-brand" href="https://ucmercedhub.com/"><img src="https://ucmercedhub.com/og-image.jpg" alt="" width="32" height="32" /><span>UC Merced Hub</span></a><nav class="footer-links" aria-label="Footer navigation"><a href="https://ucmercedhub.com/#student-projects">Student Projects</a><a href="https://ucmercedhub.com/#student-clubs">Student Clubs</a><a href="https://ucmercedhub.com/#student-discord-servers">Student Discord Servers</a><a href="https://ucmercedhub.com/#hub-projects">UC Merced Hub Projects</a><a href="/j*bs/" aria-current="page">Jobs</a><a href="mailto:contact@ucmercedhub.com?subject=Student%20Project%20Submission">Submit a Project</a><a href="https://campusmap.ucmercedhub.com/support/">Support</a><a href="https://campusmap.ucmercedhub.com/privacy_policy/">Privacy</a><a href="mailto:contact@ucmercedhub.com">Contact</a></nav></div><div class="copyright">© <span id="year"></span> UC Merced Hub. Independently operated and not officially affiliated with the University of California. Student projects are independently developed and maintained by their respective creators.</div></div>
+    </footer>
+    <script>
+        function initNavigationMenus() {
+          const menus = Array.from(document.querySelectorAll(".nav-menu"));
+
+          menus.forEach(function (menu) {
+            menu.addEventListener("toggle", function () {
+              if (!menu.open) return;
+
+              menus.forEach(function (otherMenu) {
+                if (otherMenu !== menu) otherMenu.removeAttribute("open");
+              });
+            });
+          });
+
+          document.addEventListener("click", function (event) {
+            menus.forEach(function (menu) {
+              if (!menu.contains(event.target)) menu.removeAttribute("open");
+            });
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              menus.forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
+          });
+        }
+
+        function initMobileNavigation() {
+          const navigation = document.querySelector(".nav");
+          const toggle = document.querySelector(".nav-toggle");
+          const links = document.getElementById("primary-navigation-links");
+
+          if (!navigation || !toggle || !links) return;
+
+          function setMenuOpen(isOpen) {
+            navigation.dataset.menuOpen = isOpen ? "true" : "false";
+            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            toggle.setAttribute(
+              "aria-label",
+              isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
+
+            if (!isOpen) {
+              links.querySelectorAll(".nav-menu").forEach(function (menu) {
+                menu.removeAttribute("open");
+              });
+            }
+          }
+
+          toggle.addEventListener("click", function () {
+            setMenuOpen(navigation.dataset.menuOpen !== "true");
+          });
+
+          links.addEventListener("click", function (event) {
+            if (
+              event.target.closest("a") &&
+              window.matchMedia("(max-width: 1024px)").matches
+            ) {
+              setMenuOpen(false);
+            }
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") setMenuOpen(false);
+          });
+
+          window.addEventListener("resize", function () {
+            if (window.innerWidth > 1024) setMenuOpen(false);
+          });
+
+          setMenuOpen(false);
+        }
+
+        initNavigationMenus();
+        initMobileNavigation();
+      const toggle = document.querySelector('.theme-toggle');
+      function syncTheme() {
+        const dark = document.documentElement.dataset.theme === 'dark';
+        toggle.setAttribute('aria-pressed', String(dark));
+        toggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+        toggle.querySelector('.theme-toggle-icon').textContent = dark ? '☀' : '☾';
+        toggle.querySelector('.theme-toggle-label').textContent = dark ? 'Light mode' : 'Dark mode';
+      }
+      syncTheme();
+      toggle.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try { localStorage.setItem('ucmercedhub-theme', next); } catch (_) {}
+        syncTheme();
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
