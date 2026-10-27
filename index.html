@@ -610,6 +610,11 @@
         letter-spacing: -0.035em;
       }
 
+      .hero > .promo-eyebrow {
+        max-width: 100%;
+        margin-bottom: 0.85rem;
+      }
+
       .hero .lede {
         margin: var(--hero-heading-gap) 0 0;
         color: var(--muted);
@@ -2987,6 +2992,62 @@
           transition: none !important;
         }
       }
+
+      /* Desktop promotion refinements. The container guard preserves the
+         existing card layout whenever the carousel has 940px or less. */
+      @media (min-width: 973px) {
+        @container promo-carousel (min-width: 941px) {
+          .app-promo-frame {
+            --carousel-gutter: clamp(4rem, 6vw, 4.5rem);
+          }
+
+          .app-promo-slide-inner {
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 1.5rem;
+          }
+
+          .app-promo-frame .promo-actions {
+            align-items: stretch;
+            flex-wrap: nowrap;
+          }
+
+          .app-promo-frame .promo-actions .btn {
+            min-width: 0;
+            padding-inline: clamp(0.65rem, 1.25vw, 1rem);
+            font-size: clamp(0.82rem, 1.15vw, 0.92rem);
+          }
+
+          .app-promo-media {
+            align-self: center;
+            align-items: center;
+          }
+
+          .app-promo-frame .promo-image-trigger {
+            position: relative;
+            inset: auto;
+            height: auto;
+            align-items: center;
+          }
+
+          .app-promo-art {
+            max-height: calc(
+              var(--promo-banner-h) - clamp(1.1rem, 3vw, 2.5rem) -
+                var(--carousel-footer) - 2px
+            );
+            margin: 0 0 0 auto;
+          }
+
+          .app-promo-frame .slider-btn {
+            border-width: 1px;
+            border-radius: 50%;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+          }
+
+          html[data-theme="dark"] .app-promo-frame .slider-btn {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.28);
+          }
+        }
+      }
     </style>
 
     <!-- Privacy-friendly analytics by Plausible -->
@@ -3136,13 +3197,15 @@
 
     <main id="main" tabindex="-1">
       <section class="hero" aria-labelledby="hero-title">
+        <span class="promo-eyebrow"
+          >Built by and for the UC Merced community</span
+        >
         <h1 id="hero-title">
           Explore projects, communities, and campus tools.
         </h1>
         <p class="lede">
           Discover student-built projects, student-run communities, and useful
           tools created for the broader UC Merced community.
-          <strong>Built by and for the UC Merced community</strong>
         </p>
       </section>
 
@@ -3156,7 +3219,7 @@
         </h2>
 
         <p class="promotion-disclosure" role="note">
-          <strong>Upcoming</strong>
+          <strong>Featured</strong>
           <span
             >UC Merced Hub announcements, community resources, and
             opportunities.</span
@@ -3291,13 +3354,6 @@
                       built for quick exploration.
                     </p>
 
-                    <p class="app-promo-caption">
-                      Questions, partnerships, or feedback:
-                      <a href="mailto:contact@ucmercedhub.com"
-                        >contact@ucmercedhub.com</a
-                      >
-                    </p>
-
                     <ul
                       class="app-promo-highlights"
                       aria-label="iOS launch highlights"
@@ -3337,6 +3393,13 @@
                         ></span>
                       </a>
                     </div>
+
+                    <p class="app-promo-caption">
+                      Questions, partnerships, or feedback:
+                      <a href="mailto:contact@ucmercedhub.com"
+                        >contact@ucmercedhub.com</a
+                      >
+                    </p>
                   </div>
 
                   <div class="app-promo-media carousel-media">
@@ -3383,13 +3446,6 @@
                       for early feedback before the broader launch.
                     </p>
 
-                    <p class="app-promo-caption">
-                      Interested in testing or collaborating:
-                      <a href="mailto:contact@ucmercedhub.com"
-                        >contact@ucmercedhub.com</a
-                      >
-                    </p>
-
                     <ul
                       class="app-promo-highlights"
                       aria-label="Android testing highlights"
@@ -3427,6 +3483,13 @@
                         ></span>
                       </a>
                     </div>
+
+                    <p class="app-promo-caption">
+                      Interested in testing or collaborating:
+                      <a href="mailto:contact@ucmercedhub.com"
+                        >contact@ucmercedhub.com</a
+                      >
+                    </p>
                   </div>
 
                   <div class="app-promo-media carousel-media">
@@ -3462,14 +3525,14 @@
               <button
                 class="slider-btn prev"
                 type="button"
-                aria-label="Previous promotion"
+                aria-label="Previous slide"
               >
                 <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
               </button>
               <button
                 class="slider-btn next"
                 type="button"
-                aria-label="Next promotion"
+                aria-label="Next slide"
               >
                 <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
               </button>
@@ -4684,7 +4747,11 @@
               button.type = "button";
               button.setAttribute(
                 "aria-label",
-                title ? `Show ${title}` : `Show slide ${index + 1}`,
+                frame.classList.contains("app-promo-frame")
+                  ? `Go to slide ${index + 1}`
+                  : title
+                    ? `Show ${title}`
+                    : `Show slide ${index + 1}`,
               );
               button.setAttribute(
                 "aria-current",
