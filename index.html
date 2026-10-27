@@ -166,6 +166,35 @@
         box-shadow: var(--shadow);
       }
 
+      /* Local SVG masks inherit the surrounding text color in either theme. */
+      .ui-icon,
+      .nav-menu > summary::after {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        flex: 0 0 auto;
+        vertical-align: -0.125em;
+        background-color: currentColor;
+        -webkit-mask: var(--icon-url) center / contain no-repeat;
+        mask: var(--icon-url) center / contain no-repeat;
+      }
+
+      .ui-icon-external {
+        --icon-url: url("/assets/top-right.svg");
+      }
+
+      .ui-icon-location {
+        --icon-url: url("/assets/location.svg");
+      }
+
+      .ui-icon-chevron {
+        --icon-url: url("/assets/right-chevron.svg");
+      }
+
+      .slider-btn.prev .ui-icon-chevron {
+        transform: rotate(180deg);
+      }
+
       /* Header and navigation */
       header {
         position: sticky;
@@ -301,9 +330,12 @@
       }
 
       .nav-menu > summary::after {
-        content: "▾";
+        --icon-url: url("/assets/right-chevron.svg");
+        content: "";
+        width: 0.6rem;
+        height: 0.6rem;
         color: var(--uc-blue);
-        font-size: 0.76rem;
+        transform: rotate(90deg);
         transition: transform 0.18s ease;
       }
 
@@ -313,7 +345,7 @@
       }
 
       .nav-menu[open] > summary::after {
-        transform: rotate(180deg);
+        transform: rotate(-90deg);
       }
 
       .nav-dropdown {
@@ -465,12 +497,13 @@
       }
 
       .theme-toggle-icon {
+        --icon-url: url("/assets/night.svg");
         width: 1.05rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        line-height: 1;
+        height: 1.05rem;
+      }
+
+      html[data-theme="dark"] .theme-toggle-icon {
+        --icon-url: url("/assets/sun.svg");
       }
 
       /* Shared buttons */
@@ -548,12 +581,12 @@
       }
 
       .hero {
+        --hero-heading-gap: clamp(1.5rem, 2.5vw, 2.25rem);
         max-width: var(--maxw);
         margin: 0 auto;
-        padding: clamp(2.6rem, 6vw, 5.2rem) 1rem clamp(1.6rem, 4vw, 2.8rem);
+        padding: var(--hero-heading-gap) 1rem clamp(0.75rem, 1.5vw, 1.25rem);
       }
 
-      .hero-eyebrow,
       .section-eyebrow,
       .promo-eyebrow,
       .ownership-badge,
@@ -569,24 +602,16 @@
         text-transform: uppercase;
       }
 
-      .hero-eyebrow {
-        padding: 0.38rem 0.72rem;
-        color: var(--uc-blue);
-        background: rgba(0, 58, 112, 0.08);
-        border: 1px solid rgba(0, 58, 112, 0.08);
-      }
-
       .hero h1 {
         max-width: 860px;
-        margin: 0.85rem 0 0;
+        margin: 0;
         font-size: clamp(2.15rem, 5vw, 4.15rem);
         line-height: 1.02;
         letter-spacing: -0.035em;
       }
 
       .hero .lede {
-        max-width: 760px;
-        margin: 1rem 0 0;
+        margin: var(--hero-heading-gap) 0 0;
         color: var(--muted);
         font-size: clamp(1rem, 1.6vw, 1.2rem);
       }
@@ -652,21 +677,15 @@
         border-color: rgba(255, 199, 44, 0.32);
       }
 
-      /* Promotion banner
-         Every promotion slide follows the same layout so the banner stays compact:
-         - Copy (left): eyebrow, title (aim for 2 lines), 2–3 lines of text,
-           3–4 highlights, up to 2 buttons, 1 contact line.
-         - Media (right): one image or art piece. It sits in a fixed-height box
-           (--promo-media-h) and scales to fit inside it at any aspect ratio, so a
-           tall poster can never make the banner taller than its text.
-         The banner height then comes from the tallest copy block, and each slide's
-         content is centered vertically inside it. */
+      /* Promotion layout is scoped here so What's New keeps its original UI.
+         Each breakpoint reserves one fixed banner height for all three slides. */
       .app-promo {
-        --promo-media-h: 400px;
+        --promo-banner-h: 620px;
         max-width: var(--maxw);
         margin: 0 auto;
         padding: 0 1rem 2.35rem;
         scroll-margin-top: 88px;
+        container: promo-carousel / inline-size;
       }
 
       .promotion-disclosure {
@@ -678,7 +697,7 @@
         color: var(--muted);
         font-size: 0.8rem;
         line-height: 1.35;
-            justify-content: flex-start;
+        justify-content: flex-start;
       }
 
       .promotion-disclosure .promotion-contact {
@@ -707,7 +726,11 @@
       }
 
       .app-promo-frame {
+        --carousel-gutter: clamp(4rem, 7vw, 5.25rem);
+        --carousel-footer: 4rem;
+        --carousel-arrow-inset: clamp(0.625rem, 1.5vw, 1.25rem);
         position: relative;
+        height: var(--promo-banner-h);
         overflow: hidden;
         border: 1px solid rgba(0, 58, 112, 0.1);
         border-radius: calc(var(--radius) + 5px);
@@ -721,22 +744,57 @@
         box-shadow: var(--shadow);
       }
 
+      .app-promo-frame .carousel-inner {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        margin: 0 auto;
+        padding: clamp(1.1rem, 3vw, 2.5rem) var(--carousel-gutter)
+          var(--carousel-footer);
+      }
+
+      .app-promo-frame .slides {
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+      }
+
+      .app-promo-title .promo-eyebrow {
+        display: inline-block;
+        max-width: 100%;
+        margin-inline-start: 0.35rem;
+        vertical-align: middle;
+        white-space: normal;
+      }
+
       .app-promo-slide-inner {
         display: grid;
-        grid-template-columns: minmax(0, 1.16fr) minmax(300px, 0.84fr);
-        align-items: center;
-        align-content: center;
-        gap: clamp(1.4rem, 4vw, 3rem);
+        grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+        align-items: stretch;
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+        min-width: 0;
+        min-height: 0;
         height: 100%;
-        padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1.4rem, 4vw, 3rem) 3.8rem;
       }
 
       .app-promo-copy {
-        padding: 0.2rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        min-width: 0;
+        min-height: 0;
+        text-align: left;
+        overflow-wrap: anywhere;
+      }
+
+      .app-promo-copy > * {
+        flex-shrink: 0;
       }
 
       .app-promo-title {
-        margin: 0.9rem 0 0.7rem;
+        margin: 0 0 0.7rem;
         font-size: clamp(1.75rem, 3.8vw, 3rem);
         line-height: 1.06;
         letter-spacing: -0.025em;
@@ -751,6 +809,7 @@
 
       .app-promo-highlights {
         display: grid;
+        max-width: 100%;
         gap: 0.52rem;
         margin: 1rem 0 1.2rem;
         padding: 0;
@@ -758,8 +817,9 @@
       }
 
       .app-promo-highlights li {
-        display: flex;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: 1em minmax(0, 1fr);
+        align-items: start;
         gap: 0.6rem;
         color: #29445d;
         font-size: 0.95rem;
@@ -768,7 +828,6 @@
 
       .app-promo-highlights li::before {
         content: "✓";
-        flex: 0 0 auto;
         margin-top: 0.02rem;
         color: var(--uc-blue);
         font-weight: 900;
@@ -776,12 +835,14 @@
 
       .promo-actions {
         display: flex;
+        justify-content: flex-start;
         flex-wrap: wrap;
         gap: 0.7rem;
       }
 
       .app-promo-contact {
-        margin: 1rem 0 0;
+        margin: auto 0 0;
+        padding-top: 1rem;
         color: var(--muted);
         font-size: 0.9rem;
       }
@@ -790,23 +851,26 @@
         font-weight: 700;
       }
 
-      /* Fixed media box: same footprint on every slide, whatever the image. */
+      /* Contain the artwork within the content row and align its lower-right
+         corner with the closing sentence and the inner container's right edge. */
       .app-promo-media {
+        position: relative;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-end;
+        justify-content: flex-end;
         min-width: 0;
-        height: var(--promo-media-h);
+        min-height: 0;
       }
 
-      /* Scale to fit inside the media box while keeping the image's own aspect
-         ratio, so the shadow and rounded corners hug the image itself. */
       .app-promo-art {
+        position: absolute;
+        inset: 0;
         display: block;
         width: auto;
         height: auto;
-        max-width: min(100%, 430px);
-        max-height: var(--promo-media-h);
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto 0 0 auto;
         object-fit: contain;
         border-radius: 22px;
         background: transparent;
@@ -815,19 +879,12 @@
           inset 0 0 0 1px rgba(255, 255, 255, 0.35);
       }
 
-      /* Keep promotion slides at one consistent height. Because all slides share
-         the same grid cell, the frame adopts the height of the tallest slide.
-         Each slide is a grid so its inner layout stretches to that height and
-         centers its content, instead of leaving all spare space at the bottom. */
       .app-promo-frame .slide {
         display: grid;
+        min-width: 0;
+        min-height: 0;
         visibility: hidden;
         pointer-events: none;
-      }
-
-      /* Orbit artwork used as promotion media fits the same media box. */
-      .app-promo-media .discord-orbit-scene {
-        width: min(100%, var(--promo-media-h));
       }
 
       .app-promo-frame .slide[data-active="true"] {
@@ -1103,7 +1160,11 @@
       }
 
       .whats-new-frame {
+        --carousel-gutter: clamp(4rem, 7vw, 5.25rem);
+        --carousel-footer: 4rem;
+        --carousel-arrow-inset: clamp(0.625rem, 1.5vw, 1.25rem);
         position: relative;
+        padding: 0 var(--carousel-gutter) var(--carousel-footer);
         overflow: hidden;
         border: 1px solid rgba(0, 58, 112, 0.11);
         border-radius: calc(var(--radius) + 5px);
@@ -1148,8 +1209,8 @@
         z-index: 2;
         display: flex;
         align-items: flex-end;
-        padding: clamp(1.35rem, 3.2vw, 2.5rem) clamp(1.35rem, 3.4vw, 2.75rem)
-          4.15rem;
+        padding: clamp(1.35rem, 3.2vw, 2.5rem)
+          clamp(1.35rem, 3.4vw, 2.75rem);
         background: linear-gradient(
           to top,
           rgba(255, 255, 255, 1) 0%,
@@ -1178,6 +1239,7 @@
         font-size: clamp(1.75rem, 4vw, 3.25rem);
         line-height: 1.02;
         letter-spacing: -0.03em;
+        overflow-wrap: anywhere;
       }
 
       .whats-new-text {
@@ -1210,6 +1272,7 @@
         color: #18354f;
         font-size: 0.92rem;
         font-weight: 750;
+        overflow-wrap: anywhere;
       }
 
       .whats-new-actions {
@@ -1218,6 +1281,97 @@
         justify-content: flex-end;
         flex-wrap: wrap;
         gap: 0.65rem;
+      }
+
+      .promo-fullscreen-button,
+      .media-viewer-close {
+        width: 46px;
+        height: 46px;
+        display: grid;
+        place-items: center;
+        appearance: none;
+        padding: 0;
+        border: 1px solid rgba(0, 58, 112, 0.2);
+        border-radius: 13px;
+        color: #0a0a0a;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+        cursor: pointer;
+        backdrop-filter: blur(8px);
+      }
+
+      .promo-fullscreen-button {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 4;
+      }
+
+      .promo-fullscreen-button:hover,
+      .media-viewer-close:hover {
+        background: #fff;
+      }
+
+      .promo-fullscreen-button img,
+      .media-viewer-close img {
+        display: block;
+        width: 24px;
+        height: 24px;
+        max-width: none;
+        object-fit: contain;
+      }
+
+      body.media-viewer-open {
+        overflow: hidden;
+      }
+
+      .media-viewer {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        padding: max(1rem, env(safe-area-inset-top))
+          max(1rem, env(safe-area-inset-right))
+          max(1rem, env(safe-area-inset-bottom))
+          max(1rem, env(safe-area-inset-left));
+        background: rgba(5, 10, 15, 0.94);
+      }
+
+      .media-viewer[hidden] {
+        display: none;
+      }
+
+      .media-viewer-content {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        min-height: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .media-viewer-content > * {
+        pointer-events: auto;
+      }
+
+      .media-viewer-image {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: calc(100vw - 2rem);
+        max-height: calc(100vh - 2rem);
+        max-height: calc(100dvh - 2rem);
+        object-fit: contain;
+      }
+
+      .media-viewer-close {
+        position: absolute;
+        top: max(1rem, env(safe-area-inset-top));
+        right: max(1rem, env(safe-area-inset-right));
+        z-index: 2;
       }
 
       /* Shared carousel controls */
@@ -1230,12 +1384,11 @@
 
       .slider-btn {
         position: absolute;
-        top: 50%;
+        top: calc(50% - 2rem);
         width: 44px;
         height: 44px;
         display: grid;
         place-items: center;
-        transform: translateY(-50%);
         appearance: none;
         border: 1px solid rgba(0, 58, 112, 0.09);
         border-radius: 12px;
@@ -1254,21 +1407,23 @@
       }
 
       .slider-btn.prev {
-        left: 0.8rem;
+        left: var(--carousel-arrow-inset);
+        transform: translateY(-50%);
       }
 
       .slider-btn.next {
-        right: 0.8rem;
+        right: var(--carousel-arrow-inset);
+        transform: translateY(-50%);
       }
 
       .slider-dots {
         position: absolute;
-        right: 0;
         bottom: 1rem;
-        left: 0;
+        left: 50%;
         display: flex;
         justify-content: center;
         gap: 0.45rem;
+        transform: translateX(-50%);
         pointer-events: auto;
       }
 
@@ -1640,6 +1795,12 @@
       }
 
       /* Responsive */
+      @media (min-width: 901px) and (max-width: 1050px) {
+        .app-promo {
+          --promo-banner-h: 680px;
+        }
+      }
+
       @media (min-width: 650px) {
         .project-card {
           grid-column: span 6;
@@ -1709,22 +1870,6 @@
           display: block;
         }
 
-        .app-promo-slide-inner {
-          grid-template-columns: 1fr;
-        }
-
-        .app-promo {
-          --promo-media-h: 300px;
-        }
-
-        .app-promo-slide-inner {
-          padding-bottom: 4rem;
-        }
-
-        .app-promo-media {
-          order: -1;
-        }
-
         .whats-new-slide {
           aspect-ratio: 4 / 3;
           min-height: 650px;
@@ -1757,6 +1902,70 @@
 
         .footer-links {
           justify-content: flex-start;
+        }
+      }
+
+      /* Switch the promotional banner to its card layout based on the space
+         the section actually has, rather than a device-width assumption. */
+      @container promo-carousel (max-width: 940px) {
+        .app-promo-frame {
+          height: auto;
+          background: var(--card);
+        }
+
+        .app-promo-frame .carousel-inner {
+          height: auto;
+          padding: 0 var(--carousel-gutter) var(--carousel-footer);
+        }
+
+        .app-promo-frame .slides {
+          height: auto;
+        }
+
+        .app-promo-slide-inner {
+          display: flex;
+          height: auto;
+          gap: 0;
+          flex-direction: column;
+        }
+
+        .app-promo-frame .slide {
+          display: none;
+        }
+
+        .app-promo-frame .slide[data-active="true"] {
+          display: block;
+        }
+
+        .app-promo-media {
+          order: -1;
+          width: 100%;
+          height: clamp(200px, 70cqw, 300px);
+          overflow: hidden;
+        }
+
+        .app-promo-art {
+          position: relative;
+          inset: auto;
+          width: 100%;
+          height: 100%;
+          max-width: none;
+          max-height: none;
+          margin: 0;
+          border-radius: 0;
+          object-fit: cover;
+          object-position: center top;
+          box-shadow: none;
+        }
+
+        .app-promo-copy {
+          position: relative;
+          z-index: 3;
+          margin-top: -1.25rem;
+          padding: 1.55rem clamp(1rem, 3cqw, 1.75rem) 1.2rem;
+          border-radius: 1.25rem 1.25rem 0 0;
+          color: var(--ink);
+          background: var(--card);
         }
       }
 
@@ -1803,6 +2012,12 @@
       }
 
       @media (max-width: 620px) {
+        .app-promo-frame,
+        .whats-new-frame {
+          --carousel-gutter: 3.25rem;
+          --carousel-arrow-inset: 0.25rem;
+        }
+
         .promotion-disclosure {
           align-items: flex-start;
         }
@@ -1810,10 +2025,6 @@
         .promotion-disclosure .promotion-contact {
           width: 100%;
           margin-left: 0;
-        }
-
-        .hero {
-          padding-top: 2.3rem;
         }
 
         .hero h1 {
@@ -1825,12 +2036,8 @@
           flex-direction: column;
         }
 
-        .app-promo-slide-inner {
-          padding: 1.1rem 1.1rem 4rem;
-        }
-
-        .app-promo {
-          --promo-media-h: 240px;
+        .app-promo-frame .promo-actions {
+          width: 100%;
         }
 
         .discord-promo-preview {
@@ -1898,7 +2105,7 @@
           position: relative;
           inset: auto;
           min-width: 0;
-          padding: 1.1rem 1rem 4.6rem;
+          padding: 1.1rem 1rem;
           background: linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.92) 0%,
@@ -1940,25 +2147,9 @@
           justify-content: stretch;
         }
 
-        .whats-new-frame .slider-btn,
-        .app-promo-frame .slider-btn {
-          top: auto;
-          bottom: 0.55rem;
-          transform: none;
-        }
-
-        .whats-new-frame .slider-btn.prev,
-        .app-promo-frame .slider-btn.prev {
-          left: 0.75rem;
-        }
-
-        .whats-new-frame .slider-btn.next,
-        .app-promo-frame .slider-btn.next {
-          right: 0.75rem;
-        }
-
-        .slider-dots {
-          bottom: 1.05rem;
+        .promo-fullscreen-button {
+          top: 0.7rem;
+          right: 0.7rem;
         }
 
         .discord-whats-new-art .discord-orbit-scene {
@@ -1990,6 +2181,31 @@
       }
 
       @media (max-width: 430px) {
+        .app-promo,
+        .whats-new {
+          padding-right: 0.5rem;
+          padding-left: 0.5rem;
+        }
+
+        .app-promo-frame,
+        .whats-new-frame {
+          --carousel-gutter: 2.75rem;
+          --carousel-arrow-inset: 0.125rem;
+        }
+
+        .slider-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .app-promo-frame .btn,
+        .whats-new-frame .btn {
+          min-width: 0;
+          text-align: center;
+          white-space: normal;
+          overflow-wrap: anywhere;
+        }
+
         .whats-new-meta {
           grid-template-columns: 1fr;
           gap: 0.45rem;
@@ -2090,7 +2306,6 @@
         background: rgba(114, 183, 236, 0.09);
       }
 
-      html[data-theme="dark"] .hero-eyebrow,
       html[data-theme="dark"] .promo-eyebrow {
         color: #8fc9f3;
         background: rgba(74, 154, 214, 0.13);
@@ -2269,6 +2484,11 @@
             rgba(16, 19, 22, 1) 100%
           );
         }
+
+        html[data-theme="dark"] .app-promo-frame,
+        html[data-theme="dark"] .app-promo-copy {
+          background: var(--card);
+        }
       }
     </style>
 
@@ -2406,7 +2626,7 @@
             aria-pressed="false"
             aria-label="Switch to dark mode"
           >
-            <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+            <span class="ui-icon theme-toggle-icon" aria-hidden="true"></span>
             <span class="theme-toggle-label">Dark mode</span>
           </button>
 
@@ -2419,15 +2639,13 @@
 
     <main id="main" tabindex="-1">
       <section class="hero" aria-labelledby="hero-title">
-        <span class="hero-eyebrow"
-          >Built by and for the UC Merced community</span
-        >
         <h1 id="hero-title">
           Explore projects, communities, and campus tools.
         </h1>
         <p class="lede">
           Discover student-built projects, student-run communities, and useful
           tools created for the broader UC Merced community.
+          <strong>Built by and for the UC Merced community</strong>
         </p>
       </section>
 
@@ -2437,263 +2655,303 @@
         aria-labelledby="app-promo-heading"
       >
         <h2 id="app-promo-heading" class="visually-hidden">
-          UC Merced Hub promotions and community announcements
+          UC Merced Hub highlights and community announcements
         </h2>
 
         <p class="promotion-disclosure" role="note">
-          <strong>Promotional content</strong>
+          <strong>Upcoming</strong>
           <span
             >UC Merced Hub announcements, community resources, and
             opportunities.</span
           >
           <span class="promotion-contact">
-            Interested in being promoted?
+            Want to be featured?
             <a href="mailto:contact@ucmerced.edu"
               >Contact contact@ucmerced.edu</a
             >
           </span>
-            <span class="promotion-contact">
+          <span class="promotion-contact">
             View
-            <a href="./analytics"
-              >Web Analytics</a
-            >
+            <a href="./analytics">Web Analytics</a>
           </span>
         </p>
 
         <div class="app-promo-frame js-slider" data-interval="7000">
-          <ul class="slides">
-            <!-- Promotion 1: HacktoberFest HackDay by HackMerced — Saturday, October 24, 2026 -->
-            <li class="slide" data-active="true">
-              <div class="app-promo-slide-inner">
-                <div class="app-promo-copy">
-                  <span class="promo-eyebrow student"
-                    >Upcoming Hackathon · HackMerced</span
-                  >
-                  <h3 class="promo-title app-promo-title">
-                    HacktoberFest HackDay at UC&nbsp;Merced.
-                  </h3>
-                  <p class="app-promo-text">
-                    HackMerced’s free, 12-hour mini hackathon is open to all
-                    students and experience levels. Build a project, attend
-                    workshops, and compete for prizes.
-                  </p>
+          <div class="carousel-inner">
+            <ul class="slides">
+              <!-- Promotion 1: Rhymes & Recipes with Lyrics Born — November 5, 2026 -->
+              <li class="slide" data-active="true">
+                <div class="app-promo-slide-inner">
+                  <div class="app-promo-copy">
+                    <h3 class="promo-title app-promo-title">
+                      <span class="promo-title-text"
+                        >Rhymes &amp; Recipes with Lyrics Born.</span
+                      >
+                      <span class="promo-eyebrow student"
+                        >Upcoming Event · Food for Thought</span
+                      >
+                    </h3>
+                    <p class="app-promo-text">
+                      Celebrate National Hip Hop Month with hip-hop artist and
+                      Dinner in Place host Lyrics Born. Enjoy an evening of free
+                      food, music, and conversation.
+                    </p>
 
-                  <ul
-                    class="app-promo-highlights"
-                    aria-label="HacktoberFest HackDay highlights"
-                  >
-                    <li>
-                      Saturday, October 24 · 10:00 AM – 10:00 PM in COB2 110
-                    </li>
-                    <li>
-                      Workshops on AI, Git, SQL, RAG, data science, and GIS
-                    </li>
-                    <li>
-                      Teams of 1–4, with a team mixer to help you find teammates
-                    </li>
-                    <li>
-                      Free meals, prizes, and swag — no coding experience
-                      required
-                    </li>
-                  </ul>
+                    <ul
+                      class="app-promo-highlights"
+                      aria-label="Rhymes &amp; Recipes event highlights"
+                    >
+                      <li>
+                        November 5 · 6:00 PM at UC Merced Conference Center
+                        Ballroom
+                      </li>
+                      <li>A conversation moderated by Dr. Kevin Easley</li>
+                      <li>
+                        Music before and after, with food inspired by Dinner in
+                        Place
+                      </li>
+                      <li>Free and open to the public</li>
+                    </ul>
 
-                  <div class="promo-actions">
-                    <a
-                      class="btn alt"
-                      href="https://events.mlh.com/events/14970-hacktoberfest-hack-day-merced-x-hackmerced"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Register Now ↗
-                    </a>
-                    <a
-                      class="btn ghost"
-                      href="https://hackmerced.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Event Details ↗
-                    </a>
+                    <div class="promo-actions">
+                      <a
+                        class="btn alt"
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSeHyg9yPotFyP7sh-juGO0wZJgLfNDCT8u-YQ751YEAL6hJ5w/viewform"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        RSVP Now
+                        <span
+                          class="ui-icon ui-icon-external"
+                          aria-hidden="true"
+                        ></span>
+                      </a>
+                      <a
+                        class="btn ghost"
+                        href="/img/promotional_banner/Rhymes_Recipes/Rhymes_Recipes_Pavilion_FINAL_WORKING_QR_1024x1536.png"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Event Flyer
+                        <span
+                          class="ui-icon ui-icon-external"
+                          aria-hidden="true"
+                        ></span>
+                      </a>
+                      <a
+                        class="btn ghost"
+                        href="https://campusmap.ucmercedhub.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span
+                          class="ui-icon ui-icon-location"
+                          aria-hidden="true"
+                        ></span>
+                        View Campus Map
+                      </a>
+                    </div>
+
+                    <p class="app-promo-contact">
+                      A Food for Thought event with Culinary Engagement &amp;
+                      Strategic Partnerships and EJIE.
+                    </p>
                   </div>
 
-                  <p class="app-promo-contact">
-                    Questions? Email
-                    <a href="mailto:general@hackmerced.com"
-                      >general@hackmerced.com</a
+                  <div class="app-promo-media carousel-media">
+                    <img
+                      class="app-promo-art"
+                      src="/img/promotional_banner/Rhymes_Recipes/Rhymes_Recipes_Pavilion_FINAL_WORKING_QR_1024x1536.png"
+                      alt="Rhymes &amp; Recipes with Lyrics Born event flyer"
+                      loading="lazy"
+                      width="1024"
+                      height="1536"
+                    />
+                    <button
+                      class="promo-fullscreen-button"
+                      type="button"
+                      aria-label="View the Rhymes and Recipes event flyer fullscreen"
+                      aria-controls="promo-image-viewer"
                     >
-                    or join the
-                    <a
-                      href="https://hackmerced.com/discord"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      >HackMerced Discord</a
-                    >.
-                  </p>
+                      <img src="/assets/full_screen.png" alt="" />
+                    </button>
+                  </div>
                 </div>
+              </li>
 
-                <div class="app-promo-media">
-                  <img
-                    class="app-promo-art"
-                    src="/img/hackathons/HacktoberFest/banner_1.png"
-                    alt="HackMerced HacktoberFest HackDay banner"
-                    loading="lazy"
-                    width="430"
-                    height="430"
-                  />
-                </div>
-              </div>
-            </li>
+              <!-- Promotion 2: iOS -->
+              <li class="slide">
+                <div class="app-promo-slide-inner">
+                  <div class="app-promo-copy">
+                    <h3 class="promo-title app-promo-title">
+                      <span class="promo-title-text"
+                        >UCM Hub is now live on the App Store.</span
+                      >
+                      <span class="promo-eyebrow">Now live on iPhone</span>
+                    </h3>
+                    <p class="app-promo-text">
+                      Visually explore and navigate UC Merced campus in real
+                      time. The iOS app helps students, faculty, and visitors
+                      discover campus events faster with an interactive map
+                      built for quick exploration.
+                    </p>
 
-            <!-- Promotion 2: iOS -->
-            <li class="slide">
-              <div class="app-promo-slide-inner">
-                <div class="app-promo-copy">
-                  <span class="promo-eyebrow">Now live on iPhone</span>
-                  <h3 class="promo-title app-promo-title">
-                    UCM Hub is now live on the App Store.
-                  </h3>
-                  <p class="app-promo-text">
-                    Visually explore and navigate UC Merced campus in real time.
-                    The iOS app helps students, faculty, and visitors discover
-                    campus events faster with an interactive map built for quick
-                    exploration.
-                  </p>
-
-                  <ul
-                    class="app-promo-highlights"
-                    aria-label="iOS launch highlights"
-                  >
-                    <li>Interactive event mapping across campus</li>
-                    <li>Instant event details and room information</li>
-                    <li>
-                      Date filters for today, this week, and upcoming events
-                    </li>
-                    <li>
-                      Map Feed for switching between specialized campus maps
-                    </li>
-                  </ul>
-
-                  <div class="promo-actions">
-                    <a
-                      class="btn"
-                      href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <ul
+                      class="app-promo-highlights"
+                      aria-label="iOS launch highlights"
                     >
-                      Download on the App Store
-                    </a>
-                    <a
-                      class="btn ghost"
-                      href="https://campusmap.ucmercedhub.com/"
-                      rel="noopener"
-                    >
-                      Explore Web Version
-                    </a>
+                      <li>Interactive event mapping across campus</li>
+                      <li>Instant event details and room information</li>
+                      <li>
+                        Date filters for today, this week, and upcoming events
+                      </li>
+                      <li>
+                        Map Feed for switching between specialized campus maps
+                      </li>
+                    </ul>
+
+                    <div class="promo-actions">
+                      <a
+                        class="btn"
+                        href="https://apps.apple.com/us/app/ucm-hub/id6758512164"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download on the App Store
+                      </a>
+                      <a
+                        class="btn ghost"
+                        href="https://campusmap.ucmercedhub.com/"
+                        rel="noopener"
+                      >
+                        Explore Web Version
+                      </a>
+                    </div>
+
+                    <p class="app-promo-contact">
+                      Questions, partnerships, or feedback:
+                      <a href="mailto:contact@ucmercedhub.com"
+                        >contact@ucmercedhub.com</a
+                      >
+                    </p>
                   </div>
 
-                  <p class="app-promo-contact">
-                    Questions, partnerships, or feedback:
-                    <a href="mailto:contact@ucmercedhub.com"
-                      >contact@ucmercedhub.com</a
+                  <div class="app-promo-media carousel-media">
+                    <img
+                      class="app-promo-art"
+                      src="/img/promotional_banner/ios_app/ios_app_promotional.png"
+                      alt="Preview of the UCM Hub iPhone app"
+                      loading="lazy"
+                      width="1075"
+                      height="1168"
+                    />
+                    <button
+                      class="promo-fullscreen-button"
+                      type="button"
+                      aria-label="View the UCM Hub iPhone app preview fullscreen"
+                      aria-controls="promo-image-viewer"
                     >
-                  </p>
+                      <img src="/assets/full_screen.png" alt="" />
+                    </button>
+                  </div>
                 </div>
+              </li>
 
-                <div class="app-promo-media">
-                  <img
-                    class="app-promo-art"
-                    src="/img/promotional_banner/ios_app/ios_app_promotional.png"
-                    alt="Preview of the UCM Hub iPhone app"
-                    loading="lazy"
-                    width="430"
-                    height="430"
-                  />
-                </div>
-              </div>
-            </li>
+              <!-- Promotion 3: Android -->
+              <li class="slide">
+                <div class="app-promo-slide-inner">
+                  <div class="app-promo-copy">
+                    <h3 class="promo-title app-promo-title">
+                      <span class="promo-title-text"
+                        >Android internal testing is now underway.</span
+                      >
+                      <span class="promo-eyebrow"
+                        >Android internal testing</span
+                      >
+                    </h3>
+                    <p class="app-promo-text">
+                      Discover what is happening at UC Merced in real time with
+                      the Android version of UCM Hub. Internal testing is open
+                      for early feedback before the broader launch.
+                    </p>
 
-            <!-- Promotion 3: Android -->
-            <li class="slide">
-              <div class="app-promo-slide-inner">
-                <div class="app-promo-copy">
-                  <span class="promo-eyebrow">Android internal testing</span>
-                  <h3 class="promo-title app-promo-title">
-                    Android internal testing is now underway.
-                  </h3>
-                  <p class="app-promo-text">
-                    Discover what is happening at UC Merced in real time with
-                    the Android version of UCM Hub. Internal testing is open for
-                    early feedback before the broader launch.
-                  </p>
-
-                  <ul
-                    class="app-promo-highlights"
-                    aria-label="Android testing highlights"
-                  >
-                    <li>
-                      Interactive event mapping with zoom and pan exploration
-                    </li>
-                    <li>
-                      Event times, rooms, descriptions, and location details
-                    </li>
-                    <li>Real-time GPS directions to buildings and events</li>
-                    <li>Date filtering for current and upcoming events</li>
-                  </ul>
-
-                  <div class="promo-actions">
-                    <a
-                      class="btn alt"
-                      href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
+                    <ul
+                      class="app-promo-highlights"
+                      aria-label="Android testing highlights"
                     >
-                      Join Internal Testing
-                    </a>
-                    <a
-                      class="btn ghost"
-                      href="https://campusmap.ucmercedhub.com/support/"
-                      rel="noopener"
-                    >
-                      Support Page
-                    </a>
+                      <li>
+                        Interactive event mapping with zoom and pan exploration
+                      </li>
+                      <li>
+                        Event times, rooms, descriptions, and location details
+                      </li>
+                      <li>Real-time GPS directions to buildings and events</li>
+                      <li>Date filtering for current and upcoming events</li>
+                    </ul>
+
+                    <div class="promo-actions">
+                      <a
+                        class="btn alt"
+                        href="mailto:contact@ucmercedhub.com?subject=Android%20Internal%20Testing%20-%20UCM%20Hub"
+                      >
+                        Join Internal Testing
+                      </a>
+                      <a
+                        class="btn ghost"
+                        href="https://campusmap.ucmercedhub.com/support/"
+                        rel="noopener"
+                      >
+                        Support Page
+                      </a>
+                    </div>
+
+                    <p class="app-promo-contact">
+                      Interested in testing or collaborating:
+                      <a href="mailto:contact@ucmercedhub.com"
+                        >contact@ucmercedhub.com</a
+                      >
+                    </p>
                   </div>
 
-                  <p class="app-promo-contact">
-                    Interested in testing or collaborating:
-                    <a href="mailto:contact@ucmercedhub.com"
-                      >contact@ucmercedhub.com</a
+                  <div class="app-promo-media carousel-media">
+                    <img
+                      class="app-promo-art"
+                      src="/img/promotional_banner/android_app/android_app_promotional.png"
+                      alt="Preview of the UCM Hub Android app"
+                      loading="lazy"
+                      width="1050"
+                      height="1169"
+                    />
+                    <button
+                      class="promo-fullscreen-button"
+                      type="button"
+                      aria-label="View the UCM Hub Android app preview fullscreen"
+                      aria-controls="promo-image-viewer"
                     >
-                  </p>
+                      <img src="/assets/full_screen.png" alt="" />
+                    </button>
+                  </div>
                 </div>
+              </li>
+            </ul>
 
-                <div class="app-promo-media">
-                  <img
-                    class="app-promo-art"
-                    src="/img/promotional_banner/android_app/android_app_promotional.png"
-                    alt="Preview of the UCM Hub Android app"
-                    loading="lazy"
-                    width="430"
-                    height="430"
-                  />
-                </div>
-              </div>
-            </li>
-          </ul>
-
-          <div class="slider-controls">
-            <button
-              class="slider-btn prev"
-              type="button"
-              aria-label="Previous promotion"
-            >
-              ‹
-            </button>
-            <button
-              class="slider-btn next"
-              type="button"
-              aria-label="Next promotion"
-            >
-              ›
-            </button>
-            <div class="slider-dots" aria-label="Choose a promotion"></div>
+            <div class="slider-controls">
+              <button
+                class="slider-btn prev"
+                type="button"
+                aria-label="Previous promotion"
+              >
+                <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
+              </button>
+              <button
+                class="slider-btn next"
+                type="button"
+                aria-label="Next promotion"
+              >
+                <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="slider-dots" aria-label="Choose a promotion"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -2762,7 +3020,11 @@
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Visit Club ↗
+                        Visit Club
+                        <span
+                          class="ui-icon ui-icon-external"
+                          aria-hidden="true"
+                        ></span>
                       </a>
                       <a class="btn ghost" href="#robotics-society-card"
                         >Details</a
@@ -2975,7 +3237,11 @@
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        Open Project ↗
+                        Open Project
+                        <span
+                          class="ui-icon ui-icon-external"
+                          aria-hidden="true"
+                        ></span>
                       </a>
                       <a class="btn ghost" href="#merced-bus-tracker-card"
                         >Details</a
@@ -2993,14 +3259,14 @@
               type="button"
               aria-label="Previous What’s New slide"
             >
-              ‹
+              <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
             </button>
             <button
               class="slider-btn next"
               type="button"
               aria-label="Next What’s New slide"
             >
-              ›
+              <span class="ui-icon ui-icon-chevron" aria-hidden="true"></span>
             </button>
             <div
               class="slider-dots"
@@ -3080,7 +3346,11 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Open Project ↗
+                  Open Project
+                  <span
+                    class="ui-icon ui-icon-external"
+                    aria-hidden="true"
+                  ></span>
                 </a>
               </div>
             </div>
@@ -3127,7 +3397,11 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Open Project ↗
+                  Open Project
+                  <span
+                    class="ui-icon ui-icon-external"
+                    aria-hidden="true"
+                  ></span>
                 </a>
               </div>
             </div>
@@ -3216,7 +3490,11 @@
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Visit Club ↗
+                    Visit Club
+                    <span
+                      class="ui-icon ui-icon-external"
+                      aria-hidden="true"
+                    ></span>
                   </a>
                 </div>
               </div>
@@ -3305,7 +3583,11 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Join Server ↗
+                  Join Server
+                  <span
+                    class="ui-icon ui-icon-external"
+                    aria-hidden="true"
+                  ></span>
                 </a>
               </div>
             </article>
@@ -3351,7 +3633,11 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Join Server ↗
+                  Join Server
+                  <span
+                    class="ui-icon ui-icon-external"
+                    aria-hidden="true"
+                  ></span>
                 </a>
               </div>
             </article>
@@ -3609,6 +3895,24 @@
       </div>
     </footer>
 
+    <div
+      class="media-viewer"
+      id="promo-image-viewer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Fullscreen promotional image"
+      hidden
+    >
+      <button
+        class="media-viewer-close"
+        type="button"
+        aria-label="Close fullscreen image"
+      >
+        <img src="/assets/exit_full_screen.png" alt="" />
+      </button>
+      <div class="media-viewer-content"></div>
+    </div>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -3692,7 +3996,6 @@
           const toggle = document.querySelector(".theme-toggle");
           if (!toggle) return;
 
-          const icon = toggle.querySelector(".theme-toggle-icon");
           const label = toggle.querySelector(".theme-toggle-label");
 
           function applyTheme(theme, persist) {
@@ -3705,7 +4008,6 @@
               "aria-label",
               isDark ? "Switch to light mode" : "Switch to dark mode",
             );
-            if (icon) icon.textContent = isDark ? "☀" : "☾";
             if (label) label.textContent = isDark ? "Light mode" : "Dark mode";
 
             if (persist) {
@@ -3762,9 +4064,10 @@
 
             slides.forEach((slide, index) => {
               const button = document.createElement("button");
-              const title = slide
-                .querySelector(".promo-title")
-                ?.textContent?.trim();
+              const title = (
+                slide.querySelector(".promo-title-text") ||
+                slide.querySelector(".promo-title")
+              )?.textContent?.trim();
 
               button.type = "button";
               button.setAttribute(
@@ -3854,6 +4157,89 @@
           frame.addEventListener("focusout", startTimer);
         }
 
+        function initPromoImageViewer() {
+          const viewer = document.getElementById("promo-image-viewer");
+          const viewerContent = viewer?.querySelector(".media-viewer-content");
+          const closeButton = viewer?.querySelector(".media-viewer-close");
+          const openButtons = Array.from(
+            document.querySelectorAll(
+              "#app-promotion .promo-fullscreen-button",
+            ),
+          );
+
+          if (
+            !viewer ||
+            !viewerContent ||
+            !closeButton ||
+            !openButtons.length
+          ) {
+            return;
+          }
+
+          let returnFocus = null;
+
+          function closeViewer() {
+            if (viewer.hidden) return;
+
+            viewer.hidden = true;
+            viewerContent.replaceChildren();
+            document.body.classList.remove("media-viewer-open");
+
+            if (returnFocus?.isConnected) returnFocus.focus();
+            returnFocus = null;
+          }
+
+          function openViewer(button) {
+            const media = button
+              .closest(".app-promo-slide-inner")
+              ?.querySelector(".app-promo-art");
+
+            if (!media) return;
+
+            let expandedMedia;
+            const mediaLabel =
+              media.getAttribute("alt") ||
+              media.getAttribute("aria-label") ||
+              "Promotional image";
+
+            expandedMedia = document.createElement("img");
+            expandedMedia.className = "media-viewer-image";
+            expandedMedia.src = media.currentSrc || media.src;
+            expandedMedia.alt = mediaLabel;
+
+            viewerContent.replaceChildren(expandedMedia);
+            viewer.setAttribute("aria-label", `${mediaLabel}, fullscreen`);
+            returnFocus = button;
+            viewer.hidden = false;
+            document.body.classList.add("media-viewer-open");
+            closeButton.focus();
+          }
+
+          openButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+              openViewer(button);
+            });
+          });
+
+          closeButton.addEventListener("click", closeViewer);
+
+          viewer.addEventListener("click", function (event) {
+            if (event.target === viewer) closeViewer();
+          });
+
+          document.addEventListener("keydown", function (event) {
+            if (viewer.hidden) return;
+
+            if (event.key === "Escape") {
+              event.preventDefault();
+              closeViewer();
+            } else if (event.key === "Tab") {
+              event.preventDefault();
+              closeButton.focus();
+            }
+          });
+        }
+
         function initNavigationMenus() {
           const menus = Array.from(document.querySelectorAll(".nav-menu"));
 
@@ -3930,6 +4316,7 @@
 
         initThemeToggle();
         document.querySelectorAll(".js-slider").forEach(initSlider);
+        initPromoImageViewer();
         initNavigationMenus();
         initMobileNavigation();
 
