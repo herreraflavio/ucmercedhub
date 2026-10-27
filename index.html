@@ -685,7 +685,7 @@
       /* Promotion layout is scoped here so What's New keeps its original UI.
          Each breakpoint reserves one fixed banner height for all three slides. */
       .app-promo {
-        --promo-banner-h: 620px;
+        --promo-banner-h: 500px;
         max-width: var(--maxw);
         margin: 0 auto;
         padding: 0 1rem 2.35rem;
@@ -1297,8 +1297,7 @@
         z-index: 2;
         display: flex;
         align-items: flex-end;
-        padding: clamp(1.35rem, 3.2vw, 2.5rem)
-          clamp(1.35rem, 3.4vw, 2.75rem);
+        padding: clamp(1.35rem, 3.2vw, 2.5rem) clamp(1.35rem, 3.4vw, 2.75rem);
         background: linear-gradient(
           to top,
           rgba(255, 255, 255, 1) 0%,
@@ -1910,7 +1909,7 @@
       /* Responsive */
       @media (min-width: 901px) and (max-width: 1050px) {
         .app-promo {
-          --promo-banner-h: 680px;
+          --promo-banner-h: 548px;
         }
       }
 
@@ -2662,9 +2661,7 @@
         background: #1b252d;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="dark"]
-        .discord-whats-new-art {
+      html .whats-new-frame[data-resolved-theme="dark"] .discord-whats-new-art {
         background:
           radial-gradient(
             circle at 78% 18%,
@@ -2726,17 +2723,13 @@
         color: #c9d4dc;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="dark"]
-        .promo-eyebrow {
+      html .whats-new-frame[data-resolved-theme="dark"] .promo-eyebrow {
         color: #8fc9f3;
         background: rgba(74, 154, 214, 0.13);
         border-color: rgba(114, 183, 236, 0.16);
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="dark"]
-        .promo-eyebrow.student {
+      html .whats-new-frame[data-resolved-theme="dark"] .promo-eyebrow.student {
         color: #f5d77a;
         background: rgba(255, 199, 44, 0.13);
         border-color: rgba(255, 199, 44, 0.18);
@@ -2778,10 +2771,7 @@
         background: #22292f;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="dark"]
-        .slider-dots
-        button {
+      html .whats-new-frame[data-resolved-theme="dark"] .slider-dots button {
         border-color: rgba(255, 255, 255, 0.12);
         background: rgba(232, 238, 243, 0.42);
       }
@@ -2871,21 +2861,15 @@
         );
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="light"]
-        .whats-new-text {
+      html .whats-new-frame[data-resolved-theme="light"] .whats-new-text {
         color: #34495b;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="light"]
-        .whats-new-meta-value {
+      html .whats-new-frame[data-resolved-theme="light"] .whats-new-meta-value {
         color: #18354f;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="light"]
-        .promo-eyebrow {
+      html .whats-new-frame[data-resolved-theme="light"] .promo-eyebrow {
         color: #003a70;
         background: rgba(0, 58, 112, 0.085);
         border-color: rgba(0, 58, 112, 0.09);
@@ -2935,10 +2919,7 @@
         background: #fff;
       }
 
-      html
-        .whats-new-frame[data-resolved-theme="light"]
-        .slider-dots
-        button {
+      html .whats-new-frame[data-resolved-theme="light"] .slider-dots button {
         border-color: rgba(0, 58, 112, 0.12);
         background: rgba(255, 255, 255, 0.78);
       }
@@ -2951,15 +2932,11 @@
       }
 
       @media (max-width: 620px) {
-        html
-          .whats-new-frame[data-resolved-theme="dark"]
-          .whats-new-slide {
+        html .whats-new-frame[data-resolved-theme="dark"] .whats-new-slide {
           background: #101316;
         }
 
-        html
-          .whats-new-frame[data-resolved-theme="dark"]
-          .whats-new-overlay {
+        html .whats-new-frame[data-resolved-theme="dark"] .whats-new-overlay {
           background: linear-gradient(
             to bottom,
             rgba(16, 19, 22, 0.94) 0%,
@@ -2968,15 +2945,11 @@
           );
         }
 
-        html
-          .whats-new-frame[data-resolved-theme="light"]
-          .whats-new-slide {
+        html .whats-new-frame[data-resolved-theme="light"] .whats-new-slide {
           background: #fff;
         }
 
-        html
-          .whats-new-frame[data-resolved-theme="light"]
-          .whats-new-overlay {
+        html .whats-new-frame[data-resolved-theme="light"] .whats-new-overlay {
           background: linear-gradient(
             to bottom,
             rgba(255, 255, 255, 0.92) 0%,
@@ -2998,12 +2971,57 @@
       @media (min-width: 973px) {
         @container promo-carousel (min-width: 941px) {
           .app-promo-frame {
-            --carousel-gutter: clamp(4rem, 6vw, 4.5rem);
+            /* Arrow inset + 44px button + 24px of clearance, so the arrows
+               never sit against the copy or the artwork. */
+            --carousel-gutter: calc(
+              var(--carousel-arrow-inset) + 44px + 1.5rem
+            );
+            --carousel-top: clamp(1rem, 2vw, 1.75rem);
+            --carousel-footer: 3.25rem;
           }
 
+          .app-promo-frame .carousel-inner {
+            padding-top: var(--carousel-top);
+          }
+
+          /* The shorter banner makes the artwork narrower, so the copy column
+             takes the freed width instead of wrapping onto more lines. */
           .app-promo-slide-inner {
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
             gap: 1.5rem;
+          }
+
+          /* Slightly tighter type and rhythm so the densest slide (event copy,
+             caption, date card and highlights) fits the shorter banner. */
+          .app-promo-copy > .promo-eyebrow {
+            margin-bottom: 0.55rem;
+          }
+
+          .app-promo-title {
+            margin-bottom: 0.5rem;
+            font-size: clamp(1.45rem, 2.6vw, 2.15rem);
+            text-wrap: balance;
+          }
+
+          .app-promo-text,
+          .app-promo-caption {
+            max-width: none;
+          }
+
+          .app-promo-text,
+          .app-promo-caption,
+          .app-promo-highlights li {
+            text-wrap: pretty;
+          }
+
+          .app-promo-date {
+            margin-top: 0.7rem;
+            padding: 0.5rem 0.7rem;
+          }
+
+          .app-promo-highlights {
+            gap: 0.4rem;
+            margin: 0.7rem 0 0.95rem;
           }
 
           .app-promo-frame .promo-actions {
@@ -3031,13 +3049,14 @@
 
           .app-promo-art {
             max-height: calc(
-              var(--promo-banner-h) - clamp(1.1rem, 3vw, 2.5rem) -
+              var(--promo-banner-h) - var(--carousel-top) -
                 var(--carousel-footer) - 2px
             );
             margin: 0 0 0 auto;
           }
 
           .app-promo-frame .slider-btn {
+            top: calc(50% - var(--carousel-footer) / 2);
             border-width: 1px;
             border-radius: 50%;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
@@ -3227,6 +3246,10 @@
           <span class="promotion-feature-text"
             >Get featured → contact@ucmercedhub.com</span
           >
+          <span class="promotion-contact">
+            View
+            <a href="./analytics">Web Analytics</a>
+          </span>
         </p>
 
         <div class="app-promo-frame js-slider" data-interval="7000">
@@ -3344,7 +3367,7 @@
                     <span class="promo-eyebrow">Now live on iPhone</span>
                     <h3 class="promo-title app-promo-title">
                       <span class="promo-title-text"
-                        >UCM Hub is now live on the App Store.</span
+                        >UCM Hub is now live on the App&nbsp;Store.</span
                       >
                     </h3>
                     <p class="app-promo-text">
@@ -3544,10 +3567,7 @@
                 aria-pressed="false"
                 data-paused="false"
               >
-                <span
-                  class="slider-autoplay-icon"
-                  aria-hidden="true"
-                ></span>
+                <span class="slider-autoplay-icon" aria-hidden="true"></span>
               </button>
             </div>
           </div>
@@ -3578,11 +3598,7 @@
         >
           <ul class="slides">
             <!-- Slide 1: Robotics Society — newly featured August 29, 2026 -->
-            <li
-              class="slide"
-              data-active="true"
-              data-slide-theme="dark"
-            >
+            <li class="slide" data-active="true" data-slide-theme="dark">
               <article class="whats-new-slide">
                 <img
                   class="whats-new-image"
@@ -4644,9 +4660,7 @@
             .querySelectorAll("#app-promotion .slide[data-event-date]")
             .forEach(function (slide) {
               const output = slide.querySelector(".app-promo-date-value");
-              const dateParts = slide.dataset.eventDate
-                ?.split("-")
-                .map(Number);
+              const dateParts = slide.dataset.eventDate?.split("-").map(Number);
 
               if (!output || dateParts?.length !== 3) return;
 
@@ -4660,9 +4674,7 @@
                 month: "long",
                 day: "numeric",
               }).format(date);
-              const timeParts = slide.dataset.eventTime
-                ?.split(":")
-                .map(Number);
+              const timeParts = slide.dataset.eventTime?.split(":").map(Number);
               let timeLabel = "";
 
               if (timeParts?.length === 2) {
@@ -4686,11 +4698,10 @@
           const previousButton = frame.querySelector(".slider-btn.prev");
           const nextButton = frame.querySelector(".slider-btn.next");
           const dotsElement = frame.querySelector(".slider-dots");
-          const autoplayButton = frame.querySelector(
-            ".slider-autoplay-toggle",
-          );
+          const autoplayButton = frame.querySelector(".slider-autoplay-toggle");
           const interval = Number(frame.dataset.interval || 7500);
-          const supportsSlideThemes = frame.classList.contains("whats-new-frame");
+          const supportsSlideThemes =
+            frame.classList.contains("whats-new-frame");
 
           if (!slides.length) return;
 
@@ -4813,9 +4824,7 @@
           function updateAutoplayButton() {
             if (!autoplayButton) return;
 
-            autoplayButton.dataset.paused = isManuallyPaused
-              ? "true"
-              : "false";
+            autoplayButton.dataset.paused = isManuallyPaused ? "true" : "false";
             autoplayButton.setAttribute(
               "aria-pressed",
               isManuallyPaused ? "true" : "false",
@@ -4828,10 +4837,7 @@
 
           function syncTimer() {
             const shouldPlay =
-              !isManuallyPaused &&
-              !isHovered &&
-              !hasFocusWithin &&
-              isInView;
+              !isManuallyPaused && !isHovered && !hasFocusWithin && isInView;
 
             if (shouldPlay && !timer) {
               timer = window.setInterval(function () {
