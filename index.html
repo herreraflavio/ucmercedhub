@@ -183,6 +183,10 @@
         --icon-url: url("/assets/top-right.svg");
       }
 
+      .ui-icon-link {
+        --icon-url: url("/assets/link.svg");
+      }
+
       .ui-icon-location {
         --icon-url: url("/assets/location.svg");
       }
@@ -872,6 +876,38 @@
         gap: 0.7rem;
       }
 
+      .promo-copy-link {
+        width: 42px;
+        min-width: 42px;
+        min-height: 42px;
+        display: inline-grid;
+        place-items: center;
+        appearance: none;
+        padding: 0;
+        border: 1.5px solid rgba(0, 58, 112, 0.2);
+        border-radius: 999px;
+        color: var(--uc-blue);
+        background: transparent;
+        box-shadow: none;
+        cursor: pointer;
+        transition:
+          transform 0.18s ease,
+          background 0.18s ease,
+          border-color 0.18s ease,
+          box-shadow 0.18s ease;
+      }
+
+      .promo-copy-link .ui-icon {
+        width: 1.05rem;
+        height: 1.05rem;
+      }
+
+      .promo-copy-link:hover {
+        transform: translateY(-1px);
+        background: rgba(0, 58, 112, 0.05);
+        box-shadow: var(--shadow);
+      }
+
       /* Contain the artwork within the content row and align its lower-right
          corner with the closing sentence and the inner container's right edge. */
       .app-promo-media {
@@ -1484,6 +1520,46 @@
         top: max(1rem, env(safe-area-inset-top));
         right: max(1rem, env(safe-area-inset-right));
         z-index: 2;
+      }
+
+      .copy-link-toast {
+        position: fixed;
+        right: max(1rem, env(safe-area-inset-right));
+        bottom: max(1rem, env(safe-area-inset-bottom));
+        z-index: 1001;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        max-width: min(22rem, calc(100vw - 2rem));
+        padding: 0.7rem 0.85rem;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 0.75rem;
+        color: #fff;
+        background: #003a70;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+        font-size: 0.9rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .copy-link-toast[hidden] {
+        display: none;
+      }
+
+      .copy-link-toast[data-state="error"] {
+        background: #4e1720;
+      }
+
+      .copy-link-toast-check {
+        width: 1.1rem;
+        height: 1.1rem;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #003a70;
+        background: var(--uc-gold);
+        font-size: 0.78rem;
+        font-weight: 900;
       }
 
       /* Shared carousel controls */
@@ -2287,6 +2363,10 @@
         .btn-sm {
           width: 100%;
         }
+
+        .promo-copy-link {
+          align-self: flex-start;
+        }
       }
 
       @media (max-width: 430px) {
@@ -2412,6 +2492,15 @@
       }
 
       html[data-theme="dark"] .btn.ghost:hover {
+        background: rgba(114, 183, 236, 0.09);
+      }
+
+      html[data-theme="dark"] .promo-copy-link {
+        color: #72b7ec;
+        border-color: rgba(114, 183, 236, 0.3);
+      }
+
+      html[data-theme="dark"] .promo-copy-link:hover {
         background: rgba(114, 183, 236, 0.09);
       }
 
@@ -3319,6 +3408,14 @@
                           aria-hidden="true"
                         ></span>
                       </a>
+                      <button
+                        class="promo-copy-link"
+                        type="button"
+                        aria-label="Copy link"
+                        title="Copy link"
+                      >
+                        <span class="ui-icon ui-icon-link" aria-hidden="true"></span>
+                      </button>
                     </div>
                   </div>
 
@@ -3405,6 +3502,14 @@
                           aria-hidden="true"
                         ></span>
                       </a>
+                      <button
+                        class="promo-copy-link"
+                        type="button"
+                        aria-label="Copy link"
+                        title="Copy link"
+                      >
+                        <span class="ui-icon ui-icon-link" aria-hidden="true"></span>
+                      </button>
                     </div>
 
                     <p class="app-promo-caption">
@@ -3495,6 +3600,14 @@
                           aria-hidden="true"
                         ></span>
                       </a>
+                      <button
+                        class="promo-copy-link"
+                        type="button"
+                        aria-label="Copy link"
+                        title="Copy link"
+                      >
+                        <span class="ui-icon ui-icon-link" aria-hidden="true"></span>
+                      </button>
                     </div>
 
                     <p class="app-promo-caption">
@@ -4527,6 +4640,18 @@
       <div class="media-viewer-content"></div>
     </div>
 
+    <div
+      class="copy-link-toast"
+      id="promo-copy-link-toast"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      hidden
+    >
+      <span class="copy-link-toast-check" aria-hidden="true">✓</span>
+      <span class="copy-link-toast-message"></span>
+    </div>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -4977,6 +5102,72 @@
           });
         }
 
+        function initPromoCopyLinks() {
+          const copyButtons = Array.from(
+            document.querySelectorAll("#app-promotion .promo-copy-link"),
+          );
+          const toast = document.getElementById("promo-copy-link-toast");
+          const toastMessage = toast?.querySelector(
+            ".copy-link-toast-message",
+          );
+          const toastIcon = toast?.querySelector(".copy-link-toast-check");
+          const canonicalUrl = "https://ucmercedhub.com/";
+          let toastTimer = null;
+
+          if (!copyButtons.length || !toast || !toastMessage || !toastIcon) return;
+
+          function showToast(message, state) {
+            window.clearTimeout(toastTimer);
+            toast.dataset.state = state;
+            toastIcon.textContent = state === "success" ? "✓" : "!";
+            toastMessage.textContent = message;
+            toast.hidden = false;
+            toastTimer = window.setTimeout(function () {
+              toast.hidden = true;
+            }, 2000);
+          }
+
+          function copyWithSelectionFallback(text) {
+            const returnFocus = document.activeElement;
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            textarea.style.pointerEvents = "none";
+            document.body.append(textarea);
+            textarea.select();
+            const didCopy = document.execCommand("copy");
+            textarea.remove();
+            if (returnFocus instanceof HTMLElement && returnFocus.isConnected) {
+              returnFocus.focus();
+            }
+            return didCopy;
+          }
+
+          async function copyCanonicalUrl() {
+            try {
+              if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(canonicalUrl);
+              } else if (!copyWithSelectionFallback(canonicalUrl)) {
+                throw new Error("Clipboard access is unavailable.");
+              }
+
+              showToast("Link copied!", "success");
+            } catch (error) {
+              showToast("Couldn’t copy link. Please copy it manually.", "error");
+            }
+          }
+
+          copyButtons.forEach(function (button) {
+            button.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              copyCanonicalUrl();
+            });
+          });
+        }
+
         function initNavigationMenus() {
           const menus = Array.from(document.querySelectorAll(".nav-menu"));
 
@@ -5055,6 +5246,7 @@
         initPromoDates();
         document.querySelectorAll(".js-slider").forEach(initSlider);
         initPromoImageViewer();
+        initPromoCopyLinks();
         initNavigationMenus();
         initMobileNavigation();
 
