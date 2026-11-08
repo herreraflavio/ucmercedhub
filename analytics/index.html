@@ -1,13 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <iframe plausible-embed src="https://plausible.io/share/ucmercedhub.com?auth=gjB6Lo0DRSCmqv4eT6kgl&embed=true&theme=light" scrolling="no" frameborder="0" loading="lazy" style="width: 1px; min-width: 100%; height: 1600px; color-scheme: auto;"></iframe>
-<div style="font-size: 14px; padding-bottom: 14px;">Stats powered by <a target="_blank" style="color: #4F46E5; text-decoration: underline;" href="https://plausible.io">Plausible Analytics</a></div>
-<script async src="https://plausible.io/js/embed.host.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Web Analytics | UC Merced Hub</title>
+    <meta name="description" content="Explore public website traffic and Google Search performance for UC Merced Hub." />
+    <link rel="canonical" href="https://ucmercedhub.com/analytics/" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#003a70" />
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: #142e45;
+        background: #f7f7f5;
+        font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      main { width: min(1200px, 100% - 40px); margin: 0 auto; padding: 32px 0; }
+      a { color: #003a70; text-underline-offset: 3px; }
+      a:focus-visible { outline: 3px solid #bf8e00; outline-offset: 5px; }
+      .home-link { font-size: 14px; font-weight: 650; }
+      header { padding: 24px 0 28px; }
+      h1 {
+        margin: 0;
+        color: #003a70;
+        font-size: clamp(30px, 5vw, 42px);
+        line-height: 1.2;
+        letter-spacing: -0.03em;
+      }
+      header p { margin: 12px 0 0; max-width: 680px; color: #5b6670; }
+      header .report-note { font-size: 14px; }
+      .report-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        padding: 10px 16px;
+        border: 1px solid #003a70;
+        border-radius: 8px;
+        background: #003a70;
+        color: #fff;
+        font-weight: 650;
+        text-decoration: none;
+      }
+      .report-link:hover { background: #0b4f91; }
+      .traffic { padding: 24px; border: 1px solid #e4e8ec; border-radius: 14px; background: #fff; }
+      h2 { margin: 0; font-size: 22px; line-height: 1.3; }
+      .traffic > p { margin: 8px 0 16px; color: #5b6670; }
+      iframe { display: block; width: 1px; min-width: 100%; height: 1600px; border: 0; color-scheme: auto; }
+      .attribution { padding: 14px 0 0; font-size: 14px; color: #5b6670; }
+      @media (max-width: 600px) {
+        main { width: min(1200px, 100% - 24px); padding-top: 20px; }
+        .traffic { padding: 16px 8px; }
+        .traffic h2, .traffic > p, .attribution { margin-left: 8px; margin-right: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a class="home-link" href="/">Back to UC Merced Hub</a>
+      <header>
+        <h1>Web analytics</h1>
+        <p>Public website traffic and search performance for UC Merced Hub.</p>
+        <a
+          class="report-link"
+          href="https://datastudio.google.com/reporting/f2735a62-2476-4781-af75-22ee9e75e5f1/page/6zXD"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Google Search dashboard (opens in a new tab)"
+        >
+          Open Google Search dashboard <span aria-hidden="true">&#8599;</span>
+        </a>
+        <p class="report-note">Search performance includes ucmercedhub.com and its subdomains.</p>
+      </header>
+      <section class="traffic" aria-labelledby="traffic-heading">
+        <h2 id="traffic-heading">Website traffic</h2>
+        <p>Explore visits, referral sources, and activity across UC Merced Hub.</p>
+        <iframe
+          plausible-embed
+          title="UC Merced Hub public website traffic dashboard"
+          src="https://plausible.io/share/ucmercedhub.com?auth=gjB6Lo0DRSCmqv4eT6kgl&embed=true&theme=light"
+          scrolling="no"
+          loading="lazy"
+        ></iframe>
+        <div class="attribution">
+          <a
+            href="https://plausible.io/share/ucmercedhub.com?auth=gjB6Lo0DRSCmqv4eT6kgl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Open the traffic dashboard in a new tab</a>.
+          Stats powered by
+          <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a>.
+        </div>
+      </section>
+    </main>
+    <script async src="https://plausible.io/js/embed.host.js"></script>
+  </body>
 </html>
